@@ -52,11 +52,10 @@ public class Init {
     @Autowired
     private ChannelApplication channelApplication;
 
-	@Bean(name = "createLogicExecutor")
-	public LogicExecutor<TestParam> createLogicExecutor() {
-		log.warn("init createLogicExecutor");
+	@Bean(name = "cardLogicExecutor")
+	public LogicExecutor<TestParam> cardLogicExecutor() {
+		log.warn("卡片投放业务createLogicExecutor");
 		return new TreeLogicExecutor<>(new BasicTreeLogicGroup<TestParam>() {
-
 			@Override
 			public void dataFrontProcessor(ListWrapper listWrapper) {
                 //非io操作
@@ -64,13 +63,11 @@ public class Init {
                 //大头io操作
 				listWrapper.parallelAdd(persionSelectApplication, predioctDesApplication);
 			}
-
 			@Override
 			public void dataProcessor(ListWrapper listWrapper) {
                 //其他纬度io操作
 				listWrapper.parallelAdd(tripApplication, featureApplication, carorderApplication);
 			}
-
 			@Override
 			public void dataPostProcessor(ListWrapper listWrapper) {
 				listWrapper.add(libraApplication);
