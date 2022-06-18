@@ -9,5 +9,5 @@ import com.yilun.gl.dof.excute.framework.core.content.ContextData;
  * @Date: 2022/6/4 23:39
  * @Version: 1.0
  */
-public class Test extends ContextData {
+public class TestParam extends ContextData {
 }

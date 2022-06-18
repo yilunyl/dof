@@ -13,16 +13,17 @@ import java.util.*;
  * @Description: com.amap.aos.infrastructure.framework.context
  * @version: 1.0
  */
-@Getter
 public class ListWrapper{
 
+    @Getter
     private LinkedHashMap<String, List<ParrentLogicUnit<? extends ContextData>>> allLogic2 = new LinkedHashMap<>();
 
     public void add(ParrentLogicUnit<? extends ContextData> unit){
         allLogic2.put(UUID.randomUUID().toString(), Lists.newArrayList(unit));
     }
 
-    public void parallelAdd(ParrentLogicUnit<? extends ContextData>... units){
+    @SafeVarargs
+    public final void parallelAdd(ParrentLogicUnit<? extends ContextData>... units){
         List<ParrentLogicUnit<? extends ContextData>> unitList = new ArrayList<>(units.length);
         unitList.addAll(Arrays.asList(units));
         allLogic2.put(UUID.randomUUID().toString(), unitList);
