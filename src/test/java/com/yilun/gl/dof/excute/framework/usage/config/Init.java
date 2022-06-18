@@ -4,6 +4,8 @@ import com.yilun.gl.dof.excute.framework.core.content.ListWrapper;
 import com.yilun.gl.dof.excute.framework.core.executor.tree.BasicTreeLogicGroup;
 import com.yilun.gl.dof.excute.framework.core.executor.tree.TreeLogicExecutor;
 import com.yilun.gl.dof.excute.framework.core.LogicExecutor;
+import com.yilun.gl.dof.excute.framework.usage.config.impl.CarorderApplication;
+import com.yilun.gl.dof.excute.framework.usage.config.impl.ChannelApplication;
 import com.yilun.gl.dof.excute.framework.usage.config.impl.FeatureApplication;
 import com.yilun.gl.dof.excute.framework.usage.config.impl.GrayApplication;
 import com.yilun.gl.dof.excute.framework.usage.config.impl.LibraApplication;
@@ -45,6 +47,10 @@ public class Init {
     private LibraApplication libraApplication;
     @Autowired
     private StrategyResponseDataApplication strategyResponseDataApplication;
+    @Autowired
+    private CarorderApplication carorderApplication;
+    @Autowired
+    private ChannelApplication channelApplication;
 
 	@Bean(name = "createLogicExecutor")
 	public LogicExecutor<TestParam> createLogicExecutor() {
@@ -53,19 +59,22 @@ public class Init {
 
 			@Override
 			public void dataFrontProcessor(ListWrapper listWrapper) {
-                listWrapper.add(grayApplication);
-                listWrapper.add(timeApplication);
+                //非io操作
+                listWrapper.parallelAdd(grayApplication, timeApplication, channelApplication);
+                //大头io操作
 				listWrapper.parallelAdd(persionSelectApplication, predioctDesApplication);
 			}
 
 			@Override
 			public void dataProcessor(ListWrapper listWrapper) {
-				listWrapper.parallelAdd(tripApplication, featureApplication);
+                //其他纬度io操作
+				listWrapper.parallelAdd(tripApplication, featureApplication, carorderApplication);
 			}
 
 			@Override
 			public void dataPostProcessor(ListWrapper listWrapper) {
 				listWrapper.add(libraApplication);
+                //后置返回数据处理
                 listWrapper.add(strategyResponseDataApplication);
 			}
 		});
