@@ -1,7 +1,6 @@
 package com.yilun.gl.dof.excute.framework.core.logic;
 
 import com.yilun.gl.dof.excute.framework.core.content.ContextData;
-import com.yilun.gl.dof.excute.framework.core.executor.LogicResult;
 
 /**
  * @ClassName DataPrepareUnit

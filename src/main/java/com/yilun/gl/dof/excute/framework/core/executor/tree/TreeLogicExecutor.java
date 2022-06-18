@@ -1,6 +1,8 @@
-package com.yilun.gl.dof.excute.framework.core.executor;
+package com.yilun.gl.dof.excute.framework.core.executor.tree;
 
 import com.google.common.collect.Lists;
+import com.yilun.gl.dof.excute.framework.core.LogicExecutor;
+import com.yilun.gl.dof.excute.framework.core.common.LogicResult;
 import com.yilun.gl.dof.excute.framework.core.content.ContextData;
 import com.yilun.gl.dof.excute.framework.core.logic.ParrentLogicUnit;
 import com.yilun.gl.dof.excute.framework.core.rule.LogicRule;
@@ -19,17 +21,17 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
 /**
- * @description: 实现执行器类 支持异步处理任务
+ * @description: 基于树结构实现执行器类 支持异步处理任务
  * @author: gule
  * @create: 2019-08-19 21:02
  **/
 @Slf4j
-public class DefaultLogicExecutor<T extends ContextData> implements LogicExecutor<T> {
+public class TreeLogicExecutor<T extends ContextData> implements LogicExecutor<T> {
 
     private LinkedHashMap<String, List<ParrentLogicUnit<? extends ContextData>>> allLogic = new LinkedHashMap<>();
 
 
-    public DefaultLogicExecutor(BasicLogicGroup<? extends ContextData> group){
+    public TreeLogicExecutor(BasicTreeLogicGroup<? extends ContextData> group){
         group.init();
         allLogic = group.getAllLogic();
     }

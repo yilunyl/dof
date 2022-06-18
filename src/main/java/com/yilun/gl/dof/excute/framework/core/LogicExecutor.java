@@ -1,7 +1,8 @@
-package com.yilun.gl.dof.excute.framework.core.executor;
+package com.yilun.gl.dof.excute.framework.core;
 
 
 import com.yilun.gl.dof.excute.framework.core.content.ContextData;
+import com.yilun.gl.dof.excute.framework.core.common.LogicResult;
 
 /**
  * @description: 执行引擎接口，核心执行类

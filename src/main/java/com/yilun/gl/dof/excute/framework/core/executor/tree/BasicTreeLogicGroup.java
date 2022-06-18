@@ -1,5 +1,6 @@
-package com.yilun.gl.dof.excute.framework.core.executor;
+package com.yilun.gl.dof.excute.framework.core.executor.tree;
 
+import com.yilun.gl.dof.excute.framework.core.InitLogicGroup;
 import com.yilun.gl.dof.excute.framework.core.content.ContextData;
 import com.yilun.gl.dof.excute.framework.core.content.ListWrapper;
 import com.yilun.gl.dof.excute.framework.core.logic.ParrentLogicUnit;
@@ -12,7 +13,7 @@ import java.util.List;
  * @author: gule
  * @create: 2019-08-18 11:37
  **/
-public abstract class BasicLogicGroup< T extends ContextData> implements InitLogicGroup<T> {
+public abstract class BasicTreeLogicGroup< T extends ContextData> implements InitLogicGroup<T> {
 
     private LinkedHashMap<String, List<ParrentLogicUnit<? extends ContextData>>> allLogic = new LinkedHashMap<>();
 

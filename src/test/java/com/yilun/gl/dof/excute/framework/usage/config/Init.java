@@ -2,14 +2,13 @@ package com.yilun.gl.dof.excute.framework.usage.config;
 
 import com.yilun.gl.dof.excute.framework.core.content.ContextData;
 import com.yilun.gl.dof.excute.framework.core.content.ListWrapper;
-import com.yilun.gl.dof.excute.framework.core.executor.BasicLogicGroup;
-import com.yilun.gl.dof.excute.framework.core.executor.DefaultLogicExecutor;
-import com.yilun.gl.dof.excute.framework.core.executor.LogicExecutor;
+import com.yilun.gl.dof.excute.framework.core.executor.tree.BasicTreeLogicGroup;
+import com.yilun.gl.dof.excute.framework.core.executor.tree.TreeLogicExecutor;
+import com.yilun.gl.dof.excute.framework.core.LogicExecutor;
 import com.yilun.gl.dof.excute.framework.usage.param.Test;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 /**
  * @ClassName: biz-dof Init
@@ -25,7 +24,7 @@ public class Init {
 	@Bean(name = "createLogicExecutor")
 	public LogicExecutor<Test> createLogicExecutor() {
 		log.warn("init createLogicExecutor");
-		return new DefaultLogicExecutor<>(new BasicLogicGroup<ContextData>() {
+		return new TreeLogicExecutor<>(new BasicTreeLogicGroup<ContextData>() {
 
 			@Override
 			public void dataFrontProcessor(ListWrapper listWrapper) {

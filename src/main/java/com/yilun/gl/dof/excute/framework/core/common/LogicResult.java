@@ -1,5 +1,6 @@
-package com.yilun.gl.dof.excute.framework.core.executor;
+package com.yilun.gl.dof.excute.framework.core.common;
 
+import com.yilun.gl.dof.excute.framework.core.executor.tree.BasicTreeLogicGroup;
 import com.yilun.gl.dof.excute.framework.core.logic.ParrentLogicUnit;
 import com.yilun.gl.dof.excute.framework.exception.DofResCode;
 import lombok.Data;
@@ -85,7 +86,7 @@ public class LogicResult {
         /**
          * 执行单元组
          */
-        private BasicLogicGroup logicGroup;
+        private BasicTreeLogicGroup logicGroup;
         /**
          * 最后一个执行单元
          */

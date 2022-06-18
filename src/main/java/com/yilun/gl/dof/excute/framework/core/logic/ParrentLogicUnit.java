@@ -1,7 +1,7 @@
 package com.yilun.gl.dof.excute.framework.core.logic;
 
 import com.yilun.gl.dof.excute.framework.core.content.ContextData;
-import com.yilun.gl.dof.excute.framework.core.executor.LogicResult;
+import com.yilun.gl.dof.excute.framework.core.common.LogicResult;
 
 /**
  * @description: 执行引擎接口，核心执行类，每个执行单元足够小，并且内部逻辑足够内聚
