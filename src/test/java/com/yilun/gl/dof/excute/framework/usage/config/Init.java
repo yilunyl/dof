@@ -1,13 +1,17 @@
 package com.yilun.gl.dof.excute.framework.usage.config;
 
-import com.yilun.gl.dof.excute.framework.core.content.ContextData;
 import com.yilun.gl.dof.excute.framework.core.content.ListWrapper;
 import com.yilun.gl.dof.excute.framework.core.executor.tree.BasicTreeLogicGroup;
 import com.yilun.gl.dof.excute.framework.core.executor.tree.TreeLogicExecutor;
 import com.yilun.gl.dof.excute.framework.core.LogicExecutor;
-import com.yilun.gl.dof.excute.framework.usage.config.impl.Application1;
-import com.yilun.gl.dof.excute.framework.usage.config.impl.Application2;
-import com.yilun.gl.dof.excute.framework.usage.config.impl.Application3;
+import com.yilun.gl.dof.excute.framework.usage.config.impl.FeatureApplication;
+import com.yilun.gl.dof.excute.framework.usage.config.impl.GrayApplication;
+import com.yilun.gl.dof.excute.framework.usage.config.impl.LibraApplication;
+import com.yilun.gl.dof.excute.framework.usage.config.impl.PersionSelectApplication;
+import com.yilun.gl.dof.excute.framework.usage.config.impl.PredioctDesApplication;
+import com.yilun.gl.dof.excute.framework.usage.config.impl.StrategyResponseDataApplication;
+import com.yilun.gl.dof.excute.framework.usage.config.impl.TimeApplication;
+import com.yilun.gl.dof.excute.framework.usage.config.impl.TripApplication;
 import com.yilun.gl.dof.excute.framework.usage.param.TestParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +30,21 @@ import org.springframework.context.annotation.Configuration;
 public class Init {
 
 	@Autowired
-	private Application3 application3;
+	private TimeApplication timeApplication;
 	@Autowired
-	private Application2 application2;
+	private PredioctDesApplication predioctDesApplication;
 	@Autowired
-	private Application1 application1;
+	private PersionSelectApplication persionSelectApplication;
+    @Autowired
+    private TripApplication tripApplication;
+    @Autowired
+    private FeatureApplication featureApplication;
+    @Autowired
+    private GrayApplication grayApplication;
+    @Autowired
+    private LibraApplication libraApplication;
+    @Autowired
+    private StrategyResponseDataApplication strategyResponseDataApplication;
 
 	@Bean(name = "createLogicExecutor")
 	public LogicExecutor<TestParam> createLogicExecutor() {
@@ -39,17 +53,20 @@ public class Init {
 
 			@Override
 			public void dataFrontProcessor(ListWrapper listWrapper) {
-				listWrapper.parallelAdd(application1, application2);
+                listWrapper.add(grayApplication);
+                listWrapper.add(timeApplication);
+				listWrapper.parallelAdd(persionSelectApplication, predioctDesApplication);
 			}
 
 			@Override
 			public void dataProcessor(ListWrapper listWrapper) {
-				listWrapper.add(application2);
+				listWrapper.parallelAdd(tripApplication, featureApplication);
 			}
 
 			@Override
 			public void dataPostProcessor(ListWrapper listWrapper) {
-				listWrapper.add(application3);
+				listWrapper.add(libraApplication);
+                listWrapper.add(strategyResponseDataApplication);
 			}
 		});
 	}

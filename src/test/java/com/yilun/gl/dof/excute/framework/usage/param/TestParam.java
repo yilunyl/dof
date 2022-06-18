@@ -2,6 +2,8 @@ package com.yilun.gl.dof.excute.framework.usage.param;
 
 import com.yilun.gl.dof.excute.framework.core.content.ContextData;
 
+import java.util.List;
+
 /**
  * @ClassName: biz-dof Test
  * @Description: com.yilun.gl.dof.excute.framework.usage
@@ -10,4 +12,7 @@ import com.yilun.gl.dof.excute.framework.core.content.ContextData;
  * @Version: 1.0
  */
 public class TestParam extends ContextData {
+
+	private List<Object> strategyList;
+
 }
