@@ -163,9 +163,15 @@ public class TreeLogicExecutor<T extends ContextData> implements LogicExecutor<T
         try {
             ParrentLogicUnit parrentLogicUnitTmp = logicUnit;
             stopWatch.start(parrentLogicUnitTmp.getClass().getSimpleName());
-            logicResult = parrentLogicUnitTmp.doLogic(context);
+            boolean matching = isMatching(context, logicUnit);
+            if (matching) {
+                logicResult = parrentLogicUnitTmp.doLogic(context);
+                invocationInfo.addInvocationInfo(logicResult, parrentLogicUnitTmp);
+            }else{
+                logicResult = LogicResult.createUnMatchedResult();
+            }
             stopWatch.stop();
-            invocationInfo.addInvocationInfo(logicResult, parrentLogicUnitTmp);
+
         } catch (Exception e) {
             logicResult = LogicResult.createException(e);
             stopWatch.stop();

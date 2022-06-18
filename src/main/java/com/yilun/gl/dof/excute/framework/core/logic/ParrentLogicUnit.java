@@ -12,8 +12,9 @@ public interface ParrentLogicUnit<T extends ContextData>{
 
 
     /**
-     * 是否匹配规则
-     *
+     * 是否匹配规则, 该方法会被调用两次
+     *  一次是在完整的执行流程之前过滤一次
+     *  一次是在doLogic之前执行一次，前后两次执行的时机不同，中间的数据可能发生变化
      * @return 是否匹配
      */
     boolean isMatch();

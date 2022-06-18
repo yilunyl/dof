@@ -50,7 +50,12 @@ public class LogicResult {
         /**
          * 异常
          */
-        EXCEPTION
+        EXCEPTION,
+
+        /**
+         * 不匹配
+         */
+        UNMATCHED
     }
 
     /**
@@ -178,6 +183,15 @@ public class LogicResult {
         result.setCode(errorCode.getCode());
         result.setMessage(errorCode.getMessage());
         result.setDofResCode(errorCode);
+        return result;
+    }
+
+    public static LogicResult createUnMatchedResult() {
+        LogicResult result = new LogicResult();
+        result.setResult(RESULT.UNMATCHED);
+        result.setCode(CODE_SUCCESS);
+        result.setMessage("unMatched_logic,success");
+        result.setDofResCode(null);
         return result;
     }
     /**
