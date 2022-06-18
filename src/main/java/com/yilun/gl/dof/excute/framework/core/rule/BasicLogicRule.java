@@ -9,7 +9,7 @@ import java.util.Map;
  * @ClassName BasicLogicRule
  * @Author gule.gl
  * @Date 2021/6/19 2:26 下午
- * @Description BasicLogicRule
+ * @Description todo 该方法需要从配置中心读取 所以此处需要重构一下
  * @Version 1.0
  */
 public abstract class BasicLogicRule{

@@ -184,7 +184,12 @@ public class TreeLogicExecutor<T extends ContextData> implements LogicExecutor<T
         LogicRuleContainer logicRuleContainer = LogicRuleContainer.getInstance();
         LogicRule logicRule = logicRuleContainer.getLogicRule(unit);
         boolean mapping = logicRule.matching(context);
-        return logicRule == LogicRule.NO_RULE || mapping;
+        boolean dynamicConfigRule  = logicRule == LogicRule.NO_RULE || mapping;
+
+        if(dynamicConfigRule){
+            return unit.isMatch();
+        }
+        return dynamicConfigRule;
     }
 
     /**

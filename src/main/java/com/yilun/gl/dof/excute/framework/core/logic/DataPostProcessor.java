@@ -12,12 +12,15 @@ import com.yilun.gl.dof.excute.framework.core.content.ContextData;
  */
 public interface DataPostProcessor<T extends ContextData> extends ParrentLogicUnit<T> {
 
-
+	/**
+	 * 是否匹配规则
+	 *
+	 * @return 是否匹配
+	 */
 	@Override
-	default boolean parallel(){
+	default boolean isMatch(){
 		return false;
 	}
-
 
 	/**
 	 * 回退方法，节点的正向整个流程失败后，需要的逆向操作，适用于资源回退，通知类节点

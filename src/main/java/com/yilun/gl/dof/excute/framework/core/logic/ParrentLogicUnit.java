@@ -12,11 +12,11 @@ public interface ParrentLogicUnit<T extends ContextData>{
 
 
     /**
-     * 是否走异步
+     * 是否匹配规则
      *
-     * @return 是否异步
+     * @return 是否匹配
      */
-    boolean parallel();
+    boolean isMatch();
 
     /**
      * 执行单元核心执行方法

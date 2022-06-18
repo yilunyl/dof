@@ -14,8 +14,16 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class TripApplication implements DataProcessor<TestParam> {
+
+
 	@Override
 	public LogicResult doLogic(TestParam context) {
 		return null;
+	}
+
+	@Override
+	public boolean isMatch() {
+
+		return DataProcessor.super.isMatch();
 	}
 }

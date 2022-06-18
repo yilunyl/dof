@@ -18,4 +18,15 @@ public class SpaceApplication implements DataProcessor<TestParam> {
 	public LogicResult doLogic(TestParam context) {
 		return null;
 	}
+
+	@Override
+	public boolean isMatch() {
+
+		return DataProcessor.super.isMatch();
+	}
+
+	@Override
+	public void reverse(TestParam context, LogicResult logicResult) {
+		DataProcessor.super.reverse(context, logicResult);
+	}
 }
