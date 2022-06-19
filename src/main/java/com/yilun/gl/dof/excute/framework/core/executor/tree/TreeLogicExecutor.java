@@ -127,7 +127,12 @@ public class TreeLogicExecutor<T extends ContextData> implements LogicExecutor<T
                 StopWatch stopWatch = new StopWatch();
                 try {
                     stopWatch.start(parrentLogicUnitTmp.getClass().getSimpleName());
-                    logicResultThread = parrentLogicUnitTmp.doLogic(context);
+                    boolean matching = isMatching(context, parrentLogicUnitTmp);
+                    if(matching){
+                        logicResultThread = parrentLogicUnitTmp.doLogic(context);
+                    }else{
+                        logicResultThread = LogicResult.createUnMatchedResult();
+                    }
                     stopWatch.stop();
                 } catch (Exception e) {
                     logicResultThread = LogicResult.createException(e);
