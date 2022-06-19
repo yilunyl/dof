@@ -1,8 +1,8 @@
-package com.yilun.gl.dof.excute.framework.usage.config.impl;
+package com.yilun.gl.dof.excute.framework.usage.impl;
 
 import com.yilun.gl.dof.excute.framework.core.common.LogicResult;
 import com.yilun.gl.dof.excute.framework.core.logic.DataProcessor;
-import com.yilun.gl.dof.excute.framework.usage.param.TestParam;
+import com.yilun.gl.dof.excute.framework.usage.context.TestContext;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,9 +13,17 @@ import org.springframework.stereotype.Component;
  * @Version: 1.0
  */
 @Component
-public class GrayApplication implements DataProcessor<TestParam> {
+public class TripApplication implements DataProcessor<TestContext> {
+
+
 	@Override
-	public LogicResult doLogic(TestParam context) {
+	public LogicResult doLogic(TestContext context) {
 		return null;
+	}
+
+	@Override
+	public boolean isMatch(TestContext context) {
+
+		return DataProcessor.super.isMatch(context);
 	}
 }

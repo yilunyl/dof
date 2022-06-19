@@ -18,7 +18,7 @@ public interface DataProcessor<T extends ContextData> extends ParrentLogicUnit<T
 	 * @return 是否匹配
 	 */
 	@Override
-	default boolean isMatch(){
+	default boolean isMatch(T context){
 		return false;
 	}
 

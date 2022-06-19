@@ -7,7 +7,7 @@ import java.util.Objects;
  * @author: gule
  * @create: 2019-08-20 10:12
  **/
-public interface LogicRule<T> {
+public interface LogicRule<T > {
 
 
     /**

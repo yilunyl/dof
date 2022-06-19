@@ -1,8 +1,8 @@
-package com.yilun.gl.dof.excute.framework.usage.config.impl;
+package com.yilun.gl.dof.excute.framework.usage.impl;
 
 import com.yilun.gl.dof.excute.framework.core.common.LogicResult;
 import com.yilun.gl.dof.excute.framework.core.logic.DataProcessor;
-import com.yilun.gl.dof.excute.framework.usage.param.TestParam;
+import com.yilun.gl.dof.excute.framework.usage.context.TestContext;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,20 +13,20 @@ import org.springframework.stereotype.Component;
  * @Version: 1.0
  */
 @Component
-public class SpaceApplication implements DataProcessor<TestParam> {
+public class SpaceApplication implements DataProcessor<TestContext> {
 	@Override
-	public LogicResult doLogic(TestParam context) {
+	public LogicResult doLogic(TestContext context) {
 		return null;
 	}
 
 	@Override
-	public boolean isMatch() {
+	public boolean isMatch(TestContext c) {
 
-		return DataProcessor.super.isMatch();
+		return DataProcessor.super.isMatch(c);
 	}
 
 	@Override
-	public void reverse(TestParam context, LogicResult logicResult) {
+	public void reverse(TestContext context, LogicResult logicResult) {
 		DataProcessor.super.reverse(context, logicResult);
 	}
 }

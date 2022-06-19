@@ -1,9 +1,8 @@
-package com.yilun.gl.dof.excute.framework.usage.config.impl;
+package com.yilun.gl.dof.excute.framework.usage.impl;
 
 import com.yilun.gl.dof.excute.framework.core.common.LogicResult;
 import com.yilun.gl.dof.excute.framework.core.logic.DataPostProcessor;
-import com.yilun.gl.dof.excute.framework.core.logic.DataProcessor;
-import com.yilun.gl.dof.excute.framework.usage.param.TestParam;
+import com.yilun.gl.dof.excute.framework.usage.context.TestContext;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,9 +13,9 @@ import org.springframework.stereotype.Component;
  * @Version: 1.0
  */
 @Component
-public class StrategyResponseDataApplication implements DataPostProcessor<TestParam> {
+public class StrategyResponseDataApplication implements DataPostProcessor<TestContext> {
 	@Override
-	public LogicResult doLogic(TestParam context) {
+	public LogicResult doLogic(TestContext context) {
 		return null;
 	}
 }

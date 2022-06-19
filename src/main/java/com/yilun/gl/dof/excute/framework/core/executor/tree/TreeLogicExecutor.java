@@ -191,14 +191,14 @@ public class TreeLogicExecutor<T extends ContextData> implements LogicExecutor<T
         }
     }
 
-    private boolean isMatching(T context, ParrentLogicUnit<? extends ContextData> unit) {
+    private  boolean isMatching(T context, ParrentLogicUnit unit) {
         LogicRuleContainer logicRuleContainer = LogicRuleContainer.getInstance();
         LogicRule logicRule = logicRuleContainer.getLogicRule(unit);
         boolean mapping = logicRule.matching(context);
         boolean dynamicConfigRule  = logicRule == LogicRule.NO_RULE || mapping;
 
         if(dynamicConfigRule){
-            return unit.isMatch();
+            return unit.isMatch(context);
         }
         return dynamicConfigRule;
     }

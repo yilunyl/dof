@@ -17,7 +17,7 @@ public interface ParrentLogicUnit<T extends ContextData>{
      *  一次是在doLogic之前执行一次，前后两次执行的时机不同，中间的数据可能发生变化
      * @return 是否匹配
      */
-    boolean isMatch();
+    boolean  isMatch(T context);
 
     /**
      * 执行单元核心执行方法

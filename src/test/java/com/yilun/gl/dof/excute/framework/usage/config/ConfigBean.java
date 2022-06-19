@@ -4,17 +4,17 @@ import com.yilun.gl.dof.excute.framework.core.content.ListWrapper;
 import com.yilun.gl.dof.excute.framework.core.executor.tree.BasicTreeLogicGroup;
 import com.yilun.gl.dof.excute.framework.core.executor.tree.TreeLogicExecutor;
 import com.yilun.gl.dof.excute.framework.core.LogicExecutor;
-import com.yilun.gl.dof.excute.framework.usage.config.impl.CarorderApplication;
-import com.yilun.gl.dof.excute.framework.usage.config.impl.ChannelApplication;
-import com.yilun.gl.dof.excute.framework.usage.config.impl.FeatureApplication;
-import com.yilun.gl.dof.excute.framework.usage.config.impl.GrayApplication;
-import com.yilun.gl.dof.excute.framework.usage.config.impl.LibraApplication;
-import com.yilun.gl.dof.excute.framework.usage.config.impl.PersionSelectApplication;
-import com.yilun.gl.dof.excute.framework.usage.config.impl.PredioctDesApplication;
-import com.yilun.gl.dof.excute.framework.usage.config.impl.StrategyResponseDataApplication;
-import com.yilun.gl.dof.excute.framework.usage.config.impl.TimeApplication;
-import com.yilun.gl.dof.excute.framework.usage.config.impl.TripApplication;
-import com.yilun.gl.dof.excute.framework.usage.param.TestParam;
+import com.yilun.gl.dof.excute.framework.usage.impl.CarorderApplication;
+import com.yilun.gl.dof.excute.framework.usage.impl.ChannelApplication;
+import com.yilun.gl.dof.excute.framework.usage.impl.FeatureApplication;
+import com.yilun.gl.dof.excute.framework.usage.impl.GrayApplication;
+import com.yilun.gl.dof.excute.framework.usage.impl.LibraApplication;
+import com.yilun.gl.dof.excute.framework.usage.impl.PersionSelectApplication;
+import com.yilun.gl.dof.excute.framework.usage.impl.PredioctDesApplication;
+import com.yilun.gl.dof.excute.framework.usage.impl.StrategyResponseDataApplication;
+import com.yilun.gl.dof.excute.framework.usage.impl.TimeApplication;
+import com.yilun.gl.dof.excute.framework.usage.impl.TripApplication;
+import com.yilun.gl.dof.excute.framework.usage.context.TestContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @Slf4j
-public class Init {
+public class ConfigBean {
 
 	@Autowired
 	private TimeApplication timeApplication;
@@ -53,9 +53,9 @@ public class Init {
     private ChannelApplication channelApplication;
 
 	@Bean(name = "cardLogicExecutor")
-	public LogicExecutor<TestParam> cardLogicExecutor() {
+	public LogicExecutor<TestContext> cardLogicExecutor() {
 		log.warn("卡片投放业务createLogicExecutor");
-		return new TreeLogicExecutor<>(new BasicTreeLogicGroup<TestParam>() {
+		return new TreeLogicExecutor<>(new BasicTreeLogicGroup<TestContext>() {
 			@Override
 			public void dataFrontProcessor(ListWrapper listWrapper) {
                 //非io操作
