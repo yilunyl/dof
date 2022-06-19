@@ -4,6 +4,7 @@ import com.yilun.gl.dof.excute.framework.core.content.ContextData;
 import com.yilun.gl.dof.excute.framework.usage.context.request.TestRequest;
 import com.yilun.gl.dof.excute.framework.usage.context.response.TestResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +28,6 @@ public class TestContext extends ContextData<TestRequest, TestResponse> {
 
 	@Override
 	protected void initContext(TestRequest request, TestResponse response) {
-
+		this.strategyList = new ArrayList<>();
 	}
 }
