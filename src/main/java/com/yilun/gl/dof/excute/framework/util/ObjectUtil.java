@@ -1,6 +1,8 @@
 package com.yilun.gl.dof.excute.framework.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -14,6 +16,8 @@ import java.util.Map;
  */
 @Slf4j
 public class ObjectUtil {
+
+    private final static Logger logger = LoggerFactory.getLogger(ObjectUtil.class);
 
     /**
      * 获取对象的所有属性值，返回一个对象MAP
@@ -52,7 +56,7 @@ public class ObjectUtil {
             Object value = method.invoke(o, new Object[]{});
             return value;
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            logger.error(e.getMessage(), e);
             return null;
         }
     }

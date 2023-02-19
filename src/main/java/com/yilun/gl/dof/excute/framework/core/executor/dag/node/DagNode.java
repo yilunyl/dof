@@ -1,7 +1,6 @@
 package com.yilun.gl.dof.excute.framework.core.executor.dag.node;
 
-import com.yilun.gl.dof.excute.framework.core.logic.ParrentLogicUnit;
-import lombok.Data;
+import com.yilun.gl.dof.excute.framework.core.logic.DomainServiceUnit;
 
 /**
  * @ClassName: biz-dof Test
@@ -10,8 +9,11 @@ import lombok.Data;
  * @Date: 2022/6/18 22:01
  * @Version: 1.0
  */
-@Data
-public class DagNode<T extends ParrentLogicUnit<?>> {
+public class DagNode<T extends DomainServiceUnit<?>> {
 
 	private final T logicUnit;
+
+	public DagNode(T logicUnit) {
+		this.logicUnit = logicUnit;
+	}
 }

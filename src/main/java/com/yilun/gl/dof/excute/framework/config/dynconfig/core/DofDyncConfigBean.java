@@ -13,6 +13,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.common.utils.CollectionUtils;
 import org.apache.dubbo.config.spring.ServiceBean;
 import org.apache.dubbo.config.spring.context.event.ServiceBeanExportedEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -40,10 +42,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Date: 2020/10/22 15:59
  * @Description:
  */
-@Slf4j
 @Component
 public class DofDyncConfigBean implements ApplicationListener, ApplicationContextAware, BeanPostProcessor {
-
+    private final static Logger log = LoggerFactory.getLogger(DofDyncConfigBean.class);
     @Autowired
     private DyncConfigContext dyncConfigContext;
 

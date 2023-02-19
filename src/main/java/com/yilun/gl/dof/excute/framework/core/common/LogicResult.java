@@ -1,10 +1,8 @@
 package com.yilun.gl.dof.excute.framework.core.common;
 
-import com.yilun.gl.dof.excute.framework.core.executor.tree.BasicTreeLogicGroup;
-import com.yilun.gl.dof.excute.framework.core.logic.ParrentLogicUnit;
+import com.yilun.gl.dof.excute.framework.core.executor.tree.BasicApplication;
+import com.yilun.gl.dof.excute.framework.core.logic.DomainServiceUnit;
 import com.yilun.gl.dof.excute.framework.exception.DofResCode;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -16,8 +14,6 @@ import java.util.List;
  * @create: 2019-08-18 11:37
  **/
 
-@Data
-@Slf4j
 public class LogicResult {
 
     private final static int CODE_SUCCESS = 200;
@@ -85,39 +81,54 @@ public class LogicResult {
     /**
      * 执行器现场
      */
-    @Data
     public static class InvocationInfo {
 
         /**
          * 执行单元组
          */
-        private BasicTreeLogicGroup logicGroup;
+        private BasicApplication logicGroup;
         /**
          * 最后一个执行单元
          */
-        private ParrentLogicUnit last = null;
+        private DomainServiceUnit last = null;
 
         /**
          * 执行成功列表
          */
-        private List<ParrentLogicUnit> successList = new ArrayList<>();
+        private List<DomainServiceUnit> successList = new ArrayList<>();
 
         /**
          * 执行失败列表
          */
-        private List<ParrentLogicUnit> failList = new ArrayList<>();
+        private List<DomainServiceUnit> failList = new ArrayList<>();
 
         /**
          * 添加执行现场
          * @param logicResultThread 执行结果
          * @param parrentLogicUnitTmp 执行单位
          */
-        public synchronized void addInvocationInfo(LogicResult logicResultThread, ParrentLogicUnit parrentLogicUnitTmp){
+        public synchronized void addInvocationInfo(LogicResult logicResultThread, DomainServiceUnit parrentLogicUnitTmp){
             if(logicResultThread.isSuccess()){
                 this.getSuccessList().add(parrentLogicUnitTmp);
             }else{
                 this.getFailList().add(parrentLogicUnitTmp);
             }
+        }
+
+        public List<DomainServiceUnit> getSuccessList() {
+            return successList;
+        }
+
+        public void setSuccessList(List<DomainServiceUnit> successList) {
+            this.successList = successList;
+        }
+
+        public List<DomainServiceUnit> getFailList() {
+            return failList;
+        }
+
+        public void setFailList(List<DomainServiceUnit> failList) {
+            this.failList = failList;
         }
     }
 
@@ -162,7 +173,6 @@ public class LogicResult {
      */
     @Deprecated
     public static LogicResult createException(Exception e) {
-        log.info("发生异常:",e);
         LogicResult result = new LogicResult();
         result.setException(e);
         String exceptionMsg = e.getMessage();
@@ -209,5 +219,53 @@ public class LogicResult {
         result.setMessage(useOtherMsg);
         result.setDofResCode(errorCode);
         return result;
+    }
+
+    public RESULT getResult() {
+        return result;
+    }
+
+    public void setResult(RESULT result) {
+        this.result = result;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Exception getException() {
+        return exception;
+    }
+
+    public void setException(Exception exception) {
+        this.exception = exception;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public InvocationInfo getInvocationInfo() {
+        return invocationInfo;
+    }
+
+    public void setInvocationInfo(InvocationInfo invocationInfo) {
+        this.invocationInfo = invocationInfo;
+    }
+
+    public DofResCode getDofResCode() {
+        return dofResCode;
+    }
+
+    public void setDofResCode(DofResCode dofResCode) {
+        this.dofResCode = dofResCode;
     }
 }

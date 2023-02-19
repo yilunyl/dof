@@ -4,7 +4,10 @@ package com.yilun.gl.dof.excute.framework.config.dynconfig.core;
 import com.yilun.gl.dof.excute.framework.config.dynconfig.core.entity.DyncConfigTypeEnum;
 import com.yilun.gl.dof.excute.framework.config.dynconfig.core.entity.ConfigChangedEvent;
 import com.yilun.gl.dof.excute.framework.config.dynconfig.core.entity.RefreshConfgiEntity;
+import com.yilun.gl.dof.excute.framework.util.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.context.EnvironmentAware;
@@ -17,9 +20,9 @@ import java.util.Objects;
  * @Date: 2020/10/28 11:00
  * @Description:
  */
-@Slf4j
 public abstract class BasicDyncConfigService implements DyncConfigService, ApplicationEventPublisherAware, EnvironmentAware {
 
+    private final static Logger log = LoggerFactory.getLogger(BasicDyncConfigService.class);
     protected ApplicationEventPublisher applicationEventPublisher;
 
     protected Environment environment;

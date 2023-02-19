@@ -1,6 +1,6 @@
 package com.yilun.gl.dof.excute.framework.core.content;
 
-import lombok.Data;
+import com.yilun.gl.dof.excute.framework.ddd.model.BaseParam;
 
 /**
  * @Auther: gule.gl
@@ -8,19 +8,29 @@ import lombok.Data;
  * @Description: com.amap.aos.infrastructure.framework.context
  * @version: 1.0
  */
-@Data
 public abstract class ContextData<REQ, RES>{
 
 	private REQ request;
 
 	private RES response;
 
-	protected ContextData(REQ request, RES response) {
+	public ContextData(REQ request) {
 		this.request = request;
-		this.response = response;
-
-		initContext(request, response);
 	}
 
-	protected abstract void initContext(REQ request, RES response);
+	public REQ getRequest() {
+		return request;
+	}
+
+	public void setRequest(REQ request) {
+		this.request = request;
+	}
+
+	public RES getResponse() {
+		return response;
+	}
+
+	public void setResponse(RES response) {
+		this.response = response;
+	}
 }

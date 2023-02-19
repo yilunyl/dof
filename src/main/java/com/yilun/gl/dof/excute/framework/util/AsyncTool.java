@@ -1,7 +1,10 @@
 package com.yilun.gl.dof.excute.framework.util;
 
+import com.yilun.gl.dof.excute.framework.core.executor.tree.TreeApplicationExecutor;
 import com.yilun.gl.dof.excute.framework.thread.ExecutorServiceWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ExecutorService;
 
@@ -14,6 +17,8 @@ import java.util.concurrent.ExecutorService;
 
 @Slf4j
 public final class AsyncTool {
+
+    private final static Logger logger = LoggerFactory.getLogger(AsyncTool.class);
 
     private static final ExecutorService executorService = ExecutorServiceWrapper.create(100, AsyncTool.class.getSimpleName());
 
@@ -53,7 +58,7 @@ public final class AsyncTool {
                         executor.doExecute();
                         needRetry = false;
                     } catch (Exception ex) {
-                        log.error("invoke biz error : ", ex);
+                        logger.error("invoke biz error : ", ex);
                     }
                 }
             }

@@ -24,4 +24,19 @@ public class RefreshConfgiEntity implements Serializable {
 
     private String wholePath;
 
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
+
+    public String getWholePath() {
+        return wholePath;
+    }
+
+    public void setWholePath(String wholePath) {
+        this.wholePath = wholePath;
+    }
 }

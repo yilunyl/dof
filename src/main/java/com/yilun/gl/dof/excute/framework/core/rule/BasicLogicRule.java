@@ -1,6 +1,6 @@
 package com.yilun.gl.dof.excute.framework.core.rule;
 
-import com.yilun.gl.dof.excute.framework.core.logic.ParrentLogicUnit;
+import com.yilun.gl.dof.excute.framework.core.logic.DomainServiceUnit;
 
 import javax.annotation.PostConstruct;
 import java.util.Map;
@@ -30,22 +30,22 @@ public abstract class BasicLogicRule{
         convertAndRegister(addDataEventRule());
     }
 
-    private void convertAndRegister(Map<LogicRule, ParrentLogicUnit> addDataEventRule){
-        for(Map.Entry<LogicRule, ParrentLogicUnit> entry:addDataEventRule.entrySet()) {
+    private void convertAndRegister(Map<LogicRule, DomainServiceUnit> addDataEventRule){
+        for(Map.Entry<LogicRule, DomainServiceUnit> entry:addDataEventRule.entrySet()) {
             logicRuleContainer.registerRule(entry.getValue(), entry.getKey());
         }
 
     }
 
 
-    protected abstract Map<LogicRule, ParrentLogicUnit> addDataPrepareRule();
+    protected abstract Map<LogicRule, DomainServiceUnit> addDataPrepareRule();
 
-    protected abstract Map<LogicRule, ParrentLogicUnit> addDataCheckRule();
+    protected abstract Map<LogicRule, DomainServiceUnit> addDataCheckRule();
 
-    protected abstract Map<LogicRule, ParrentLogicUnit> addDataProcessorRule();
+    protected abstract Map<LogicRule, DomainServiceUnit> addDataProcessorRule();
 
-    protected abstract Map<LogicRule, ParrentLogicUnit>  addDataAfterProcessorRule();
+    protected abstract Map<LogicRule, DomainServiceUnit>  addDataAfterProcessorRule();
 
-    protected abstract Map<LogicRule, ParrentLogicUnit> addDataEventRule();
+    protected abstract Map<LogicRule, DomainServiceUnit> addDataEventRule();
 
 }

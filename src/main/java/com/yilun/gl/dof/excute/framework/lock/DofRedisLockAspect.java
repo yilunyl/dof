@@ -34,7 +34,6 @@ import java.util.UUID;
 @EnableAspectJAutoProxy(exposeProxy = true, proxyTargetClass = true)
 public class DofRedisLockAspect {
 
-    @Autowired
     private DofRedisUtil redisUtil;
 
     @Pointcut("@annotation(com.yilun.gl.dof.excute.framework.lock.DofRedisLock)")
@@ -49,7 +48,7 @@ public class DofRedisLockAspect {
     @Around(value = "dofRedisLockAnnotationPointcut()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         if (Objects.isNull(redisUtil)) {
-            redisUtil = ApplicationContextUtil.getBean(DofRedisUtil.class);
+            redisUtil = new DofRedisUtil(null);
         }
         if (Objects.isNull(redisUtil)) {
             log.error("can not get redisUtil bean, we can not use redis lock!");

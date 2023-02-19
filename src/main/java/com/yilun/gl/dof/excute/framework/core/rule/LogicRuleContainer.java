@@ -1,7 +1,7 @@
 package com.yilun.gl.dof.excute.framework.core.rule;
 
 import com.yilun.gl.dof.excute.framework.core.content.ContextData;
-import com.yilun.gl.dof.excute.framework.core.logic.ParrentLogicUnit;
+import com.yilun.gl.dof.excute.framework.core.logic.DomainServiceUnit;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,7 +19,7 @@ public final class LogicRuleContainer<T extends ContextData> {
     /**
      * 缓存执行单元->执行规则
      */
-    private ConcurrentHashMap<ParrentLogicUnit<T>, LogicRule<T>> logicUnitToRuleMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<DomainServiceUnit<T>, LogicRule<T>> logicUnitToRuleMap = new ConcurrentHashMap<>();
 
 
     private LogicRuleContainer() {
@@ -48,7 +48,7 @@ public final class LogicRuleContainer<T extends ContextData> {
      * @param logicUnit
      * @param logicRule
      */
-    public void registerRule(ParrentLogicUnit<T> logicUnit, LogicRule<T> logicRule) {
+    public void registerRule(DomainServiceUnit<T> logicUnit, LogicRule<T> logicRule) {
         logicUnitToRuleMap.put(logicUnit, logicRule);
     }
 
@@ -59,7 +59,7 @@ public final class LogicRuleContainer<T extends ContextData> {
      * @param logicUnit
      * @return
      */
-    public LogicRule getLogicRule(ParrentLogicUnit logicUnit) {
+    public LogicRule getLogicRule(DomainServiceUnit logicUnit) {
         LogicRule logicRuleCache = logicUnitToRuleMap.get(logicUnit);
         return logicRuleCache == null ? LogicRule.NO_RULE : logicRuleCache;
 
