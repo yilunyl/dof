@@ -3,7 +3,7 @@ package com.yilun.gl.dof.excute.framework.fatigue.summary;
 import lombok.Data;
 
 import java.io.Serializable;
-import com.dyuproject.protostuff.Tag;
+//import com.dyuproject.protostuff.Tag;
 
 /**
  * 窗口的定义 可调整 当前都是默认值 时间戳单位都是秒
@@ -18,18 +18,18 @@ public class AccumDef implements Serializable {
      * 说明，针对分钟级，最小单位是5分钟一次
      *
      */
-    @Tag(1)
+//    @Tag(1)
     private Integer dayWindowSize = 60;
-    @Tag(2)
+//    @Tag(2)
     private Integer hourWindowSize = 48;
-    @Tag(3)
+//    @Tag(3)
     private Integer minuteWindowSize = 24;
-    @Tag(4)
+//    @Tag(4)
     private Integer monthWindowSize = 24;
-    @Tag(5)
+//    @Tag(5)
     private Integer weekWindowSize = 10;
-    @Tag(6)
+//    @Tag(6)
     private Boolean keepTotalNum = Boolean.TRUE;
-    @Tag(7)
+//    @Tag(7)
     private Integer yearWindowSize = 6;
 }

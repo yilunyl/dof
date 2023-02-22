@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import com.dyuproject.protostuff.Tag;
 /**
  * 注意 该类中的所有字段 只能新增 不能删除 也不能使用@Deprecated注解，不能添加复杂的集合结构 ==> 会导致序列化失败
  */
@@ -16,13 +15,13 @@ public class AccumSummaryEntity implements Serializable {
     /**
      * key 是行为类型 val是对应的统计信息
      */
-    @Tag(1)
+//    @Tag(1)
     private Map<String, AccumWithTime> actionAccumMap;
 
-    @Tag(2)
+//    @Tag(2)
     private AccumDef accumDef;
 
-    @Tag(3)
+//    @Tag(3)
     private AccumTs accumTs;
 
 
