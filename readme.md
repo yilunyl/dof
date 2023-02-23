@@ -8,7 +8,7 @@ DDD的整体架构如下
 具体编程规范可以参考 com.yilun.gl.dof.excute.framework.ddd的分包
 ### 三 编排核心结构
     >画了个示意图 实在没想好怎么画合适！！！
-![img_1.png](img_1.png)
+![img_2.png](img_2.png)
 ### 四 使用说明
 #### 引入相关依赖
     <groupId>org.apache.dof</groupId>
