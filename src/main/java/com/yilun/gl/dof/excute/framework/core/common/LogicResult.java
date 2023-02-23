@@ -51,7 +51,9 @@ public class LogicResult {
         /**
          * 不匹配
          */
-        UNMATCHED
+        UNMATCHED,
+
+        EMPTY
     }
 
     /**
@@ -212,6 +214,23 @@ public class LogicResult {
     public static LogicResult createFailResult(DofResCode errorCode, String useOtherMsg) {
         LogicResult result = new LogicResult();
         result.setResult(RESULT.FAILED);
+        result.setCode(errorCode.getCode());
+        if(StringUtils.isEmpty(useOtherMsg)){
+            useOtherMsg = errorCode.getMessage();
+        }
+        result.setMessage(useOtherMsg);
+        result.setDofResCode(errorCode);
+        return result;
+    }
+
+    /**
+     * 执行失败结果
+     *
+     * @return
+     */
+    public static LogicResult createEmptyResult(DofResCode errorCode, String useOtherMsg) {
+        LogicResult result = new LogicResult();
+        result.setResult(RESULT.EMPTY);
         result.setCode(errorCode.getCode());
         if(StringUtils.isEmpty(useOtherMsg)){
             useOtherMsg = errorCode.getMessage();

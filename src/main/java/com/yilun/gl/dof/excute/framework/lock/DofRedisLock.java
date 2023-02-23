@@ -1,6 +1,6 @@
 package com.yilun.gl.dof.excute.framework.lock;
 
-import com.yilun.gl.dof.excute.framework.exception.ServiceException;
+import com.yilun.gl.dof.excute.framework.exception.DofServiceException;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
  * key的缓存时间、重试次数、休息时间在expire、retryTimes、sleepMillis
  * <p>
  * 其中对象也支持dynamicKeyClass = {BillDetailRequestEntity1.class,BillDetailRequestEntity2.class}这种使用
- * @throws ServiceException  获取锁失败
+ * @throws DofServiceException  获取锁失败
  * @throws Throwable  目标方法执行异常
  * @Author gule
  * @Date 2020-08-16

@@ -1,7 +1,7 @@
 package com.yilun.gl.dof.excute.framework.config.dynconfig.core;
 
 import com.yilun.gl.dof.excute.framework.constants.ApiConstant;
-import com.yilun.gl.dof.excute.framework.exception.ServiceException;
+import com.yilun.gl.dof.excute.framework.exception.DofServiceException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -29,7 +29,7 @@ public class DyncConfigContext {
      */
     private DyncConfigContext(List<DyncConfigService> strategyList) {
         if (CollectionUtils.isEmpty(strategyList)) {
-            throw new ServiceException(ApiConstant.CODE_FAIL, "fail init DyncConfigContext");
+            throw DofServiceException.build(ApiConstant.CODE_FAIL, "fail init DyncConfigContext");
         }
         for (DyncConfigService strategy : strategyList) {
             strategyMap.put(strategy.getConfigType().value(), strategy);

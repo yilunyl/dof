@@ -8,11 +8,18 @@ package com.yilun.gl.dof.excute.framework.exception;
  * @Version: 1.0
  */
 public enum DofResCode {
+
+	SUCCESS(0, "成功"),
+	FAILE(1, "失败"),
+	EMPTY(3, "处理结果为空")
 	;
-
-
 	private Integer code;
 	private String message;
+
+	DofResCode(int i, String msg) {
+		code = i;
+		message = msg;
+	}
 
 	public Integer getCode() {
 		return code;

@@ -7,8 +7,7 @@ import com.yilun.gl.dof.excute.framework.config.dynconfig.DofDyncValue;
 import com.yilun.gl.dof.excute.framework.config.dynconfig.core.entity.ConfigChangedEvent;
 import com.yilun.gl.dof.excute.framework.config.dynconfig.core.entity.RefreshConfgiEntity;
 import com.yilun.gl.dof.excute.framework.constants.ApiConstant;
-import com.yilun.gl.dof.excute.framework.exception.ServiceException;
-import lombok.extern.slf4j.Slf4j;
+import com.yilun.gl.dof.excute.framework.exception.DofServiceException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.common.utils.CollectionUtils;
 import org.apache.dubbo.config.spring.ServiceBean;
@@ -99,7 +98,7 @@ public class DofDyncConfigBean implements ApplicationListener, ApplicationContex
                 JSONArray objects = JSONArray.parseArray(jsonString);
                 Class<?>[] innerClasses = field.getAnnotation(DofDyncValue.class).innerClass();
                 if (innerClasses.length != 1) {
-                    throw new ServiceException(ApiConstant.CODE_SUGGEST_FAIL, "存在对象数组，需要在注解上填写对象数组里面的对象类，不然无法处理");
+                    throw DofServiceException.build(ApiConstant.CODE_SUGGEST_FAIL, "存在对象数组，需要在注解上填写对象数组里面的对象类，不然无法处理");
                 }
                 value = objects.toJavaList(innerClasses[0]);
             } else if (field.getType().isAssignableFrom(List.class)) {
@@ -111,7 +110,7 @@ public class DofDyncConfigBean implements ApplicationListener, ApplicationContex
                     value = new ArrayList<>(Arrays.asList(split));
                 }
             } else {
-                throw new ServiceException(ApiConstant.CODE_SUGGEST_FAIL, "不支持的类型解析，需要自己处理");
+                throw DofServiceException.build(ApiConstant.CODE_SUGGEST_FAIL, "不支持的类型解析，需要自己处理");
             }
             field.set(bean, value);
         } catch (Exception e) {
@@ -219,7 +218,7 @@ public class DofDyncConfigBean implements ApplicationListener, ApplicationContex
             String fullPath = getWholePath(annotation);
             byte[] dataByte = dyncConfigService.createNodeCache(fullPath);
             if (Objects.isNull(dataByte)) {
-                throw new ServiceException(ApiConstant.CODE_FAIL, "路径" + fullPath + "未配置，请配置后重启");
+                throw DofServiceException.build(ApiConstant.CODE_FAIL, "路径" + fullPath + "未配置，请配置后重启");
             }
             //获取初始值并初始化
             parseFieldObj(new String(dataByte), field, bean);

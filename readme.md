@@ -9,5 +9,6 @@ DDD的整体架构如下
 ## 三 编排核心结构
 
 ## 四 使用说明
-
-## 其他
+    1、单侧启动 由于使用了jdk17 单侧启动需要增加参数 --add-opens java.base/java.lang=ALL-UNNAMED
+    2、
+## 五 其他

@@ -11,7 +11,7 @@ import com.yilun.gl.dof.excute.framework.core.content.ContextData;
  * @Date: 2022/6/18 21:51
  * @Version: 1.0
  */
-public class DagLogicExecutor <T extends ContextData> implements LogicExecutor<T> {
+public class DagApplicationExecutor<T extends ContextData> implements LogicExecutor<T> {
 
 
 	@Override

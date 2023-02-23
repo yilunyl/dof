@@ -1,7 +1,7 @@
 package com.yilun.gl.dof.excute.framework.lock;
 
 import com.yilun.gl.dof.excute.framework.constants.ApiConstant;
-import com.yilun.gl.dof.excute.framework.exception.ServiceException;
+import com.yilun.gl.dof.excute.framework.exception.DofServiceException;
 import com.yilun.gl.dof.excute.framework.util.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -9,7 +9,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.annotation.Order;
@@ -42,7 +41,7 @@ public class DofRedisLockAspect {
 
     /**
      * @param joinPoint
-     * @throws ServiceException 获取锁失败
+     * @throws DofServiceException 获取锁失败
      * @throws Throwable        目标方法执行异常
      */
     @Around(value = "dofRedisLockAnnotationPointcut()")
@@ -68,7 +67,7 @@ public class DofRedisLockAspect {
 
         if (!locked) {
             log.error("RedisLockAspectTro try get lock fail.key:{},value:{}", key, value);
-            throw new ServiceException(ApiConstant.CODE_FAIL, "try get distributed lock fail.key:" + key);
+            throw DofServiceException.build(ApiConstant.CODE_FAIL, "try get distributed lock fail.key:" + key);
         }
         log.info("RedisLockAspectTro try get lock success. key : {},value : {}", key, value);
         try {

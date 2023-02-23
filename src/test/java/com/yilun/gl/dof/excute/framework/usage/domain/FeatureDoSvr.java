@@ -23,6 +23,6 @@ public class FeatureDoSvr implements DomainService<TestContext> {
 
 	@Override
 	public LogicResult doLogic(TestContext context) {
-		return null;
+		return LogicResult.createSuccess();
 	}
 }

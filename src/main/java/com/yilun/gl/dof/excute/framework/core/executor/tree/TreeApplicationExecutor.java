@@ -7,6 +7,7 @@ import com.yilun.gl.dof.excute.framework.core.content.ContextData;
 import com.yilun.gl.dof.excute.framework.core.logic.DomainServiceUnit;
 import com.yilun.gl.dof.excute.framework.core.rule.LogicRule;
 import com.yilun.gl.dof.excute.framework.core.rule.LogicRuleContainer;
+import com.yilun.gl.dof.excute.framework.exception.DofResCode;
 import com.yilun.gl.dof.excute.framework.thread.ExecutorServiceWrapper;
 import com.yilun.gl.dof.excute.framework.util.StopWatchWrapper;
 import org.apache.commons.lang3.tuple.Pair;
@@ -35,6 +36,7 @@ public class TreeApplicationExecutor<T extends ContextData> implements LogicExec
     public TreeApplicationExecutor(BasicApplication<? extends ContextData> group){
         group.init();
         allLogic = group.getAllLogic();
+        threadPoolExecutor = ExecutorServiceWrapper.getThreadPoolExecutor(10, this.getClass().getSimpleName());
     }
 
     /**
@@ -133,6 +135,9 @@ public class TreeApplicationExecutor<T extends ContextData> implements LogicExec
                         logicResultThread = parrentLogicUnitTmp.doLogic(context);
                     }else{
                         logicResultThread = LogicResult.createUnMatchedResult();
+                    }
+                    if(Objects.isNull(logicResultThread)){
+                        logicResultThread = LogicResult.createEmptyResult(DofResCode.EMPTY, "");
                     }
                     stopWatch.stop();
                 } catch (Exception e) {
