@@ -32,7 +32,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-public class CarListApplication extends AbstractApplication<TestContext, TestRequest, TestResponse> {
+public class SomeThingApplication extends AbstractApplication<TestContext, TestRequest, TestResponse> {
 
 	@Autowired
 	private TimeDoSvr timeDoSvr;
@@ -77,6 +77,7 @@ public class CarListApplication extends AbstractApplication<TestContext, TestReq
 
 	@Override
 	protected TestContext initContext(TestRequest testRequest, Object... others) {
+
 		return new TestContext(testRequest);
 	}
 

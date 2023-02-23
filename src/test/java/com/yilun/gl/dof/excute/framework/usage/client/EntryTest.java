@@ -1,10 +1,8 @@
 package com.yilun.gl.dof.excute.framework.usage.client;
 
 import com.yilun.gl.dof.excute.framework.BizDofApplicationTests;
-import com.yilun.gl.dof.excute.framework.core.common.LogicResult;
-import com.yilun.gl.dof.excute.framework.usage.application.CarListApplication;
+import com.yilun.gl.dof.excute.framework.usage.application.SomeThingApplication;
 import com.yilun.gl.dof.excute.framework.usage.application.ChauffeurApplication;
-import com.yilun.gl.dof.excute.framework.usage.model.TestContext;
 import com.yilun.gl.dof.excute.framework.usage.model.request.TestRequest;
 import com.yilun.gl.dof.excute.framework.usage.model.response.TestResponse;
 import org.junit.Assert;
@@ -23,14 +21,14 @@ import javax.annotation.Resource;
 public class EntryTest extends BizDofApplicationTests {
 
 	@Resource
-	private CarListApplication carListApplication;
+	private SomeThingApplication someThingApplication;
 	@Resource
 	private ChauffeurApplication chauffeurApplication;
 	@Test
 	public void entryTest(){
 		TestRequest testRequest = new TestRequest();
 
-		TestResponse response = carListApplication.doLogicSchedule(testRequest);
+		TestResponse response = someThingApplication.doLogicSchedule(testRequest);
 
 		Assert.assertNotNull(response);
 	}
