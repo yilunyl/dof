@@ -23,8 +23,7 @@ public class PredioctDesDoSvr implements DomainService {
 	}
 	@Override
 	public LogicResult doLogic(HandleContext context) {
-		AttributeKey<TestRequest> oriKey = AttributeKey.valueOf(TestRequest.class, "originRequest");
-		TestRequest testRequest = context.attr(oriKey).get();
+		TestRequest testRequest = context.getObject(TestRequest.class);
 		testRequest.setName("张志颖");
 		return LogicResult.createSuccess();
 	}

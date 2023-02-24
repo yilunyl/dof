@@ -25,10 +25,9 @@ public class FeatureDoSvr implements DomainService {
 
 	@Override
 	public LogicResult doLogic(HandleContext context) {
+		TestRequest object = context.getObject(TestRequest.class);
 
-		AttributeKey<TestRequest> oriKey = AttributeKey.valueOf("originRequest");
-		TestRequest testRequest = context.attr(oriKey).get();
-		testRequest.setName("张志颖");
 		return LogicResult.createSuccess();
 	}
+
 }
