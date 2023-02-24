@@ -1,6 +1,8 @@
 package com.yilun.gl.dof.excute.framework.core.rule;
 
 
+import com.yilun.gl.dof.excute.framework.core.context.HandleContext;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +11,9 @@ import java.util.List;
  * @author: gule
  * @create: 2019-08-20 10:27
  **/
-public class AllOrLogicRule<T> implements LogicRule<T> {
+public class AllOrLogicRule implements LogicRule {
 
-    List<LogicRule<T>> childRules = new ArrayList<>();
+    List<LogicRule> childRules = new ArrayList<>();
 
     /**
      * 全或matching
@@ -20,8 +22,8 @@ public class AllOrLogicRule<T> implements LogicRule<T> {
      * @return
      */
     @Override
-    public boolean matching(T context) {
-        for (LogicRule<T> logicRule : childRules) {
+    public boolean matching(HandleContext context) {
+        for (LogicRule logicRule : childRules) {
             boolean childMatched = logicRule.matching(context);
             if (childMatched) {
                 return true;
@@ -37,7 +39,7 @@ public class AllOrLogicRule<T> implements LogicRule<T> {
      * @param logicRule
      * @return
      */
-    public AllOrLogicRule<T> addChildRule(LogicRule<T> logicRule) {
+    public AllOrLogicRule addChildRule(LogicRule logicRule) {
         childRules.add(logicRule);
         return this;
     }

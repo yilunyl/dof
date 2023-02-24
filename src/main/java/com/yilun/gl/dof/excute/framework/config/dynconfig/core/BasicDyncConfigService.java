@@ -4,8 +4,6 @@ package com.yilun.gl.dof.excute.framework.config.dynconfig.core;
 import com.yilun.gl.dof.excute.framework.config.dynconfig.core.entity.DyncConfigTypeEnum;
 import com.yilun.gl.dof.excute.framework.config.dynconfig.core.entity.ConfigChangedEvent;
 import com.yilun.gl.dof.excute.framework.config.dynconfig.core.entity.RefreshConfgiEntity;
-import com.yilun.gl.dof.excute.framework.util.ObjectUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;

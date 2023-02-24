@@ -2,9 +2,9 @@ package com.yilun.gl.dof.excute.framework.usage.client;
 
 import com.yilun.gl.dof.excute.framework.BizDofApplicationTests;
 import com.yilun.gl.dof.excute.framework.usage.application.SomeThingApplication;
-import com.yilun.gl.dof.excute.framework.usage.application.ChauffeurApplication;
 import com.yilun.gl.dof.excute.framework.usage.model.request.TestRequest;
 import com.yilun.gl.dof.excute.framework.usage.model.response.TestResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,27 +18,18 @@ import javax.annotation.Resource;
  * @Version: 1.0
  */
 
+@Slf4j
 public class EntryTest extends BizDofApplicationTests {
 
 	@Resource
 	private SomeThingApplication someThingApplication;
-	@Resource
-	private ChauffeurApplication chauffeurApplication;
 	@Test
 	public void entryTest(){
 		TestRequest testRequest = new TestRequest();
 
 		TestResponse response = someThingApplication.doLogicSchedule(testRequest);
 
-		Assert.assertNotNull(response);
-	}
-
-
-	@Test
-	public void entryTest2(){
-		TestRequest testRequest = new TestRequest();
-
-		TestResponse response = chauffeurApplication.doLogicSchedule(testRequest);
+		log.info("EntryTest_TestResponse={} ", response);
 
 		Assert.assertNotNull(response);
 	}

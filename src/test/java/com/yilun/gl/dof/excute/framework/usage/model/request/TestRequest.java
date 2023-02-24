@@ -8,4 +8,24 @@ package com.yilun.gl.dof.excute.framework.usage.model.request;
  * @Version: 1.0
  */
 public class TestRequest {
+
+	private String name;
+
+	private Integer age;
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }

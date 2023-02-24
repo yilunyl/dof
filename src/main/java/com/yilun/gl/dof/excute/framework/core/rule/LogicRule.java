@@ -1,5 +1,7 @@
 package com.yilun.gl.dof.excute.framework.core.rule;
 
+import com.yilun.gl.dof.excute.framework.core.context.HandleContext;
+
 import java.util.Objects;
 
 /**
@@ -7,7 +9,7 @@ import java.util.Objects;
  * @author: gule
  * @create: 2019-08-20 10:12
  **/
-public interface LogicRule<T > {
+public interface LogicRule {
 
 
     /**
@@ -15,9 +17,10 @@ public interface LogicRule<T > {
      */
     LogicRule NO_RULE = new LogicRule() {
         @Override
-        public boolean matching(Object context) {
-            return true;
+        public boolean matching(HandleContext context) {
+            return false;
         }
+
     };
 
 
@@ -27,7 +30,7 @@ public interface LogicRule<T > {
      * @param context
      * @return
      */
-    boolean matching(T context);
+    boolean matching(HandleContext context);
 
 
     /**
@@ -36,7 +39,7 @@ public interface LogicRule<T > {
      * @param other
      * @return
      */
-    default LogicRule<T> or(LogicRule<? super T> other) {
+    default LogicRule or(LogicRule other) {
         Objects.requireNonNull(other);
         return (t) -> matching(t) || other.matching(t);
     }
@@ -48,7 +51,7 @@ public interface LogicRule<T > {
      * @param other
      * @return
      */
-    default LogicRule<T> and(LogicRule<? super T> other) {
+    default LogicRule and(LogicRule other) {
         Objects.requireNonNull(other);
         return (t) -> matching(t) && other.matching(t);
     }

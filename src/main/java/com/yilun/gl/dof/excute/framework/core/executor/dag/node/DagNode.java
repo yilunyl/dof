@@ -9,7 +9,7 @@ import com.yilun.gl.dof.excute.framework.core.logic.DomainServiceUnit;
  * @Date: 2022/6/18 22:01
  * @Version: 1.0
  */
-public class DagNode<T extends DomainServiceUnit<?>> {
+public class DagNode<T extends DomainServiceUnit> {
 
 	private final T logicUnit;
 

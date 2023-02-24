@@ -1,6 +1,6 @@
 package com.yilun.gl.dof.excute.framework.core.logic;
 
-import com.yilun.gl.dof.excute.framework.core.content.ContextData;
+import com.yilun.gl.dof.excute.framework.core.context.HandleContext;
 import com.yilun.gl.dof.excute.framework.core.common.LogicResult;
 
 /**
@@ -8,7 +8,7 @@ import com.yilun.gl.dof.excute.framework.core.common.LogicResult;
  * @author: gule
  * @create: 2019-08-17 09:09
  **/
-public interface DomainServiceUnit<T extends ContextData>{
+public interface DomainServiceUnit{
 
 
     /**
@@ -17,7 +17,7 @@ public interface DomainServiceUnit<T extends ContextData>{
      *  一次是在doLogic之前执行一次，前后两次执行的时机不同，中间的数据可能发生变化
      * @return 是否匹配
      */
-    boolean  isMatch(T context);
+    boolean  isMatch(HandleContext context);
 
     /**
      * 执行单元核心执行方法
@@ -25,7 +25,7 @@ public interface DomainServiceUnit<T extends ContextData>{
      * @param context 执行单元所处的上下文
      * @return 执行单元的执行结果
      */
-    LogicResult doLogic(T context);
+    LogicResult doLogic(HandleContext context);
 
 
     /**
@@ -34,5 +34,5 @@ public interface DomainServiceUnit<T extends ContextData>{
      * @param context 上下文
      * @param logicResult 执行结果
      */
-    void reverse(T context, LogicResult logicResult);
+    void reverse(HandleContext context, LogicResult logicResult);
 }

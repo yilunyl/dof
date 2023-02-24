@@ -8,4 +8,20 @@ package com.yilun.gl.dof.excute.framework.usage.model.response;
  * @Version: 1.0
  */
 public class TestResponse {
+	private String finalStringName;
+
+	public String getFinalStringName() {
+		return finalStringName;
+	}
+
+	public void setFinalStringName(String finalStringName) {
+		this.finalStringName = finalStringName;
+	}
+
+	@Override
+	public String toString() {
+		return "TestResponse{" +
+				"finalStringName='" + finalStringName + '\'' +
+				'}';
+	}
 }

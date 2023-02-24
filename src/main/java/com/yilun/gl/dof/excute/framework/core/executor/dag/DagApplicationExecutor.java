@@ -2,7 +2,7 @@ package com.yilun.gl.dof.excute.framework.core.executor.dag;
 
 import com.yilun.gl.dof.excute.framework.core.LogicExecutor;
 import com.yilun.gl.dof.excute.framework.core.common.LogicResult;
-import com.yilun.gl.dof.excute.framework.core.content.ContextData;
+import com.yilun.gl.dof.excute.framework.core.context.HandleContext;
 
 /**
  * @ClassName: biz-dof DagLogicExecutor
@@ -11,11 +11,11 @@ import com.yilun.gl.dof.excute.framework.core.content.ContextData;
  * @Date: 2022/6/18 21:51
  * @Version: 1.0
  */
-public class DagApplicationExecutor<T extends ContextData> implements LogicExecutor<T> {
+public class DagApplicationExecutor implements LogicExecutor {
 
 
 	@Override
-	public LogicResult doLogicSchedule(T context) {
+	public LogicResult doLogicSchedule(HandleContext context) {
 		return null;
 	}
 }

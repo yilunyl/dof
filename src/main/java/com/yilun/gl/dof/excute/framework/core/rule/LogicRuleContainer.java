@@ -1,6 +1,6 @@
 package com.yilun.gl.dof.excute.framework.core.rule;
 
-import com.yilun.gl.dof.excute.framework.core.content.ContextData;
+import com.yilun.gl.dof.excute.framework.core.context.HandleContext;
 import com.yilun.gl.dof.excute.framework.core.logic.DomainServiceUnit;
 
 import java.util.Objects;
@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author: gule
  * @create: 2019-08-19 21:23
  **/
-public final class LogicRuleContainer<T extends ContextData> {
+public final class LogicRuleContainer<T extends HandleContext> {
 
     private volatile static LogicRuleContainer instance;
     private static final Object LOCK = new Object();
@@ -19,7 +19,7 @@ public final class LogicRuleContainer<T extends ContextData> {
     /**
      * 缓存执行单元->执行规则
      */
-    private ConcurrentHashMap<DomainServiceUnit<T>, LogicRule<T>> logicUnitToRuleMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<DomainServiceUnit, LogicRule> logicUnitToRuleMap = new ConcurrentHashMap<>();
 
 
     private LogicRuleContainer() {
@@ -48,7 +48,7 @@ public final class LogicRuleContainer<T extends ContextData> {
      * @param logicUnit
      * @param logicRule
      */
-    public void registerRule(DomainServiceUnit<T> logicUnit, LogicRule<T> logicRule) {
+    public void registerRule(DomainServiceUnit logicUnit, LogicRule logicRule) {
         logicUnitToRuleMap.put(logicUnit, logicRule);
     }
 

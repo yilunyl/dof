@@ -1,8 +1,10 @@
 package com.yilun.gl.dof.excute.framework.usage.domain;
 
 import com.yilun.gl.dof.excute.framework.core.common.LogicResult;
+import com.yilun.gl.dof.excute.framework.core.context.HandleContext;
+import com.yilun.gl.dof.excute.framework.core.context.attribute.AttributeKey;
 import com.yilun.gl.dof.excute.framework.core.logic.DomainService;
-import com.yilun.gl.dof.excute.framework.usage.model.TestContext;
+import com.yilun.gl.dof.excute.framework.usage.model.request.TestRequest;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,14 +15,17 @@ import org.springframework.stereotype.Component;
  * @Version: 1.0
  */
 @Component
-public class LibraDoSvr implements DomainService<TestContext> {
+public class LibraDoSvr implements DomainService {
 	@Override
-	public LogicResult doLogic(TestContext context) {
-		return null;
+	public LogicResult doLogic(HandleContext context) {
+		AttributeKey<TestRequest> oriKey = AttributeKey.valueOf(TestRequest.class);
+		TestRequest testRequest = context.attr(oriKey).get();
+		testRequest.setName("张志颖是美女");
+		return LogicResult.createSuccess();
 	}
 
 	@Override
-	public boolean isMatch(TestContext context) {
+	public boolean isMatch(HandleContext context) {
 		return true;
 	}
 }

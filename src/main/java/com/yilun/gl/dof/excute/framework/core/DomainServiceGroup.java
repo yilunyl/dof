@@ -1,7 +1,7 @@
 package com.yilun.gl.dof.excute.framework.core;
 
 
-import com.yilun.gl.dof.excute.framework.core.content.ContextData;
+import com.yilun.gl.dof.excute.framework.core.context.HandleContext;
 import com.yilun.gl.dof.excute.framework.core.content.TreeWrapper;
 
 /**
@@ -11,7 +11,7 @@ import com.yilun.gl.dof.excute.framework.core.content.TreeWrapper;
  * @Description InitLogicGroup
  * @Version 1.0
  */
-public abstract class DomainServiceGroup<T extends ContextData> {
+public abstract class DomainServiceGroup {
 
     protected abstract void init(TreeWrapper listWrapper);
 

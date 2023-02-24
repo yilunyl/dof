@@ -3,10 +3,11 @@ package com.yilun.gl.dof.excute.framework.usage.application;
 import com.yilun.gl.dof.excute.framework.core.LogicExecutor;
 import com.yilun.gl.dof.excute.framework.core.common.LogicResult;
 import com.yilun.gl.dof.excute.framework.core.content.TreeWrapper;
+import com.yilun.gl.dof.excute.framework.core.context.HandleContext;
+import com.yilun.gl.dof.excute.framework.core.context.attribute.AttributeKey;
 import com.yilun.gl.dof.excute.framework.core.entry.AbstractApplication;
 import com.yilun.gl.dof.excute.framework.core.executor.tree.BasicApplication;
 import com.yilun.gl.dof.excute.framework.core.executor.tree.TreeApplicationExecutor;
-import com.yilun.gl.dof.excute.framework.usage.model.TestContext;
 import com.yilun.gl.dof.excute.framework.usage.domain.CarorderDoSvr;
 import com.yilun.gl.dof.excute.framework.usage.domain.ChannelDoSvr;
 import com.yilun.gl.dof.excute.framework.usage.domain.FeatureDoSvr;
@@ -32,7 +33,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-public class SomeThingApplication extends AbstractApplication<TestContext, TestRequest, TestResponse> {
+public class SomeThingApplication extends AbstractApplication<TestRequest, TestResponse> {
 
 	@Autowired
 	private TimeDoSvr timeDoSvr;
@@ -56,9 +57,9 @@ public class SomeThingApplication extends AbstractApplication<TestContext, TestR
     private ChannelDoSvr channelDoSvr;
 
 	@Override
-	public LogicExecutor<TestContext> initDoSvrGroup() {
+	public LogicExecutor initDoSvrGroup() {
 		log.warn("卡片投放业务createLogicExecutor");
-		return new TreeApplicationExecutor<>(new BasicApplication<TestContext>() {
+		return new TreeApplicationExecutor(new BasicApplication() {
 			@Override
 			protected void init(TreeWrapper treeWrapper) {
 				//非io操作
@@ -75,14 +76,24 @@ public class SomeThingApplication extends AbstractApplication<TestContext, TestR
 		});
 	}
 
-	@Override
-	protected TestContext initContext(TestRequest testRequest, Object... others) {
 
-		return new TestContext(testRequest);
+	@Override
+	protected void initContext(HandleContext ctx, TestRequest testRequest, Object... others) {
+		AttributeKey<TestRequest> originRequestKey = AttributeKey.newInstance("originRequest");
+		ctx.attr(originRequestKey).set(testRequest);
+		log.info("SomeThingApplication success");
 	}
 
 	@Override
-	protected TestResponse buildResponse(LogicResult logicResult, TestContext testContext, TestRequest testRequest, Object... others) {
-		return new TestResponse();
+	protected TestResponse buildResponse(LogicResult logicResult, HandleContext ctx) {
+		AttributeKey<TestRequest> oriKey = AttributeKey.valueOf("originRequest");
+		boolean hasAttr = ctx.hasAttr(oriKey);
+		if(!hasAttr){
+			return null;
+		}
+		TestRequest testRequest2 = ctx.attr(oriKey).get();
+		TestResponse testResponse = new TestResponse();
+		testResponse.setFinalStringName(testRequest2.getName());
+		return testResponse;
 	}
 }

@@ -1,7 +1,7 @@
 package com.yilun.gl.dof.excute.framework.core.executor.tree;
 
 import com.yilun.gl.dof.excute.framework.core.DomainServiceGroup;
-import com.yilun.gl.dof.excute.framework.core.content.ContextData;
+import com.yilun.gl.dof.excute.framework.core.context.HandleContext;
 import com.yilun.gl.dof.excute.framework.core.content.TreeWrapper;
 import com.yilun.gl.dof.excute.framework.core.logic.DomainServiceUnit;
 
@@ -13,9 +13,9 @@ import java.util.List;
  * @author: gule
  * @create: 2019-08-18 11:37
  **/
-public abstract class BasicApplication< T extends ContextData> extends DomainServiceGroup<T> {
+public abstract class BasicApplication extends DomainServiceGroup {
 
-    private LinkedHashMap<String, List<DomainServiceUnit<? extends ContextData>>> allLogic = new LinkedHashMap<>();
+    private LinkedHashMap<String, List<DomainServiceUnit>> allLogic = new LinkedHashMap<>();
 
     void init(){
         TreeWrapper listWrapper = new TreeWrapper();
@@ -27,7 +27,7 @@ public abstract class BasicApplication< T extends ContextData> extends DomainSer
      *
      * @return
      */
-    protected LinkedHashMap<String, List<DomainServiceUnit<? extends ContextData>>> getAllLogic(){
+    protected LinkedHashMap<String, List<DomainServiceUnit>> getAllLogic(){
         return allLogic;
     }
 }

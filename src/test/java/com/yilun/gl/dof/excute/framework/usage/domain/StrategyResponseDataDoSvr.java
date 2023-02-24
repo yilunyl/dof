@@ -1,8 +1,8 @@
 package com.yilun.gl.dof.excute.framework.usage.domain;
 
 import com.yilun.gl.dof.excute.framework.core.common.LogicResult;
+import com.yilun.gl.dof.excute.framework.core.context.HandleContext;
 import com.yilun.gl.dof.excute.framework.core.logic.DomainService;
-import com.yilun.gl.dof.excute.framework.usage.model.TestContext;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,14 +13,14 @@ import org.springframework.stereotype.Component;
  * @Version: 1.0
  */
 @Component
-public class StrategyResponseDataDoSvr implements DomainService<TestContext> {
+public class StrategyResponseDataDoSvr implements DomainService {
 	@Override
-	public LogicResult doLogic(TestContext context) {
-		return null;
+	public LogicResult doLogic(HandleContext context) {
+		return LogicResult.createSuccess();
 	}
 
 	@Override
-	public boolean isMatch(TestContext context) {
+	public boolean isMatch(HandleContext context) {
 		return true;
 	}
 }
