@@ -83,15 +83,14 @@ public class TreeApplicationExecutor implements LogicExecutor {
             boolean resultIsSuccess = logicResult.isSuccess();
             logDetail.append("\n耗时:").append(formaatExecuteTime(stopWatch.getLastTaskTimeMillis()))
                     .append("\t执行结果:").append(resultIsSuccess)
-                    .append("\tLogicUnit:").append(simpleName)
-            ;
+                    .append("\tLogicUnit:").append(simpleName);
             if (!resultIsSuccess) {
                 logDetail.append("\t异常:").append("code: ").append(logicResult.getCode()).append(" ").append(logicResult.getMessage()).append("\ncontext:").append(context);
                 logTitle.append("流程执行失败,失败执行单元:").append(simpleName).append("\t失败原因:").append("code: ").append(logicResult.getCode()).append(" ").append(logicResult.getMessage());
                 break;
             }
         }
-        logger.info("执行的logic: \n " + logDetail + "\n 总耗时: " + stopWatch.getTotalTimeMillis());
+        logger.info("执行的logic: \n {} \n ,  总耗时: {}", logDetail, stopWatch.getTotalTimeMillis());
         if(logTitle.length() > 0){
             //有失败异常
             logger.info(logTitle.toString());

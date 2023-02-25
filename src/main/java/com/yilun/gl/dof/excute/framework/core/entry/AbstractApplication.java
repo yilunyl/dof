@@ -10,7 +10,6 @@ import org.apache.dubbo.config.spring.extension.SpringExtensionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanNameAware;
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -18,7 +17,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ApplicationContextEvent;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.event.ContextStoppedEvent;
 
 /**
@@ -55,7 +53,7 @@ public abstract  class AbstractApplication<REQ, RES> implements ApplicationInit<
 	@Override
 	public void onApplicationEvent(ApplicationContextEvent event){
 
-		if(!initSuccess && event instanceof ContextRefreshedEvent){
+		if(!initSuccess && (event instanceof ContextRefreshedEvent)){
 			logicExecutor = this.initDoSvrGroup();
 			newCtx = new DefaultHandleContext(this.beanName, this.getClass().getName());
 			log.info("logicExecutor_init_success id={}|name={}",newCtx.getHandleContextId(), newCtx.getHandleContextName());
@@ -80,7 +78,7 @@ public abstract  class AbstractApplication<REQ, RES> implements ApplicationInit<
 	@Override
 	public RES doLogicSchedule(REQ req,  Object... others ) {
 		try{
-			if(!initSuccess){
+			if(!initSuccess || isStop){
 				log.info("logicExecutor_init_success id={}|name={}",newCtx.getHandleContextId(), newCtx.getHandleContextName());
 				throw DofServiceException.build(DofResCode.FAILE, "初始化失败无法执行逻辑");
 			}
@@ -107,7 +105,6 @@ public abstract  class AbstractApplication<REQ, RES> implements ApplicationInit<
 	 * 构建返回参数
 	 * @param logicResult
 	 * @param ctx
-	 * @param req
 	 * @return
 	 */
 	protected abstract RES buildResponse(LogicResult logicResult, HandleContext ctx);
