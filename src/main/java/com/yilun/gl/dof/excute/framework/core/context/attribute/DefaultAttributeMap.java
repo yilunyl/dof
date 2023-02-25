@@ -125,6 +125,20 @@ public class DefaultAttributeMap implements AttributeMap {
         return searchAttributeByKey(attributes, key) >= 0;
     }
 
+    @Override
+    public void clear() {
+        //清空常量池
+        AttributeKey.clear();
+        //清空对象
+        if(this.attributes.length <= 0){
+            return ;
+        }
+        for(DefaultAttribute defaultAttribute : this.attributes){
+            defaultAttribute.remove();
+        }
+        this.attributes = new DefaultAttribute[0];
+    }
+
     private <T> void removeAttributeIfMatch(AttributeKey<T> key, DefaultAttribute<T> value) {
         for (;;) {
             final DefaultAttribute[] attributes = this.attributes;

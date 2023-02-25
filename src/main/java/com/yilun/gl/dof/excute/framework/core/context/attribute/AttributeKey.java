@@ -67,6 +67,10 @@ public final class AttributeKey<T> extends AbstractConstant<AttributeKey<T>> {
         return (AttributeKey<T>) pool.valueOf(firstNameComponent);
     }
 
+    public static void clear(){
+        pool.clear();
+    }
+
     private AttributeKey(int id, String name) {
         super(id, name);
     }

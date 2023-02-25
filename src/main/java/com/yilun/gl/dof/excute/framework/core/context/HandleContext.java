@@ -18,10 +18,13 @@ public interface HandleContext extends AttributeMap {
 	public String getHandleContextName();
 	public <T> Attribute<T> attr(Class<T> c);
 
+	public <T> Attribute<T> attr(String beanId);
 	public <T> Attribute<T> attr(Class<T> c, String alias);
 
 
 	public <T> boolean hasAttr(Class<T> c);
+
+	public <T> boolean hasAttr(String beanId);
 
 	public <T> boolean hasAttr(Class<T> c, String alias);
 }

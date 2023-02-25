@@ -114,6 +114,13 @@ public abstract class ConstantPool<T extends Constant<T>> {
         throw new IllegalArgumentException(String.format("'%s' is already in use", name));
     }
 
+    /**
+     * 初始化相关数据
+     */
+    protected void clear(){
+        constants.clear();
+        nextId.set(1);
+    }
     protected abstract T newConstant(int id, String name);
 
     @Deprecated

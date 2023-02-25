@@ -38,6 +38,12 @@ public class DefaultHandleContext extends DefaultAttributeMap implements HandleC
 	}
 
 	@Override
+	public <T> Attribute<T> attr(String beanId) {
+		AttributeKey<T> oriKey = AttributeKey.valueOf(beanId);
+		return this.attr(oriKey);
+	}
+
+	@Override
 	public <T> Attribute<T> attr(Class<T> c, String alias) {
 		AttributeKey<T> oriKey = AttributeKey.valueOf(c, alias);
 		return this.attr(oriKey);
@@ -46,6 +52,12 @@ public class DefaultHandleContext extends DefaultAttributeMap implements HandleC
 	@Override
 	public <T> boolean hasAttr(Class<T> c) {
 		AttributeKey<T> oriKey = AttributeKey.valueOf(c);
+		return this.hasAttr(oriKey);
+	}
+
+	@Override
+	public <T> boolean hasAttr(String beanId) {
+		AttributeKey<T> oriKey = AttributeKey.valueOf(beanId);
 		return this.hasAttr(oriKey);
 	}
 

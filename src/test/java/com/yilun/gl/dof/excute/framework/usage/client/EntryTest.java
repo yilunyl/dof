@@ -26,11 +26,11 @@ public class EntryTest extends BizDofApplicationTests {
 	@Test
 	public void entryTest(){
 		TestRequest testRequest = new TestRequest();
-
 		TestResponse response = someThingApplication.doLogicSchedule(testRequest);
-
 		log.info("EntryTest_TestResponse={} ", response);
-
+		testRequest.setName("汤姆");
+		response = someThingApplication.doLogicSchedule(testRequest);
+		log.info("EntryTest_TestResponse={} ", response);
 		Assert.assertNotNull(response);
 	}
 }

@@ -2,7 +2,6 @@ package com.yilun.gl.dof.excute.framework.usage.domain;
 
 import com.yilun.gl.dof.excute.framework.core.common.LogicResult;
 import com.yilun.gl.dof.excute.framework.core.context.HandleContext;
-import com.yilun.gl.dof.excute.framework.core.context.attribute.AttributeKey;
 import com.yilun.gl.dof.excute.framework.core.logic.DomainService;
 import com.yilun.gl.dof.excute.framework.usage.model.request.TestRequest;
 import org.springframework.stereotype.Component;
@@ -15,16 +14,19 @@ import org.springframework.stereotype.Component;
  * @Version: 1.0
  */
 @Component
-public class PredioctDesDoSvr implements DomainService {
+public class AgeDoSvr implements DomainService {
+
 
 	@Override
 	public boolean isMatch(HandleContext context) {
 		return true;
 	}
+
 	@Override
 	public LogicResult doLogic(HandleContext context) {
-		TestRequest testRequest = context.attr(TestRequest.class).get();
-		testRequest.setName("张志颖");
+		TestRequest object = context.attr(TestRequest.class).get();
+		object.setAge(10);
 		return LogicResult.createSuccess();
 	}
+
 }

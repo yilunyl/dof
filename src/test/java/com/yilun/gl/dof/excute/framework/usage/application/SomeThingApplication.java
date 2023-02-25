@@ -4,19 +4,18 @@ import com.yilun.gl.dof.excute.framework.core.LogicExecutor;
 import com.yilun.gl.dof.excute.framework.core.common.LogicResult;
 import com.yilun.gl.dof.excute.framework.core.content.TreeWrapper;
 import com.yilun.gl.dof.excute.framework.core.context.HandleContext;
-import com.yilun.gl.dof.excute.framework.core.context.attribute.AttributeKey;
 import com.yilun.gl.dof.excute.framework.core.entry.AbstractApplication;
 import com.yilun.gl.dof.excute.framework.core.executor.tree.BasicApplication;
 import com.yilun.gl.dof.excute.framework.core.executor.tree.TreeApplicationExecutor;
-import com.yilun.gl.dof.excute.framework.usage.domain.CarorderDoSvr;
+import com.yilun.gl.dof.excute.framework.usage.domain.AddressDoSvr;
 import com.yilun.gl.dof.excute.framework.usage.domain.ChannelDoSvr;
-import com.yilun.gl.dof.excute.framework.usage.domain.FeatureDoSvr;
+import com.yilun.gl.dof.excute.framework.usage.domain.AgeDoSvr;
 import com.yilun.gl.dof.excute.framework.usage.domain.GrayDoSvr;
 import com.yilun.gl.dof.excute.framework.usage.domain.LibraDoSvr;
+import com.yilun.gl.dof.excute.framework.usage.domain.NameDoSvr;
 import com.yilun.gl.dof.excute.framework.usage.domain.PersionSelectDoSvr;
-import com.yilun.gl.dof.excute.framework.usage.domain.PredioctDesDoSvr;
+import com.yilun.gl.dof.excute.framework.usage.domain.ResponseDoSvr;
 import com.yilun.gl.dof.excute.framework.usage.domain.StrategyResponseDataDoSvr;
-import com.yilun.gl.dof.excute.framework.usage.domain.TimeDoSvr;
 import com.yilun.gl.dof.excute.framework.usage.domain.TripDoSvr;
 import com.yilun.gl.dof.excute.framework.usage.model.request.TestRequest;
 import com.yilun.gl.dof.excute.framework.usage.model.response.TestResponse;
@@ -36,15 +35,15 @@ import org.springframework.stereotype.Component;
 public class SomeThingApplication extends AbstractApplication<TestRequest, TestResponse> {
 
 	@Autowired
-	private TimeDoSvr timeDoSvr;
+	private ResponseDoSvr responseDoSvr;
 	@Autowired
-	private PredioctDesDoSvr predioctDesDoSvr;
+	private NameDoSvr predioctDesDoSvr;
 	@Autowired
 	private PersionSelectDoSvr persionSelectDoSvr;
     @Autowired
     private TripDoSvr tripDoSvr;
     @Autowired
-    private FeatureDoSvr featureDoSvr;
+    private AgeDoSvr featureDoSvr;
     @Autowired
     private GrayDoSvr grayDoSvr;
     @Autowired
@@ -52,24 +51,24 @@ public class SomeThingApplication extends AbstractApplication<TestRequest, TestR
     @Autowired
     private StrategyResponseDataDoSvr strategyResponseDataDoSvr;
     @Autowired
-    private CarorderDoSvr carorderDoSvr;
+    private AddressDoSvr carorderDoSvr;
     @Autowired
     private ChannelDoSvr channelDoSvr;
 
 	@Override
 	public LogicExecutor initDoSvrGroup() {
-		log.warn("卡片投放业务createLogicExecutor");
+		log.warn("SomeThing业务createLogicExecutor");
 		return new TreeApplicationExecutor(new BasicApplication() {
 			@Override
 			protected void init(TreeWrapper treeWrapper) {
 				//非io操作
-				treeWrapper.parallelAdd(grayDoSvr, timeDoSvr, channelDoSvr);
+				treeWrapper.parallelAdd(grayDoSvr, channelDoSvr);
 				//大头io操作
 				treeWrapper.parallelAdd(persionSelectDoSvr, predioctDesDoSvr);
 				//其他纬度io操作
 				treeWrapper.parallelAdd(tripDoSvr, featureDoSvr, carorderDoSvr);
 				//
-				treeWrapper.add(libraDoSvr);
+				treeWrapper.parallelAdd(libraDoSvr, responseDoSvr);
 				//后置返回数据处理
 				treeWrapper.add(strategyResponseDataDoSvr);
 			}
@@ -85,13 +84,10 @@ public class SomeThingApplication extends AbstractApplication<TestRequest, TestR
 
 	@Override
 	protected TestResponse buildResponse(LogicResult logicResult, HandleContext ctx) {
-		boolean hasAttr = ctx.hasAttr(TestRequest.class);
+		boolean hasAttr = ctx.hasAttr(TestResponse.class);
 		if(!hasAttr){
 			return null;
 		}
-		TestRequest testRequest2 = ctx.attr(TestRequest.class).get();
-		TestResponse testResponse = new TestResponse();
-		testResponse.setFinalStringName(testRequest2.getName());
-		return testResponse;
+		return ctx.attr(TestResponse.class).get();
 	}
 }

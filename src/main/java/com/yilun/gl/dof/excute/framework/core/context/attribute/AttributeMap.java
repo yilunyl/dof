@@ -21,4 +21,11 @@ public interface AttributeMap {
 	 * Returns {@code true} if and only if the given {@link Attribute} exists in this {@link io.netty.util.AttributeMap}.
 	 */
 	<T> boolean hasAttr(AttributeKey<T> key);
+
+	/**
+	 * 清空AttributeMap
+	 * @return
+	 */
+	@Deprecated
+	void clear();
 }

@@ -5,6 +5,7 @@ import com.yilun.gl.dof.excute.framework.core.context.HandleContext;
 import com.yilun.gl.dof.excute.framework.core.context.attribute.AttributeKey;
 import com.yilun.gl.dof.excute.framework.core.logic.DomainService;
 import com.yilun.gl.dof.excute.framework.usage.model.request.TestRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,7 +21,9 @@ public class LibraDoSvr implements DomainService {
 	public LogicResult doLogic(HandleContext context) {
 		AttributeKey<TestRequest> oriKey = AttributeKey.valueOf(TestRequest.class);
 		TestRequest testRequest = context.attr(oriKey).get();
-		testRequest.setName("张志颖是美女");
+		if(StringUtils.isBlank(testRequest.getName())){
+			testRequest.setName("jerry");
+		}
 		return LogicResult.createSuccess();
 	}
 
