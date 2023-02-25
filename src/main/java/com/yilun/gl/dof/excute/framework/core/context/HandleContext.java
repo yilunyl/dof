@@ -1,5 +1,6 @@
 package com.yilun.gl.dof.excute.framework.core.context;
 
+import com.yilun.gl.dof.excute.framework.core.context.attribute.Attribute;
 import com.yilun.gl.dof.excute.framework.core.context.attribute.AttributeKey;
 import com.yilun.gl.dof.excute.framework.core.context.attribute.AttributeMap;
 
@@ -11,28 +12,16 @@ import com.yilun.gl.dof.excute.framework.core.context.attribute.AttributeMap;
  */
 public interface HandleContext extends AttributeMap {
 
-	/**
-	 * 通过类直接拿对象
-	 * @param c 类
-	 * @return 对象
-	 * @param <T> 泛型
-	 */
-	public  <T> T getObject(Class<T> c);
 
-	/**
-	 * 通过类直接拿对象
-	 * @param c 类
-	 * @return 对象
-	 * @param <T> 泛型
-	 */
-	public  <T> T getObject(Class<T> c, String alias);
+	public String getHandleContextId();
 
-	/**
-	 * 通过类直接拿对象
-	 * @param beanName 对象名字
-	 * @return 对象
-	 * @param <T> 泛型
-	 */
-	public  <T> T getObject(String beanName);
+	public String getHandleContextName();
+	public <T> Attribute<T> attr(Class<T> c);
 
+	public <T> Attribute<T> attr(Class<T> c, String alias);
+
+
+	public <T> boolean hasAttr(Class<T> c);
+
+	public <T> boolean hasAttr(Class<T> c, String alias);
 }

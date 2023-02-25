@@ -79,19 +79,17 @@ public class SomeThingApplication extends AbstractApplication<TestRequest, TestR
 
 	@Override
 	protected void initContext(HandleContext ctx, TestRequest testRequest, Object... others) {
-		AttributeKey<TestRequest> originRequestKey = AttributeKey.newInstance("originRequest");
-		ctx.attr(originRequestKey).set(testRequest);
+		ctx.attr(TestRequest.class).set(testRequest);
 		log.info("SomeThingApplication success");
 	}
 
 	@Override
 	protected TestResponse buildResponse(LogicResult logicResult, HandleContext ctx) {
-		AttributeKey<TestRequest> oriKey = AttributeKey.valueOf("originRequest");
-		boolean hasAttr = ctx.hasAttr(oriKey);
+		boolean hasAttr = ctx.hasAttr(TestRequest.class);
 		if(!hasAttr){
 			return null;
 		}
-		TestRequest testRequest2 = ctx.attr(oriKey).get();
+		TestRequest testRequest2 = ctx.attr(TestRequest.class).get();
 		TestResponse testResponse = new TestResponse();
 		testResponse.setFinalStringName(testRequest2.getName());
 		return testResponse;

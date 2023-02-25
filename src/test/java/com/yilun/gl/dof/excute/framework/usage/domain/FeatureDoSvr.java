@@ -25,7 +25,7 @@ public class FeatureDoSvr implements DomainService {
 
 	@Override
 	public LogicResult doLogic(HandleContext context) {
-		TestRequest object = context.getObject(TestRequest.class);
+		TestRequest object = context.attr(TestRequest.class).get();
 
 		return LogicResult.createSuccess();
 	}

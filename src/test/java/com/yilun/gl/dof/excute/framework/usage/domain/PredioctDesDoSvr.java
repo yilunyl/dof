@@ -23,7 +23,7 @@ public class PredioctDesDoSvr implements DomainService {
 	}
 	@Override
 	public LogicResult doLogic(HandleContext context) {
-		TestRequest testRequest = context.getObject(TestRequest.class);
+		TestRequest testRequest = context.attr(TestRequest.class).get();
 		testRequest.setName("张志颖");
 		return LogicResult.createSuccess();
 	}

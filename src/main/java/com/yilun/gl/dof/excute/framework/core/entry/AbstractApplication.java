@@ -1,10 +1,13 @@
 package com.yilun.gl.dof.excute.framework.core.entry;
 
+import com.yilun.gl.dof.excute.framework.config.dynconfig.core.BasicDyncConfigService;
 import com.yilun.gl.dof.excute.framework.core.LogicExecutor;
 import com.yilun.gl.dof.excute.framework.core.common.LogicResult;
 import com.yilun.gl.dof.excute.framework.core.context.DefaultHandleContext;
 import com.yilun.gl.dof.excute.framework.core.context.HandleContext;
 import org.apache.dubbo.config.spring.extension.SpringExtensionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -20,6 +23,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
  * @Version: 1.0
  */
 public abstract  class AbstractApplication<REQ, RES> implements ApplicationInit<REQ, RES>, InitializingBean, ApplicationContextAware , BeanNameAware , ApplicationListener<ContextRefreshedEvent> {
+
+	private final static Logger log = LoggerFactory.getLogger(AbstractApplication.class);
 
 	private transient LogicExecutor logicExecutor;
 
@@ -42,7 +47,8 @@ public abstract  class AbstractApplication<REQ, RES> implements ApplicationInit<
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event){
 		logicExecutor = this.initDoSvrGroup();
-		newCtx = new DefaultHandleContext();
+		newCtx = new DefaultHandleContext(this.beanName, this.getClass().getName());
+		log.info("logicExecutor_init_success id={}|name={}",newCtx.getHandleContextId(), newCtx.getHandleContextName());
 	}
 
 	@Override

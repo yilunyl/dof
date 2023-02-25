@@ -1,5 +1,6 @@
 package com.yilun.gl.dof.excute.framework.core.context;
 
+import com.yilun.gl.dof.excute.framework.core.context.attribute.Attribute;
 import com.yilun.gl.dof.excute.framework.core.context.attribute.AttributeKey;
 import com.yilun.gl.dof.excute.framework.core.context.attribute.DefaultAttributeMap;
 
@@ -12,23 +13,45 @@ import com.yilun.gl.dof.excute.framework.core.context.attribute.DefaultAttribute
  */
 public class DefaultHandleContext extends DefaultAttributeMap implements HandleContext{
 
+	private final String contextId;
+	private final String contextDesc;
+
+	public DefaultHandleContext(String contextId, String contextDesc){
+		this.contextId = contextId;
+		this.contextDesc = contextDesc;
+	}
+
 	@Override
-	public  <T> T getObject(Class<T> c) {
+	public String getHandleContextId() {
+		return contextId;
+	}
+
+	@Override
+	public String getHandleContextName() {
+		return contextDesc;
+	}
+
+	@Override
+	public <T> Attribute<T> attr(Class<T> c) {
 		AttributeKey<T> oriKey = AttributeKey.valueOf(c);
-		return this.attr(oriKey).get();
+		return this.attr(oriKey);
 	}
 
 	@Override
-	public <T> T getObject(Class<T> c, String alias) {
+	public <T> Attribute<T> attr(Class<T> c, String alias) {
 		AttributeKey<T> oriKey = AttributeKey.valueOf(c, alias);
-		return this.attr(oriKey).get();
+		return this.attr(oriKey);
 	}
 
 	@Override
-	public <T> T getObject(String beanName) {
-		AttributeKey<T> oriKey = AttributeKey.valueOf(beanName);
-		return this.attr(oriKey).get();
+	public <T> boolean hasAttr(Class<T> c) {
+		AttributeKey<T> oriKey = AttributeKey.valueOf(c);
+		return this.hasAttr(oriKey);
 	}
 
-	public DefaultHandleContext(){}
+	@Override
+	public <T> boolean hasAttr(Class<T> c, String alias) {
+		AttributeKey<T> oriKey = AttributeKey.valueOf(c, alias);
+		return this.hasAttr(oriKey);
+	}
 }
