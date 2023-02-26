@@ -9,6 +9,7 @@ import com.yilun.gl.dof.excute.framework.core.rule.LogicRule;
 import com.yilun.gl.dof.excute.framework.core.rule.LogicRuleContainer;
 import com.yilun.gl.dof.excute.framework.exception.DofResCode;
 import com.yilun.gl.dof.excute.framework.thread.ExecutorServiceWrapper;
+import com.yilun.gl.dof.excute.framework.thread.threadPool.JdkThreadPoolExecutorMdcWrapper;
 import com.yilun.gl.dof.excute.framework.util.StopWatchWrapper;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -16,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StopWatch;
 
-import javax.annotation.PostConstruct;
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -33,23 +33,16 @@ public class TreeApplicationExecutor implements LogicExecutor {
     private LinkedHashMap<String, List<DomainServiceUnit>> allLogic = new LinkedHashMap<>();
 
     private final static Logger logger = LoggerFactory.getLogger(TreeApplicationExecutor.class);
-    public TreeApplicationExecutor(BasicApplication group){
-        group.init();
-        allLogic = group.getAllLogic();
-        threadPoolExecutor = ExecutorServiceWrapper.getThreadPoolExecutor(10, this.getClass().getSimpleName());
-    }
 
     /**
      * 自定义线程池
      */
     private ThreadPoolExecutor threadPoolExecutor;
-
-
-    @PostConstruct
-    public void init() {
+    public TreeApplicationExecutor(BasicApplication group){
+        group.init();
+        allLogic = group.getAllLogic();
         threadPoolExecutor = ExecutorServiceWrapper.getThreadPoolExecutor(10, this.getClass().getSimpleName());
     }
-
 
     /**
      * @param context 容器上下文，使用方自己控制

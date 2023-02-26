@@ -19,7 +19,7 @@ public final class AsyncTool {
 
     private final static Logger logger = LoggerFactory.getLogger(AsyncTool.class);
 
-    private static final ExecutorService executorService = ExecutorServiceWrapper.create(100, AsyncTool.class.getSimpleName());
+    private static final ExecutorService executorService = ExecutorServiceWrapper.getThreadPoolExecutor(100, AsyncTool.class.getSimpleName());
 
     static {
         // 暂时挂个shutdownhook

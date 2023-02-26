@@ -1,6 +1,8 @@
 package com.yilun.gl.dof.excute.framework.thread;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.concurrent.ListenableFuture;
@@ -25,6 +27,7 @@ import java.util.concurrent.TimeUnit;
  * @Description:
  */
 public class ThreadRequestContextUtil {
+    private final static Logger log = LoggerFactory.getLogger(ThreadRequestContextUtil.class);
 
     /**
      * 日志跟踪id名。
@@ -89,124 +92,6 @@ public class ThreadRequestContextUtil {
                 RequestContextHolder.resetRequestAttributes();
             }
         };
-    }
-
-    /**
-     * spring的线程池
-     */
-    public static class ThreadPoolTaskExecutorMdcWrapper extends ThreadPoolTaskExecutor {
-
-        @Override
-        public void execute(Runnable task) {
-            super.execute(ThreadRequestContextUtil.wrap(task, MDC.getCopyOfContextMap()));
-        }
-
-        @Override
-        public void execute(Runnable task, long startTimeout) {
-            super.execute(ThreadRequestContextUtil.wrap(task, MDC.getCopyOfContextMap()), startTimeout);
-        }
-
-        @Override
-        public <T> Future<T> submit(Callable<T> task) {
-            return super.submit(ThreadRequestContextUtil.wrap(task, MDC.getCopyOfContextMap()));
-        }
-
-        @Override
-        public Future<?> submit(Runnable task) {
-            return super.submit(ThreadRequestContextUtil.wrap(task, MDC.getCopyOfContextMap()));
-        }
-
-        @Override
-        public ListenableFuture<?> submitListenable(Runnable task) {
-            return super.submitListenable(ThreadRequestContextUtil.wrap(task, MDC.getCopyOfContextMap()));
-        }
-
-        @Override
-        public <T> ListenableFuture<T> submitListenable(Callable<T> task) {
-            return super.submitListenable(ThreadRequestContextUtil.wrap(task, MDC.getCopyOfContextMap()));
-        }
-    }
-
-    /**
-     * jdk自带的线程池
-     */
-    public static class ThreadPoolExecutorMdcWrapper extends ThreadPoolExecutor {
-
-        private RequestAttributes requestAttributes;
-
-        public ThreadPoolExecutorMdcWrapper(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit,
-                                            BlockingQueue<Runnable> workQueue) {
-            super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
-        }
-
-        public ThreadPoolExecutorMdcWrapper(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit,
-                                            BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory) {
-            super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory);
-        }
-
-        public ThreadPoolExecutorMdcWrapper(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit,
-                                            BlockingQueue<Runnable> workQueue, RejectedExecutionHandler handler) {
-            super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, handler);
-        }
-
-        public ThreadPoolExecutorMdcWrapper(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit,
-                                            BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory,
-                                            RejectedExecutionHandler handler) {
-            super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
-        }
-
-        @Override
-        public void execute(Runnable task) {
-            super.execute(ThreadRequestContextUtil.wrap(task, MDC.getCopyOfContextMap()));
-        }
-
-        @Override
-        public <T> Future<T> submit(Runnable task, T result) {
-            return super.submit(ThreadRequestContextUtil.wrap(task, MDC.getCopyOfContextMap()), result);
-        }
-
-        @Override
-        public <T> Future<T> submit(Callable<T> task) {
-            return super.submit(ThreadRequestContextUtil.wrap(task, MDC.getCopyOfContextMap()));
-        }
-
-        @Override
-        public Future<?> submit(Runnable task) {
-            return super.submit(ThreadRequestContextUtil.wrap(task, MDC.getCopyOfContextMap()));
-        }
-    }
-
-    /**
-     * ForkJoinPool的线程池
-     */
-    public static class ForkJoinPoolMdcWrapper extends ForkJoinPool {
-        public ForkJoinPoolMdcWrapper() {
-            super();
-        }
-
-        public ForkJoinPoolMdcWrapper(int parallelism) {
-            super(parallelism);
-        }
-
-        public ForkJoinPoolMdcWrapper(int parallelism, ForkJoinWorkerThreadFactory factory,
-                                      Thread.UncaughtExceptionHandler handler, boolean asyncMode) {
-            super(parallelism, factory, handler, asyncMode);
-        }
-
-        @Override
-        public void execute(Runnable task) {
-            super.execute(ThreadRequestContextUtil.wrap(task, MDC.getCopyOfContextMap()));
-        }
-
-        @Override
-        public <T> ForkJoinTask<T> submit(Runnable task, T result) {
-            return super.submit(ThreadRequestContextUtil.wrap(task, MDC.getCopyOfContextMap()), result);
-        }
-
-        @Override
-        public <T> ForkJoinTask<T> submit(Callable<T> task) {
-            return super.submit(ThreadRequestContextUtil.wrap(task, MDC.getCopyOfContextMap()));
-        }
     }
 }
 

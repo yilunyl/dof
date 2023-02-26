@@ -12,7 +12,18 @@ import com.yilun.gl.dof.excute.framework.core.context.HandleContext;
  */
 public interface ApplicationInit<REQ, RES> {
 
+	/**
+	 * 初始化执行逻辑
+	 * @return
+	 */
 	LogicExecutor initDoSvrGroup();
+
+	/**
+	 * 执行初始化好的业务逻辑
+	 * @param req
+	 * @param others
+	 * @return
+	 */
 
 	RES doLogicSchedule(REQ req, Object... others );
 }
