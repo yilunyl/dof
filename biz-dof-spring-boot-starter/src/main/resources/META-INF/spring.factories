@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\ com.yilun.gl.dof.excute.framework.starter.DofAutoConfiguration

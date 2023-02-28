@@ -30,7 +30,7 @@
     <artifactId>biz-dof</artifactId>
     <version>最新版本</version>
 #### 二、初始化application(流程和参数初始化)
-> 继承 com.yilun.gl.dof.excute.framework.core.entry.AbstractApplication，并实现如下方法
+> 继承 com.gl.dof.core.excute.framework.entry.AbstractApplication，并实现如下方法
 ##### 1、#initDoSvrGroup方法：核心编排方法
 ```
 	@Override
@@ -76,7 +76,7 @@
 		return testResponse;
 	}
 ```
->    详细参考参考 com.yilun.gl.dof.excute.framework.usage.application.SomeThingApplication
+>    详细参考参考 com.yilun.gl.dof.excute.framework.application.SomeThingApplication
 #### 三、使用application
     自动注入@bean#SomeThingApplication
     然后使用 someThingApplication.doLogicSchedule(testRequest)
@@ -93,7 +93,7 @@ public class EntryTest extends BizDofApplicationTests {
 }
 ```
 #### 四、自定义业务逻辑的处理
-    实现父接口 com.yilun.gl.dof.excute.framework.core.logic.DomainService 其核心接口如下
+    实现父接口 com.gl.dof.core.excute.framework.logic.DomainService 其核心接口如下
 ```angular2html
     /**
     * 执行操作，判断当前领域服务是否应该执行
@@ -130,7 +130,7 @@ public class EntryTest extends BizDofApplicationTests {
 #### 启动类 
     com.yilun.gl.dof.excute.framework.usage.client.EntryTest.entryTest
 #### 构建流程类
-    com.yilun.gl.dof.excute.framework.usage.application.SomeThingApplication
+    com.yilun.gl.dof.excute.framework.application.SomeThingApplication
 ### 六 其他
 #### 1、如何实现DagApplicationExecutor，将编排框架升级为有向无换图结构，可以更加的灵活的编排领域服务？
 #### 2、如何更加优雅的使用大的context，全局使用一个大的上下文数据结构不是很优雅？？
