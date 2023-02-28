@@ -25,74 +25,11 @@
 <img alt="img_2.png" height="300" src="img_2.png" width="400"/>
 
 ### 四 使用说明
-#### 一、引入相关依赖
+#### 一、引入相关starter依赖
     <groupId>org.apache.dof</groupId>
-    <artifactId>biz-dof</artifactId>
+    <artifactId>biz-dof-spring-boot-starter</artifactId>
     <version>最新版本</version>
-#### 二、初始化application(流程和参数初始化)
-> 继承 com.gl.dof.core.excute.framework.entry.AbstractApplication，并实现如下方法
-##### 1、#initDoSvrGroup方法：核心编排方法
-```
-	@Override
-	public LogicExecutor initDoSvrGroup() {
-		log.warn("SomeThing业务createLogicExecutor");
-		return new TreeApplicationExecutor(new BasicApplication() {
-			@Override
-			protected void init(TreeWrapper treeWrapper) {
-			    //操作a b c
-				treeWrapper.parallelAdd(grayDoSvr, timeDoSvr, channelDoSvr);
-				//操作d e
-				treeWrapper.parallelAdd(persionSelectDoSvr, predioctDesDoSvr);
-				//操作f g h 
-				treeWrapper.parallelAdd(tripDoSvr, featureDoSvr, carorderDoSvr);
-				//操作i
-				treeWrapper.add(libraDoSvr);
-				//操作j
-				treeWrapper.add(strategyResponseDataDoSvr);
-			}
-		});
-	}
-
-```
-##### 2、#initContext方法：初始化全局上下文
-```
-	@Override
-	protected void initContext(HandleContext ctx, TestRequest testRequest, Object... others) {
-		ctx.attr(TestRequest.class).set(testRequest);
-		log.info("SomeThingApplication success");
-	}
-```
-##### 3、#buildResponse方法：构建最终返回值
-```
-	@Override
-	protected TestResponse buildResponse(LogicResult logicResult, HandleContext ctx) {
-		boolean hasAttr = ctx.hasAttr(TestRequest.class);
-		if(!hasAttr){
-			return null;
-		}
-		TestRequest testRequest2 = ctx.attr(TestRequest.class).get();
-		TestResponse testResponse = new TestResponse();
-		testResponse.setFinalStringName(testRequest2.getName());
-		return testResponse;
-	}
-```
->    详细参考参考 com.yilun.gl.dof.excute.framework.application.SomeThingApplication
-#### 三、使用application
-    自动注入@bean#SomeThingApplication
-    然后使用 someThingApplication.doLogicSchedule(testRequest)
-```java
-public class EntryTest extends BizDofApplicationTests {
-	@Resource
-	private SomeThingApplication someThingApplication;
-	@Test
-	public void entryTest(){
-		TestRequest testRequest = new TestRequest();
-		TestResponse response = someThingApplication.doLogicSchedule(testRequest);
-		Assert.assertNotNull(response);
-	}
-}
-```
-#### 四、自定义业务逻辑的处理
+#### 二、自定义业务逻辑的处理-编排组件
     实现父接口 com.gl.dof.core.excute.framework.logic.DomainService 其核心接口如下
 ```angular2html
     /**
@@ -108,6 +45,56 @@ public class EntryTest extends BizDofApplicationTests {
     */
     void reverse(HandleContext context, LogicResult logicResult);
 ```
+    这个bean的命名很重要 接下来会用到
+#### 三、使用application
+在需要使用bean的地方引入属性   private DofExecutor<REQ, RES> ,并用注解@DofReference指定功能和编排逻辑，如下所示
+```angular2html
+@DofReference(funcKey="test1",logicFlow ="funcB1,[funcB2,funcB3,funcB4],e,f,[g,h]")
+private DofExecutor<TestRequest,TestResponse> someThingApplication;
+```
+然后使用 DofExecutor接口中的方法doLogicSchedule 即可完成整次调用，完整代码如下
+```java
+@RestController
+@Slf4j
+public class EntryTest {
+	@DofReference(funcKey="test1",logicFlow ="funcB1,[funcB2,funcB3,funcB4],e,f,[g,h]")
+	private DofExecutor<TestRequest, TestResponse> someThingApplication;
+
+	@GetMapping(path = "/get/test")
+	public void entryTest(){
+		TestRequest testRequest = new TestRequest();
+		testRequest.setName("汤姆");
+		TestResponse testResponse = someThingApplication.doLogicSchedule(new Input<TestRequest>() {
+			@Override
+			public void doIn(HandleContext ctx) {
+				ctx.attr(TestRequest.class).set(testRequest);
+			}
+		}, new Output<TestResponse>() {
+			@Override
+			public TestResponse doOut(HandleContext ctx, LogicResult logicResult) {
+				if(ctx.hasAttr(TestResponse.class)){
+					ctx.attr(TestResponse.class).get();
+				}
+				return null;
+			}
+		});
+		log.info("EntryTest_someThing2Application_TestResponse2={} ", testResponse);
+		Assert.assertNotNull(testResponse);
+	}
+}
+```
+
+#### 五、补充-@DofReference和DofExecutor<REQ, RES>说明
+    @DofReference核心编排方法 属性说明
+        funcKey：编排功能的唯一key
+        logicFlow：编排流程 目前仅支持英文 , 和 []。其中 ,表示前后是串行执行，[]内部的表示并行执行，[]内部也可以用,分隔
+                    如果想编排子逻辑，只需要再次使用该注解即可
+        execTypeSel：编排引擎 当前只支持类树结构
+        corePoolSize：编排引擎的线程池的核心线程池数量，当有多个编排配置了corePoolSize，则会取Max(corePoolSize)
+        useCommonPool：是否使用通用线程池，如果不使用，会以funcKey作为新线程池的唯一标识，核心线程数则使用corePoolSize
+    DofExecutor<REQ, RES>
+        固定注入的属性，目前限定了只有一个方法#doLogicSchedule，泛型为改方法的出入参，具体转换可使用HandleContext进行转换
+        其中的Input<TestRequest>和Output<TestResponse>则是使用了接口，来保证出入参到HandleContext下文中的转换
 
 #### 五、补充-HandleContext
     继承自 AttributeMap，有如下关键方法
@@ -137,7 +124,7 @@ public class EntryTest extends BizDofApplicationTests {
 ###### dof-0.0.1:采用全局context 需要使用者自己继承context，添加自己需要属性 
 >该方式经过实际验证,详细使用实例在tag[dof-0.0.1]上面
 ###### 最新master:采用AttributeMap的形式去构建，参考netty
->目前还在开发中
+>目前基本开发完成
 #### 3、目前框架实现的编排领域服务，是否有必要对聚合根进行编排？？
 ### 七 版本说明
     dof-0.0.1 

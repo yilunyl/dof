@@ -1,6 +1,6 @@
-package com.yilun.gl.dof.excute.framework.base.util.thread.threadPool;
+package com.yilun.gl.dof.excute.framework.base.thread.threadPool;
 
-import com.yilun.gl.dof.excute.framework.base.util.thread.ThreadRequestContextUtil;
+import com.yilun.gl.dof.excute.framework.base.thread.ThreadRequestContextUtil;
 import org.slf4j.MDC;
 
 import java.util.concurrent.Callable;

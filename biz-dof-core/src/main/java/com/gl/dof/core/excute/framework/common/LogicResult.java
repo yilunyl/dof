@@ -1,7 +1,7 @@
 package com.gl.dof.core.excute.framework.common;
 
 import com.gl.dof.core.excute.framework.exception.DofResCode;
-import com.gl.dof.core.excute.framework.executor.tree.BasicApplication;
+import com.gl.dof.core.excute.framework.executor.tree.BasicTreeApplication;
 import com.gl.dof.core.excute.framework.logic.DomainServiceUnit;
 import org.springframework.util.StringUtils;
 
@@ -88,7 +88,7 @@ public class LogicResult {
         /**
          * 执行单元组
          */
-        private BasicApplication logicGroup;
+        private BasicTreeApplication logicGroup;
         /**
          * 最后一个执行单元
          */

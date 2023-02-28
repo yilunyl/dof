@@ -1,15 +1,16 @@
 package com.gl.dof.core.excute.framework.executor.tree;
 
 import com.gl.dof.core.excute.framework.exception.DofResCode;
+import com.gl.dof.core.excute.framework.executor.ExecutorType;
 import com.google.common.collect.Lists;
-import com.gl.dof.core.excute.framework.LogicExecutor;
+import com.gl.dof.core.excute.framework.executor.LogicExecutor;
 import com.gl.dof.core.excute.framework.common.LogicResult;
 import com.gl.dof.core.excute.framework.context.HandleContext;
 import com.gl.dof.core.excute.framework.logic.DomainServiceUnit;
 import com.gl.dof.core.excute.framework.rule.LogicRule;
 import com.gl.dof.core.excute.framework.rule.LogicRuleContainer;
 import com.yilun.gl.dof.excute.framework.base.util.StopWatchWrapper;
-import com.yilun.gl.dof.excute.framework.base.util.thread.ExecutorServiceWrapper;
+import com.yilun.gl.dof.excute.framework.base.thread.ExecutorServiceWrapper;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,10 +38,21 @@ public class TreeApplicationExecutor implements LogicExecutor {
      * 自定义线程池
      */
     private ThreadPoolExecutor threadPoolExecutor;
-    public TreeApplicationExecutor(BasicApplication group){
+    public TreeApplicationExecutor(BasicTreeApplication group){
         group.init();
         allLogic = group.getAllLogic();
         threadPoolExecutor = ExecutorServiceWrapper.getThreadPoolExecutor(10, this.getClass().getSimpleName());
+    }
+
+    public TreeApplicationExecutor(BasicTreeApplication group, int corePoolSize, final String executorName){
+        group.init();
+        allLogic = group.getAllLogic();
+        threadPoolExecutor = ExecutorServiceWrapper.getThreadPoolExecutor(corePoolSize, executorName);
+    }
+
+    @Override
+    public ExecutorType executorType() {
+        return ExecutorType.TREE_LIKE;
     }
 
     /**

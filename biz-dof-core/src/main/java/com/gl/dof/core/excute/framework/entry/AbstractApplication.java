@@ -1,18 +1,17 @@
 package com.gl.dof.core.excute.framework.entry;
 
-import com.gl.dof.core.excute.framework.LogicExecutor;
+import com.gl.dof.core.excute.framework.content.ListWrapper;
+import com.gl.dof.core.excute.framework.content.TreeWrapper;
+import com.gl.dof.core.excute.framework.executor.LogicExecutor;
 import com.gl.dof.core.excute.framework.common.LogicResult;
 import com.gl.dof.core.excute.framework.context.DefaultHandleContext;
 import com.gl.dof.core.excute.framework.context.HandleContext;
 import com.gl.dof.core.excute.framework.exception.DofResCode;
 import com.gl.dof.core.excute.framework.exception.DofServiceException;
-import org.apache.dubbo.config.spring.extension.SpringExtensionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ApplicationContextEvent;
 import org.springframework.context.event.ContextClosedEvent;
@@ -26,24 +25,22 @@ import org.springframework.context.event.ContextStoppedEvent;
  * @Date: 2023/2/18 23:17
  * @Version: 1.0
  */
-public abstract  class AbstractApplication<REQ, RES> implements ApplicationInit<REQ, RES>, InitializingBean, ApplicationContextAware , BeanNameAware , ApplicationListener<ApplicationContextEvent>{
+public abstract  class AbstractApplication<REQ, RES> implements ApplicationInit<REQ, RES>, InitializingBean , BeanNameAware , ApplicationListener<ApplicationContextEvent>{
 
 	private final static Logger log = LoggerFactory.getLogger(AbstractApplication.class);
 
-	private transient LogicExecutor logicExecutor;
-
-	private transient ApplicationContext applicationContext;
+	protected transient LogicExecutor logicExecutor;
 
 	private transient String beanName;
+
+	protected ListWrapper listWrapperP;
+
+	protected int corePoolSize;
+	protected String executorName;
 
 	private Boolean initSuccess = Boolean.FALSE;
 	private Boolean isStop = Boolean.FALSE;
 	private HandleContext newCtx;
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) {
-		this.applicationContext = applicationContext;
-		SpringExtensionFactory.addApplicationContext(applicationContext);
-	}
 
 	@Override
 	public void setBeanName(String name) {
@@ -76,37 +73,31 @@ public abstract  class AbstractApplication<REQ, RES> implements ApplicationInit<
 
 
 	@Override
-	public RES doLogicSchedule(REQ req,  Object... others ) {
+	public RES doLogicSchedule(Input<REQ> input, Output<RES> output ){
+
 		try{
 			if(!initSuccess || isStop){
 				log.info("logicExecutor_init_success id={}|name={}",newCtx.getHandleContextId(), newCtx.getHandleContextName());
 				throw DofServiceException.build(DofResCode.FAILE, "初始化失败无法执行逻辑");
 			}
 			//初始化参数
-			initContext(newCtx, req, others);
+			input.doIn(newCtx);
 			//执行编排逻辑
 			LogicResult logicResult = logicExecutor.doLogicSchedule(newCtx);
 			//构建返回值
-			return buildResponse(logicResult, newCtx);
+			return output.doOut(newCtx, logicResult);
 		}finally{
 			//强制清空上下文
 			newCtx.clear();
 		}
-
 	}
-	/**
-	 * 初始化上下文
-	 * @param req
-	 * @return
-	 */
-	protected abstract void initContext(HandleContext ctx, REQ req, Object... others);
 
-	/**
-	 * 构建返回参数
-	 * @param logicResult
-	 * @param ctx
-	 * @return
-	 */
-	protected abstract RES buildResponse(LogicResult logicResult, HandleContext ctx);
+	public abstract void setTreeWrapperI(TreeWrapper treeWrapperI);
+
+	public abstract void setCorePoolSize(int corePoolSize) ;
+
+	public abstract void setExecutorName(String executorName);
+
+	public abstract boolean initSuccess();
 
 }

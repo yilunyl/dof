@@ -11,21 +11,23 @@ import java.util.*;
  * @Description: com.amap.aos.infrastructure.framework.context
  * @version: 1.0
  */
-public class TreeWrapper {
-    private LinkedHashMap<String, List<DomainServiceUnit>> allLogic2 = new LinkedHashMap<>();
+public class TreeWrapper extends ListWrapper{
+    private LinkedHashMap<String, List<DomainServiceUnit>> allLogic = new LinkedHashMap<>();
 
     public void add(DomainServiceUnit unit){
-        allLogic2.put(UUID.randomUUID().toString(), Lists.newArrayList(unit));
+        allLogic.put(UUID.randomUUID().toString(), Lists.newArrayList(unit));
     }
 
-    @SafeVarargs
-    public final void parallelAdd(DomainServiceUnit... units){
-        List<DomainServiceUnit> unitList = new ArrayList<>(units.length);
-        unitList.addAll(Arrays.asList(units));
-        allLogic2.put(UUID.randomUUID().toString(), unitList);
+
+    public final void parallelAdd(List<DomainServiceUnit> unitList){
+        allLogic.put(UUID.randomUUID().toString(), unitList);
     }
 
-    public LinkedHashMap<String, List<DomainServiceUnit>> getAllLogic2() {
-        return allLogic2;
+    public LinkedHashMap<String, List<DomainServiceUnit>> getAllLogic() {
+        return allLogic;
+    }
+
+    public void setAllLogic(LinkedHashMap<String, List<DomainServiceUnit>> allLogic) {
+        this.allLogic = allLogic;
     }
 }

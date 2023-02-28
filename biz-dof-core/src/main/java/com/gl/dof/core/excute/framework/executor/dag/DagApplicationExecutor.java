@@ -1,6 +1,7 @@
 package com.gl.dof.core.excute.framework.executor.dag;
 
-import com.gl.dof.core.excute.framework.LogicExecutor;
+import com.gl.dof.core.excute.framework.executor.ExecutorType;
+import com.gl.dof.core.excute.framework.executor.LogicExecutor;
 import com.gl.dof.core.excute.framework.common.LogicResult;
 import com.gl.dof.core.excute.framework.context.HandleContext;
 
@@ -13,6 +14,11 @@ import com.gl.dof.core.excute.framework.context.HandleContext;
  */
 public class DagApplicationExecutor implements LogicExecutor {
 
+
+	@Override
+	public ExecutorType executorType() {
+		return ExecutorType.DAG_LIKE;
+	}
 
 	@Override
 	public LogicResult doLogicSchedule(HandleContext context) {

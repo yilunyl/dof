@@ -1,4 +1,4 @@
-package com.yilun.gl.dof.excute.framework.base.util.thread;
+package com.yilun.gl.dof.excute.framework.base.thread;
 
 import org.apache.commons.lang3.StringUtils;
 

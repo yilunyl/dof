@@ -1,17 +1,18 @@
 package com.yilun.gl.dof.excute.framework.client;
 
-import com.yilun.gl.dof.excute.framework.application.SomeThing2Application;
+import com.gl.dof.core.excute.framework.annotation.DofReference;
+import com.gl.dof.core.excute.framework.common.LogicResult;
+import com.gl.dof.core.excute.framework.context.HandleContext;
+import com.gl.dof.core.excute.framework.entry.DofExecutor;
+import com.gl.dof.core.excute.framework.entry.Input;
+import com.gl.dof.core.excute.framework.entry.Output;
 import com.yilun.gl.dof.excute.framework.application.SomeThingApplication;
 import com.yilun.gl.dof.excute.framework.model.request.TestRequest;
 import com.yilun.gl.dof.excute.framework.model.response.TestResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
-import org.junit.Test;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
 
 /**
  * @ClassName: biz-dof EntryTest
@@ -25,22 +26,49 @@ import javax.annotation.Resource;
 @Slf4j
 public class EntryTest {
 
-	@Resource
-	private SomeThingApplication someThingApplication;
-	@Resource
-	private SomeThing2Application someThing2Application;
+	@DofReference(funcKey="test1",logicFlow ="[funcBean1,funcBean2,funcBean3],e,f,[g,h]")
+	private DofExecutor<TestRequest, TestResponse> someThing2Application;
 
 	@GetMapping(path = "/get/test")
 	public void entryTest(){
 		TestRequest testRequest = new TestRequest();
-		TestResponse response = someThingApplication.doLogicSchedule(testRequest);
-		log.info("EntryTest_someThingApplication_TestResponse1={} ", response);
 		testRequest.setName("汤姆");
-		response = someThingApplication.doLogicSchedule(testRequest);
-		log.info("EntryTest_someThingApplication_TestResponse2={} ", response);
-		Assert.assertNotNull(response);
+		TestResponse testResponse = someThing2Application.doLogicSchedule(new Input<TestRequest>() {
+			@Override
+			public void doIn(HandleContext ctx) {
+				ctx.attr(TestRequest.class).set(testRequest);
+			}
+		}, new Output<TestResponse>() {
+			@Override
+			public TestResponse doOut(HandleContext ctx, LogicResult logicResult) {
+				if(ctx.hasAttr(TestResponse.class)){
+					ctx.attr(TestResponse.class).get();
+				}
+				return null;
+			}
+		});
+		log.info("EntryTest_someThing2Application_TestResponse2={} ", testResponse);
+		Assert.assertNotNull(testResponse);
+	}
 
-		TestResponse testResponse = someThing2Application.doLogicSchedule(testRequest);
+
+	@GetMapping(path = "/get/test2")
+	public void entryTest2(){
+		TestRequest testRequest = new TestRequest();
+		TestResponse testResponse = someThing2Application.doLogicSchedule(new Input<TestRequest>() {
+			@Override
+			public void doIn(HandleContext ctx) {
+				ctx.attr(TestRequest.class).set(testRequest);
+			}
+		}, new Output<TestResponse>() {
+			@Override
+			public TestResponse doOut(HandleContext ctx, LogicResult logicResult) {
+				if(ctx.hasAttr(TestResponse.class)){
+					ctx.attr(TestResponse.class).get();
+				}
+				return null;
+			}
+		});
 		log.info("EntryTest_someThing2Application_TestResponse2={} ", testResponse);
 		Assert.assertNotNull(testResponse);
 	}

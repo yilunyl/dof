@@ -1,6 +1,8 @@
 package com.gl.dof.core.excute.framework.annotation;
 
 
+import com.gl.dof.core.excute.framework.executor.ExecutorType;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -16,20 +18,38 @@ import java.lang.annotation.Target;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE})
+@Target({ElementType.FIELD, ElementType.ANNOTATION_TYPE})
 public @interface DofReference {
 
-	String funcKey() default "";
+	/**
+	 * 编排流程key 必填
+	 * @return key
+	 */
+	String funcKey();
 
 	/**
-	 * request class, default value is void.class
+	 * 具体得编排流程
+	 * @return 流程
 	 */
-	Class<?> requestClass() default void.class;
+	String logicFlow();
 
 	/**
-	 * request class, default value is void.class
+	 * 执行器选择
+	 * @return 流程
 	 */
-	Class<?> responseClass() default void.class;
+	ExecutorType execTypeSel() default ExecutorType.TREE_LIKE;
 
-	int corePoolSize() default 6;
+	/**
+	 * 编排需要的核心线程数
+	 * 最大线程数是核心数的两倍
+	 * @return int
+	 */
+	int corePoolSize() default -1;
+
+	/**
+	 * 线程池是否使用通用线程池
+	 * 当不使用的时候，新线程池的名字默认使用funcKey
+	 * @return 是
+	 */
+	boolean useCommonPool() default true;
 }

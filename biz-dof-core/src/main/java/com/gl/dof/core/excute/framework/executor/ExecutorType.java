@@ -1,4 +1,4 @@
-package com.gl.dof.core.excute.framework.exception;
+package com.gl.dof.core.excute.framework.executor;
 
 /**
  * @ClassName: biz-dof DofResCode
@@ -7,19 +7,15 @@ package com.gl.dof.core.excute.framework.exception;
  * @Date: 2022/6/4 23:16
  * @Version: 1.0
  */
-public enum DofResCode {
+public enum ExecutorType {
 
-	SUCCESS(0, "success"),
-	FAILE(1, "fail"),
-
-	EXECUTOR_INIT_FAIL(2, "executor_init_fail"),
-	EMPTY(3, "result_empty"),
-	ILLEGAL_ACCESS(4, "illegal_access")
+	TREE_LIKE(1, "类树"),
+	DAG_LIKE(2, "类图"),
 	;
 	private Integer code;
 	private String message;
 
-	DofResCode(int i, String msg) {
+	ExecutorType(int i, String msg) {
 		code = i;
 		message = msg;
 	}

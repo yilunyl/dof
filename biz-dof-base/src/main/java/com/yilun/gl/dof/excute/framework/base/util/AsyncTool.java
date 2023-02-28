@@ -1,6 +1,6 @@
 package com.yilun.gl.dof.excute.framework.base.util;
 
-import com.yilun.gl.dof.excute.framework.base.util.thread.ExecutorServiceWrapper;
+import com.yilun.gl.dof.excute.framework.base.thread.ExecutorServiceWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
