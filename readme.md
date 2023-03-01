@@ -31,7 +31,8 @@
     <version>最新版本</version>
 #### 二、自定义业务逻辑的处理-编排组件
     实现父接口 com.gl.dof.core.excute.framework.logic.DomainService 其核心接口如下
-```angular2html
+```java
+public interface DomainService{
     /**
     * 执行操作，判断当前领域服务是否应该执行
     */
@@ -44,27 +45,63 @@
     * 回滚操作，当doLogic执行失败，或者主链路失败时的回滚操作
     */
     void reverse(HandleContext context, LogicResult logicResult);
+}
 ```
-    这个bean的命名很重要 接下来会用到
+eg.AddressDoSvr中默认bean的名字是addressDoSvr,这个bean的命名很重要 接下来会用到
+```java
+@Component
+public class AddressDoSvr implements DomainService {
+	public static String addressKey = "address";
+	public static String addressKey2 = "address2";
+	@Override
+	public boolean isMatch(HandleContext context) {
+		return true;
+	}
+	@Override
+	public LogicResult doLogic(HandleContext context) {
+
+		String address = "北京市海淀区";
+		String address2 = "北京市海淀区quququq";
+
+		context.attr(String.class, addressKey).set(address);
+		context.attr(String.class, addressKey2).set(address2);
+		return LogicResult.createSuccess();
+	}
+}
+```
 #### 三、使用application
 在需要使用bean的地方引入属性   private DofExecutor<REQ, RES> ,并用注解@DofReference指定功能和编排逻辑，如下所示
-```angular2html
-@DofReference(funcKey="test1",logicFlow ="funcB1,[funcB2,funcB3,funcB4],e,f,[g,h]")
-private DofExecutor<TestRequest,TestResponse> someThingApplication;
+```java
+public class EntryTest {
+		@DofReference(funcKey="test1",logicFlow ="[addressDoSvr,channelDoSvr]," +
+		"grayDoSvr,libraDoSvr," +
+		"[nameDoSvr,persionSelectDoSvr]," +
+		"responseDoSvr, spaceDoSvr,strategyResponseDataDoSvr, tripDoSvr")
+        private DofExecutor<TestRequest, TestResponse> test1;
+
+        @DofReference(funcKey="test2",useCommonPool = false, corePoolSize = 20, logicFlow ="[addressDoSvr,channelDoSvr]," +
+		"grayDoSvr,libraDoSvr," +
+		"[nameDoSvr,persionSelectDoSvr]," +
+		"responseDoSvr, spaceDoSvr,strategyResponseDataDoSvr, tripDoSvr")
+        private DofExecutor<TestRequest, TestResponse> test2;
+}
 ```
 然后使用 DofExecutor接口中的方法doLogicSchedule 即可完成整次调用，完整代码如下
 ```java
 @RestController
 @Slf4j
 public class EntryTest {
-	@DofReference(funcKey="test1",logicFlow ="funcB1,[funcB2,funcB3,funcB4],e,f,[g,h]")
-	private DofExecutor<TestRequest, TestResponse> someThingApplication;
+	@DofReference(funcKey="test1",logicFlow ="[addressDoSvr,channelDoSvr]," +
+			"grayDoSvr,libraDoSvr," +
+			"[nameDoSvr,persionSelectDoSvr]," +
+			"responseDoSvr, spaceDoSvr,strategyResponseDataDoSvr, tripDoSvr")
+	private DofExecutor<TestRequest, TestResponse> test1;
 
 	@GetMapping(path = "/get/test")
 	public void entryTest(){
 		TestRequest testRequest = new TestRequest();
 		testRequest.setName("汤姆");
-		TestResponse testResponse = someThingApplication.doLogicSchedule(new Input<TestRequest>() {
+		TestResponse testResponse = test1.doLogicSchedule(new Input<TestRequest>() {
 			@Override
 			public void doIn(HandleContext ctx) {
 				ctx.attr(TestRequest.class).set(testRequest);
@@ -73,7 +110,7 @@ public class EntryTest {
 			@Override
 			public TestResponse doOut(HandleContext ctx, LogicResult logicResult) {
 				if(ctx.hasAttr(TestResponse.class)){
-					ctx.attr(TestResponse.class).get();
+					return ctx.attr(TestResponse.class).get();
 				}
 				return null;
 			}
@@ -84,25 +121,30 @@ public class EntryTest {
 }
 ```
 
-#### 五、补充-@DofReference和DofExecutor<REQ, RES>说明
-    @DofReference核心编排方法 属性说明
-        funcKey：编排功能的唯一key
-        logicFlow：编排流程 目前仅支持英文 , 和 []。其中 ,表示前后是串行执行，[]内部的表示并行执行，[]内部也可以用,分隔
+#### 五、补充-@DofReference说明
+>子编排中可以继续使用-@DofReference注解.
+>
+    funcKey：    编排功能的标识key，当一个key在多个bean中使用时，为了保证编排流程(logicFlow)的一致性
+                建议提取出该key和编排流程(logicFlow)到配置文件或者单独bean对象里面
+    logicFlow：  编排流程 目前仅支持英文 , 和 []。其中 ,表示前后是串行执行，[]内部的表示并行执行，[]内部也可以用,分隔
                     如果想编排子逻辑，只需要再次使用该注解即可
-        execTypeSel：编排引擎 当前只支持类树结构
-        corePoolSize：编排引擎的线程池的核心线程池数量，当有多个编排配置了corePoolSize，则会取Max(corePoolSize)
-        useCommonPool：是否使用通用线程池，如果不使用，会以funcKey作为新线程池的唯一标识，核心线程数则使用corePoolSize
-    DofExecutor<REQ, RES>
-        固定注入的属性，目前限定了只有一个方法#doLogicSchedule，泛型为改方法的出入参，具体转换可使用HandleContext进行转换
-        其中的Input<TestRequest>和Output<TestResponse>则是使用了接口，来保证出入参到HandleContext下文中的转换
+    execTypeSel：编排引擎 当前只支持类树结构
+    corePoolSize：编排引擎的线程池的核心线程池数量，当有多个编排配置了corePoolSize，则会取Max(corePoolSize)
+    useCommonPool：是否使用通用线程池，如果不使用，会以funcKey作为新线程池的唯一标识，核心线程数则使用corePoolSize
+    
+#### 五、补充-DofExecutor<REQ, RES>说明
+     固定注入的属性，目前限定了只有一个方法#doLogicSchedule，泛型为改方法的出入参，具体转换可使用HandleContext进行转换
+     其中的Input<TestRequest>和Output<TestResponse>则是使用了接口，来保证出入参到HandleContext下文中的转换
 
 #### 五、补充-HandleContext
     继承自 AttributeMap，有如下关键方法
-```
-	public <T> Attribute<T> attr(Class<T> c);
-	public <T> Attribute<T> attr(Class<T> c, String alias);
-	public <T> boolean hasAttr(Class<T> c);
-	public <T> boolean hasAttr(Class<T> c, String alias);
+```java
+public interface HandleContext extends AttributeMap{
+	<T> Attribute<T> attr(Class<T> c);
+	<T> Attribute<T> attr(Class<T> c, String alias);
+	<T> boolean hasAttr(Class<T> c);
+	<T> boolean hasAttr(Class<T> c, String alias);
+}
 ```
     用来获取HandleContext上下中的一些对象，线程安全
 #### 五、补充-TreeApplicationExecutor

@@ -1,5 +1,6 @@
 package com.gl.dof.core.excute.framework.executor.tree;
 
+import com.gl.dof.core.excute.framework.content.ListWrapper;
 import com.gl.dof.core.excute.framework.exception.DofResCode;
 import com.gl.dof.core.excute.framework.executor.ExecutorType;
 import com.google.common.collect.Lists;
@@ -38,15 +39,15 @@ public class TreeApplicationExecutor implements LogicExecutor {
      * 自定义线程池
      */
     private ThreadPoolExecutor threadPoolExecutor;
-    public TreeApplicationExecutor(BasicTreeApplication group){
-        group.init();
-        allLogic = group.getAllLogic();
+    public TreeApplicationExecutor(ListWrapper<LinkedHashMap<String, List<DomainServiceUnit>>> listWrapper){
+//        group.init();
+        allLogic = listWrapper.getAllLogic();
         threadPoolExecutor = ExecutorServiceWrapper.getThreadPoolExecutor(10, this.getClass().getSimpleName());
     }
 
-    public TreeApplicationExecutor(BasicTreeApplication group, int corePoolSize, final String executorName){
-        group.init();
-        allLogic = group.getAllLogic();
+    public TreeApplicationExecutor(ListWrapper<LinkedHashMap<String, List<DomainServiceUnit>>> listWrapper, int corePoolSize, final String executorName){
+//        group.init();
+        allLogic = listWrapper.getAllLogic();
         threadPoolExecutor = ExecutorServiceWrapper.getThreadPoolExecutor(corePoolSize, executorName);
     }
 

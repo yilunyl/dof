@@ -1,7 +1,6 @@
 package com.gl.dof.core.excute.framework.common;
 
 import com.gl.dof.core.excute.framework.exception.DofResCode;
-import com.gl.dof.core.excute.framework.executor.tree.BasicTreeApplication;
 import com.gl.dof.core.excute.framework.logic.DomainServiceUnit;
 import org.springframework.util.StringUtils;
 
@@ -86,13 +85,9 @@ public class LogicResult {
     public static class InvocationInfo {
 
         /**
-         * 执行单元组
-         */
-        private BasicTreeApplication logicGroup;
-        /**
          * 最后一个执行单元
          */
-        private DomainServiceUnit last = null;
+//        private DomainServiceUnit last = null;
 
         /**
          * 执行成功列表

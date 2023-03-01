@@ -1,8 +1,10 @@
 package com.yilun.gl.dof.excute.framework.starter;
 
+import com.gl.dof.core.excute.framework.annotation.DofReferenceBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -24,5 +26,8 @@ public class DofAutoConfiguration {
 	}
 
 	@Bean
-	public SimpleBean simpleBean(){ return new SimpleBean(); }
+	@ConditionalOnMissingBean
+	public DofReferenceBean dofReferenceBean(){
+		return new DofReferenceBean();
+	}
 }

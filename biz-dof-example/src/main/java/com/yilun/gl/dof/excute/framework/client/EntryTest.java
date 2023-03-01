@@ -26,14 +26,23 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class EntryTest {
 
-	@DofReference(funcKey="test1",logicFlow ="[funcBean1,funcBean2,funcBean3],e,f,[g,h]")
-	private DofExecutor<TestRequest, TestResponse> someThing2Application;
+	@DofReference(funcKey="test1",logicFlow ="[addressDoSvr,channelDoSvr]," +
+			"grayDoSvr,libraDoSvr," +
+			"[nameDoSvr,persionSelectDoSvr]," +
+			"responseDoSvr, spaceDoSvr,strategyResponseDataDoSvr, tripDoSvr")
+	private DofExecutor<TestRequest, TestResponse> test1;
+
+	@DofReference(funcKey="test2",useCommonPool = false, corePoolSize = 20, logicFlow ="[addressDoSvr,channelDoSvr]," +
+			"grayDoSvr,libraDoSvr," +
+			"[nameDoSvr,persionSelectDoSvr]," +
+			"responseDoSvr, spaceDoSvr,strategyResponseDataDoSvr, tripDoSvr")
+	private DofExecutor<TestRequest, TestResponse> test2;
 
 	@GetMapping(path = "/get/test")
 	public void entryTest(){
 		TestRequest testRequest = new TestRequest();
 		testRequest.setName("汤姆");
-		TestResponse testResponse = someThing2Application.doLogicSchedule(new Input<TestRequest>() {
+		TestResponse testResponse = test1.doLogicSchedule(new Input<TestRequest>() {
 			@Override
 			public void doIn(HandleContext ctx) {
 				ctx.attr(TestRequest.class).set(testRequest);
@@ -42,7 +51,7 @@ public class EntryTest {
 			@Override
 			public TestResponse doOut(HandleContext ctx, LogicResult logicResult) {
 				if(ctx.hasAttr(TestResponse.class)){
-					ctx.attr(TestResponse.class).get();
+					return ctx.attr(TestResponse.class).get();
 				}
 				return null;
 			}
@@ -55,7 +64,7 @@ public class EntryTest {
 	@GetMapping(path = "/get/test2")
 	public void entryTest2(){
 		TestRequest testRequest = new TestRequest();
-		TestResponse testResponse = someThing2Application.doLogicSchedule(new Input<TestRequest>() {
+		TestResponse testResponse = test2.doLogicSchedule(new Input<TestRequest>() {
 			@Override
 			public void doIn(HandleContext ctx) {
 				ctx.attr(TestRequest.class).set(testRequest);
@@ -64,7 +73,7 @@ public class EntryTest {
 			@Override
 			public TestResponse doOut(HandleContext ctx, LogicResult logicResult) {
 				if(ctx.hasAttr(TestResponse.class)){
-					ctx.attr(TestResponse.class).get();
+					return ctx.attr(TestResponse.class).get();
 				}
 				return null;
 			}

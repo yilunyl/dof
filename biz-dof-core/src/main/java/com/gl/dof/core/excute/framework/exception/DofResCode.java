@@ -11,10 +11,13 @@ public enum DofResCode {
 
 	SUCCESS(0, "success"),
 	FAILE(1, "fail"),
-
-	EXECUTOR_INIT_FAIL(2, "executor_init_fail"),
 	EMPTY(3, "result_empty"),
-	ILLEGAL_ACCESS(4, "illegal_access")
+	ILLEGAL_ACCESS(4, "illegal_access"),
+
+	EXECUTOR_INIT_FAIL(10001, "executor_init_fail"),
+	EXECUTOR_INIT_EXCEPTION(10002, "executor_init_exception"),
+
+	REPEAT_FUNCKEY_BUT_LOGIC_FLOW_IS_DIFFERENT(10003, "repeat_funcKey_but_logic_flow_is_different"),
 	;
 	private Integer code;
 	private String message;

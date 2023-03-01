@@ -1,10 +1,8 @@
 package com.gl.dof.core.excute.framework.factory;
 
-import com.gl.dof.core.excute.framework.content.ListWrapper;
 import com.gl.dof.core.excute.framework.content.TreeWrapper;
 import com.gl.dof.core.excute.framework.entry.AbstractApplication;
 import com.gl.dof.core.excute.framework.executor.LogicExecutor;
-import com.gl.dof.core.excute.framework.executor.tree.BasicTreeApplication;
 import com.gl.dof.core.excute.framework.executor.tree.TreeApplicationExecutor;
 import org.apache.commons.lang3.StringUtils;
 
@@ -18,19 +16,9 @@ public class DagDefaultExecutor<REQ, RES> extends AbstractApplication<REQ, RES> 
     public LogicExecutor initDoSvrGroup() {
 
         if (corePoolSize <= 0 || StringUtils.isBlank(executorName)) {
-            return new TreeApplicationExecutor(new BasicTreeApplication() {
-                @Override
-                protected void init(TreeWrapper treeWrapper) {
-                    treeWrapper.setAllLogic(listWrapperP.getAllLogic());
-                }
-            });
+            return new TreeApplicationExecutor(listWrapperP);
         }
-        return new TreeApplicationExecutor(new BasicTreeApplication() {
-            @Override
-            protected void init(TreeWrapper treeWrapper) {
-                treeWrapper.setAllLogic(listWrapperP.getAllLogic());
-            }
-        }, corePoolSize, executorName);
+        return new TreeApplicationExecutor(listWrapperP, corePoolSize, executorName);
     }
 
     public DagDefaultExecutor() {
@@ -46,13 +34,5 @@ public class DagDefaultExecutor<REQ, RES> extends AbstractApplication<REQ, RES> 
 
     public void setExecutorName(String executorName) {
         this.executorName = executorName;
-    }
-
-    @Override
-    public boolean initSuccess() {
-        if(Objects.isNull(logicExecutor) || Objects.isNull(listWrapperP)){
-            return false;
-        }
-        return true;
     }
 }
