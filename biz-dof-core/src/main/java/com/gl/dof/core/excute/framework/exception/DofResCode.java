@@ -16,8 +16,9 @@ public enum DofResCode {
 
 	EXECUTOR_INIT_FAIL(10001, "executor_init_fail"),
 	EXECUTOR_INIT_EXCEPTION(10002, "executor_init_exception"),
+	LOGIC_FLOW_IS_EMPTY(10003, "logic_flow_is_empty"),
 
-	REPEAT_FUNCKEY_BUT_LOGIC_FLOW_IS_DIFFERENT(10003, "repeat_funcKey_but_logic_flow_is_different"),
+	REPEAT_FUNCKEY_BUT_LOGIC_FLOW_IS_DIFFERENT(10004, "repeat_funcKey_but_logic_flow_is_different"),
 	;
 	private Integer code;
 	private String message;

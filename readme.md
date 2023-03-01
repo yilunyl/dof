@@ -125,11 +125,12 @@ public class EntryTest {
 >子编排中可以继续使用-@DofReference注解.
 >
     funcKey：    编排功能的标识key，当一个key在多个bean中使用时，为了保证编排流程(logicFlow)的一致性
-                建议提取出该key和编排流程(logicFlow)到配置文件或者单独bean对象里面
-    logicFlow：  编排流程 目前仅支持英文 , 和 []。其中 ,表示前后是串行执行，[]内部的表示并行执行，[]内部也可以用,分隔
-                    如果想编排子逻辑，只需要再次使用该注解即可
+                【建议】提取出该key和编排流程(logicFlow)到配置文件或者单独bean对象里面
+    logicFlow： 编排流程 目前仅支持英文 , 和 []。其中 ,表示前后是串行执行，[]内部的表示并行执行，[]内部也可以用,分隔
+                【注】如果想编排子逻辑，只需要再次使用该注解即可
+                当【logicFlow = ""】时，会根据funcKey从默认的配置文件中找到value,eg.「funcKey=logicFlow」也就是针对funcKey中的【建议】用法
     execTypeSel：编排引擎 当前只支持类树结构
-    corePoolSize：编排引擎的线程池的核心线程池数量，当有多个编排配置了corePoolSize，则会取Max(corePoolSize)
+    corePoolSize：编排引擎的线程池的核心线程池数量，当有多个编排配置了corePoolSize，则会取[Max(corePoolSize)]
     useCommonPool：是否使用通用线程池，如果不使用，会以funcKey作为新线程池的唯一标识，核心线程数则使用corePoolSize
     
 #### 五、补充-DofExecutor<REQ, RES>说明

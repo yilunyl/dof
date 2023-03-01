@@ -5,6 +5,7 @@ import com.gl.dof.core.excute.framework.exception.DofResCode;
 import com.gl.dof.core.excute.framework.exception.DofServiceException;
 import com.gl.dof.core.excute.framework.factory.ExecutorFactory;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -13,13 +14,15 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.EnvironmentAware;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.env.Environment;
 
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class DofReferenceBean implements ApplicationListener, ApplicationContextAware, BeanPostProcessor {
+public class DofReferenceBean implements ApplicationListener, ApplicationContextAware, BeanPostProcessor , EnvironmentAware {
 
     private static final HashMap<String, AbstractApplication> funcMap = new HashMap<>();
 
@@ -31,6 +34,7 @@ public class DofReferenceBean implements ApplicationListener, ApplicationContext
 
     private ApplicationContext applicationContext;
 
+    private Environment environment;
     @SneakyThrows
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -74,17 +78,26 @@ public class DofReferenceBean implements ApplicationListener, ApplicationContext
             try {
                 AbstractApplication executor = null;
                 DofReference annotation = field.getAnnotation(DofReference.class);
-                if (funcMap.containsKey(annotation.funcKey())) {
-                    executor = funcMap.get(annotation.funcKey());
-                    String oldLogicFlow = funcLoogicFlowMap.get(annotation.funcKey());
-                    if (Objects.equals(oldLogicFlow, annotation.logicFlow())) {
-                        logger.error("DofReferenceBean 存在相同的编排功能key 但是编排流程不一样 ");
+                String funcKey = annotation.funcKey();
+                String logicFlow = annotation.logicFlow();
+                if(StringUtils.isBlank(logicFlow)){
+                    logicFlow = environment.getProperty(funcKey);
+                }
+                if(StringUtils.isBlank(logicFlow)){
+                    logger.error("DofReferenceBean 无法找到对应的编排流程 请检查 funcKey={}", funcKey);
+                    throw DofServiceException.build(DofResCode.LOGIC_FLOW_IS_EMPTY);
+                }
+                if (funcMap.containsKey(funcKey)) {
+                    executor = funcMap.get(funcKey);
+                    String oldLogicFlow = funcLoogicFlowMap.get(funcKey);
+                    if (Objects.equals(oldLogicFlow, logicFlow)) {
+                        logger.error("DofReferenceBean 存在相同的编排功能key 但是编排流程不一样 请检查 funcKey={}", funcKey);
                         throw DofServiceException.build(DofResCode.REPEAT_FUNCKEY_BUT_LOGIC_FLOW_IS_DIFFERENT);
                     }
                 } else {
                     executor = ExecutorFactory.getInstance(applicationContext).getExecutor(annotation);
-                    funcMap.put(annotation.funcKey(), executor);
-                    funcLoogicFlowMap.put(annotation.funcKey(), annotation.logicFlow());
+                    funcMap.put(funcKey, executor);
+                    funcLoogicFlowMap.put(funcKey, annotation.logicFlow());
                 }
                 if (Objects.isNull(executor)) {
                     logger.error("DofReferenceBean 无法构建有效的编排流程");
@@ -99,4 +112,8 @@ public class DofReferenceBean implements ApplicationListener, ApplicationContext
         });
     }
 
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
 }
