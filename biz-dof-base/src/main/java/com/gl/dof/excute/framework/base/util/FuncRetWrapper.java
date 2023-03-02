@@ -1,4 +1,4 @@
-package com.yilun.gl.dof.excute.framework.base.util;
+package com.gl.dof.excute.framework.base.util;
 
 
 import java.io.Serializable;

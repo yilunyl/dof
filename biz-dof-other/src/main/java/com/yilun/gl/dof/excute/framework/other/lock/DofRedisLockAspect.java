@@ -1,7 +1,7 @@
 package com.yilun.gl.dof.excute.framework.other.lock;
 
 import com.gl.dof.core.excute.framework.exception.DofServiceException;
-import com.yilun.gl.dof.excute.framework.base.util.ObjectUtil;
+import com.gl.dof.excute.framework.base.util.ObjectUtil;
 import com.yilun.gl.dof.excute.framework.other.constants.ApiConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;

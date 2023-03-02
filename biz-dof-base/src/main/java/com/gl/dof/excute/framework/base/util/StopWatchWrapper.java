@@ -1,4 +1,4 @@
-package com.yilun.gl.dof.excute.framework.base.util;
+package com.gl.dof.excute.framework.base.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

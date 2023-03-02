@@ -40,12 +40,12 @@ public abstract  class AbstractApplication<REQ, RES> implements ApplicationInit<
 	private Boolean initSuccess = Boolean.FALSE;
 	private HandleContext newCtx;
 
-	public void concreteExecuteBeanInit(){
+	public void concreteExecuteBeanInit(String funcKey){
 
 		if(!initSuccess){
 			logicExecutor = this.initDoSvrGroup();
-			newCtx = new DefaultHandleContext(this.getClass().getSimpleName(), this.getClass().getName());
-			log.info("logicExecutor_init_success id={}|name={}",newCtx.getHandleContextId(), newCtx.getHandleContextName());
+			newCtx = new DefaultHandleContext(funcKey, this.getClass().getName());
+			log.info("Dof-logicExecutor_init_success id={}|name={}",newCtx.getHandleContextId(), newCtx.getHandleContextName());
 			initSuccess = Boolean.TRUE;
 		}
 	}
@@ -56,7 +56,6 @@ public abstract  class AbstractApplication<REQ, RES> implements ApplicationInit<
 
 		try{
 			if(!initSuccess){
-				log.info("logicExecutor_init_success id={}|name={}",newCtx.getHandleContextId(), newCtx.getHandleContextName());
 				throw DofServiceException.build(DofResCode.FAILE, "初始化失败无法执行逻辑");
 			}
 			//初始化参数

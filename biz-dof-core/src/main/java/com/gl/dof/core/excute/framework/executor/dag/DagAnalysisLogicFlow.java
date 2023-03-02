@@ -4,7 +4,7 @@ import com.gl.dof.core.excute.framework.content.DagWrapper;
 import org.springframework.context.ApplicationContext;
 
 public class DagAnalysisLogicFlow {
-    public static DagWrapper analysisLogicFlow(String logicFlow, ApplicationContext applicationContext) {
+    public static DagWrapper analysisLogicFlow(String funcKey, String logicFlow, ApplicationContext applicationContext) {
         return new DagWrapper();
     }
 }

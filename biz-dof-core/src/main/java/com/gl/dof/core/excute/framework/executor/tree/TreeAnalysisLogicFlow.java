@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.gl.dof.core.excute.framework.content.TreeWrapper;
 import com.gl.dof.core.excute.framework.logic.DomainServiceUnit;
 import com.google.common.collect.Lists;
-import com.yilun.gl.dof.excute.framework.base.util.FuncRetWrapper;
+import com.gl.dof.excute.framework.base.util.FuncRetWrapper;
 import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -30,8 +30,8 @@ public class TreeAnalysisLogicFlow {
 
     private final static Logger logger = LoggerFactory.getLogger(TreeAnalysisLogicFlow.class);
 
-    public static TreeWrapper analysisLogicFlow(String logicFlow, ApplicationContext applicationContext) {
-        return TreeAnalysisLogicFlow.getInstance().doAnalysisLogicFlow(logicFlow, applicationContext);
+    public static TreeWrapper analysisLogicFlow(String funcKey, String logicFlow, ApplicationContext applicationContext) {
+        return TreeAnalysisLogicFlow.getInstance().doAnalysisLogicFlow( funcKey, logicFlow, applicationContext);
     }
 
 
@@ -42,7 +42,7 @@ public class TreeAnalysisLogicFlow {
      * @param applicationContext
      * @return
      */
-    private TreeWrapper doAnalysisLogicFlow(String logicFlow, ApplicationContext applicationContext) {
+    private TreeWrapper doAnalysisLogicFlow(String funcKey, String logicFlow, ApplicationContext applicationContext) {
         if(StringUtils.isBlank(logicFlow) || Objects.isNull(applicationContext)){
             return null;
         }
@@ -51,7 +51,7 @@ public class TreeAnalysisLogicFlow {
             logger.error("analysisLogicFlow_error_msg {}", serialBeanNameMap.getMessage());
             return null;
         }
-        logger.info("ExecutorFactory logicFlow={}, analysisLogicFlow={}", logicFlow, JSON.toJSONString(serialBeanNameMap));
+        logger.info("Dof-ExecutorFactory funcKey={}|originLogicFlow={}|analysisLogicFlow={}", funcKey, logicFlow, JSON.toJSONString(serialBeanNameMap));
         TreeWrapper treeWrapper = new TreeWrapper();
         for(Map.Entry<String, List<String>> entry : serialBeanNameMap.getData().entrySet()){
             List<String> value = entry.getValue();

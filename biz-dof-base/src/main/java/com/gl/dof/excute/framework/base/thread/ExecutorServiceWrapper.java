@@ -1,7 +1,7 @@
-package com.yilun.gl.dof.excute.framework.base.thread;
+package com.gl.dof.excute.framework.base.thread;
 
-import com.yilun.gl.dof.excute.framework.base.thread.threadPool.JdkThreadPoolExecutorMdcWrapper;
-import com.yilun.gl.dof.excute.framework.base.util.MathUtil;
+import com.gl.dof.excute.framework.base.thread.threadPool.JdkThreadPoolExecutorMdcWrapper;
+import com.gl.dof.excute.framework.base.util.MathUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

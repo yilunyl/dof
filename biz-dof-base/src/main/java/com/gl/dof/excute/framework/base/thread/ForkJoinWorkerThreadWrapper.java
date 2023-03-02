@@ -1,4 +1,4 @@
-package com.yilun.gl.dof.excute.framework.base.thread;
+package com.gl.dof.excute.framework.base.thread;
 
 import lombok.extern.slf4j.Slf4j;
 

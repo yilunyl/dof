@@ -38,6 +38,8 @@ public class ExecutorFactory<REQ, RES> {
         }
         AbstractApplication abstractApplication;
         ExecutorType executorType = annotation.execTypeSel();
+        String funcKey = annotation.funcKey();
+
         if(StringUtils.isBlank(logicFlow)){
             logicFlow = annotation.logicFlow();
         }
@@ -45,11 +47,11 @@ public class ExecutorFactory<REQ, RES> {
         if(Objects.equals(executorType, ExecutorType.TREE_LIKE)){
             abstractApplication = new TreeDefaultExecutor();
             //解析执行链
-            TreeWrapper treeWrapper1 = TreeAnalysisLogicFlow.analysisLogicFlow(logicFlow, applicationContext);
+            TreeWrapper treeWrapper1 = TreeAnalysisLogicFlow.analysisLogicFlow(funcKey, logicFlow, applicationContext);
             abstractApplication.setTreeWrapperI(treeWrapper1);
         }else{
             //ToDo 图的链需要单独解析
-            DagWrapper dagWrapper1 = DagAnalysisLogicFlow.analysisLogicFlow(logicFlow, applicationContext);
+            DagWrapper dagWrapper1 = DagAnalysisLogicFlow.analysisLogicFlow(funcKey, logicFlow, applicationContext);
             abstractApplication = new DagDefaultExecutor();
             abstractApplication.setTreeWrapperI(dagWrapper1);
 
@@ -62,7 +64,7 @@ public class ExecutorFactory<REQ, RES> {
             abstractApplication.setExecutorName(annotation.funcKey());
         }
         //执行
-        abstractApplication.concreteExecuteBeanInit();
+        abstractApplication.concreteExecuteBeanInit(funcKey);
 
         if(!abstractApplication.getInitSuccess()){
             logger.error("ExecutorFactory abstractApplication_init_fail 执行器链构建失败");

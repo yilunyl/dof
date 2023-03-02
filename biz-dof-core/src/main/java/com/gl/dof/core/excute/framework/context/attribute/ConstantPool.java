@@ -22,7 +22,7 @@ import io.netty.util.internal.PlatformDependent;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.yilun.gl.dof.excute.framework.base.util.ObjectUtil.checkNonEmpty;
+import static com.gl.dof.excute.framework.base.util.ObjectUtil.checkNonEmpty;
 import static org.mockito.internal.util.Checks.checkNotNull;
 
 

@@ -6,7 +6,7 @@
     <artifactId>biz-dof-example</artifactId>
 
     <parent>
-        <groupId>org.apache.dof</groupId>
+        <groupId>org.gl.dof</groupId>
         <artifactId>biz-dof</artifactId>
         <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
@@ -15,9 +15,9 @@
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
-            <groupId>org.apache.dof</groupId>
+            <groupId>org.gl.dof</groupId>
             <artifactId>biz-dof-spring-boot-starter</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -2,7 +2,7 @@ package com.yilun.gl.dof.excute.framework.other.fatigue.check;
 
 
 import com.alibaba.fastjson.JSON;;
-import com.yilun.gl.dof.excute.framework.base.util.FuncRetWrapper;
+import com.gl.dof.excute.framework.base.util.FuncRetWrapper;
 import com.yilun.gl.dof.excute.framework.other.fatigue.FatigueSummaryDomainEntity;
 import com.yilun.gl.dof.excute.framework.other.fatigue.RuleDimensionConfig;
 import com.yilun.gl.dof.excute.framework.other.fatigue.RuleTimeConfig;

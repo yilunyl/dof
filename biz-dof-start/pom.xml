@@ -6,7 +6,7 @@
     <artifactId>biz-dof-start</artifactId>
 
     <parent>
-        <groupId>org.apache.dof</groupId>
+        <groupId>org.gl.dof</groupId>
         <artifactId>biz-dof</artifactId>
         <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
@@ -15,17 +15,17 @@
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
-            <groupId>org.apache.dof</groupId>
+            <groupId>org.gl.dof</groupId>
             <artifactId>biz-dof-other</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.dof</groupId>
+            <groupId>org.gl.dof</groupId>
             <artifactId>biz-dof-base</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.dof</groupId>
+            <groupId>org.gl.dof</groupId>
             <artifactId>biz-dof-core</artifactId>
             <version>1.0.0</version>
         </dependency>

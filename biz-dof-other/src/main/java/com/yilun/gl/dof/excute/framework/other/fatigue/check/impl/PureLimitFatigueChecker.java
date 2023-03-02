@@ -1,6 +1,6 @@
 package com.yilun.gl.dof.excute.framework.other.fatigue.check.impl;
 
-import com.yilun.gl.dof.excute.framework.base.util.FuncRetWrapper;
+import com.gl.dof.excute.framework.base.util.FuncRetWrapper;
 import com.yilun.gl.dof.excute.framework.other.fatigue.FatigueRuleTypeEnum;
 import com.yilun.gl.dof.excute.framework.other.fatigue.FatigueSummaryDomainEntity;
 import com.yilun.gl.dof.excute.framework.other.fatigue.RuleDimensionConfig;

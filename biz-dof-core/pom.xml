@@ -6,14 +6,14 @@
     <artifactId>biz-dof-core</artifactId>
     <packaging>jar</packaging>
     <parent>
-        <groupId>org.apache.dof</groupId>
+        <groupId>org.gl.dof</groupId>
         <artifactId>biz-dof</artifactId>
         <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <dependencies>
         <dependency>
-            <groupId>org.apache.dof</groupId>
+            <groupId>org.gl.dof</groupId>
             <artifactId>biz-dof-base</artifactId>
             <version>1.0.0</version>
         </dependency>

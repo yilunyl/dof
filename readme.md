@@ -26,9 +26,11 @@
 
 ### 四 使用说明
 #### 一、引入相关starter依赖
-    <groupId>org.apache.dof</groupId>
-    <artifactId>biz-dof-spring-boot-starter</artifactId>
-    <version>最新版本</version>
+        <dependency>
+            <groupId>org.gl.dof</groupId>
+            <artifactId>biz-dof-spring-boot-starter</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
 #### 二、自定义业务逻辑的处理-编排组件
     实现父接口 
     1、com.gl.dof.core.excute.framework.logic.DomainService
@@ -195,7 +197,7 @@ public interface HandleContext extends AttributeMap{
      
 ### 五 使用示例
 #### 单侧启动 
-    由于使用了jdk17 单侧启动需要增加参数--add-opens java.base/java.lang=ALL-UNNAMED 
+    由于使用了jdk17 单侧启动需要增加参数--add-opens java.base/java.lang=ALL-UNNAMED 已调整成jdk8
 #### 启动类 
     com.yilun.gl.dof.excute.framework.usage.client.EntryTest.entryTest
 #### 构建流程类
@@ -209,4 +211,5 @@ public interface HandleContext extends AttributeMap{
 >目前基本开发完成
 #### 3、目前框架实现的编排领域服务，是否有必要对聚合根进行编排？？
 ### 七 版本说明
-    dof-0.0.1 
+    dof-0.0.1 非注解版本
+    dof-0.0.2-SNAPSHOT 注解版本
