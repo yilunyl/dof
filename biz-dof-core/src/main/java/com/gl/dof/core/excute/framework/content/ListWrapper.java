@@ -1,10 +1,5 @@
 package com.gl.dof.core.excute.framework.content;
 
-import com.gl.dof.core.excute.framework.logic.DomainServiceUnit;
-
-import java.util.LinkedHashMap;
-import java.util.List;
-
 public abstract class ListWrapper<T> {
 
 	private T allLogic;

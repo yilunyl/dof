@@ -7,6 +7,7 @@ import com.gl.dof.core.excute.framework.entry.AbstractApplication;
 import com.gl.dof.core.excute.framework.executor.ExecutorType;
 import com.gl.dof.core.excute.framework.executor.dag.DagAnalysisLogicFlow;
 import com.gl.dof.core.excute.framework.executor.tree.TreeAnalysisLogicFlow;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -31,20 +32,24 @@ public class ExecutorFactory<REQ, RES> {
         return single;
     }
 
-    public AbstractApplication getExecutor(DofReference annotation) {
+    public AbstractApplication getExecutor(DofReference annotation, String logicFlow) {
         if(Objects.isNull(applicationContext)){
             return null;
         }
         AbstractApplication abstractApplication;
         ExecutorType executorType = annotation.execTypeSel();
+        if(StringUtils.isBlank(logicFlow)){
+            logicFlow = annotation.logicFlow();
+        }
+
         if(Objects.equals(executorType, ExecutorType.TREE_LIKE)){
             abstractApplication = new TreeDefaultExecutor();
             //解析执行链
-            TreeWrapper treeWrapper1 = TreeAnalysisLogicFlow.analysisLogicFlow(annotation.logicFlow(), applicationContext);
+            TreeWrapper treeWrapper1 = TreeAnalysisLogicFlow.analysisLogicFlow(logicFlow, applicationContext);
             abstractApplication.setTreeWrapperI(treeWrapper1);
         }else{
             //ToDo 图的链需要单独解析
-            DagWrapper dagWrapper1 = DagAnalysisLogicFlow.analysisLogicFlow(annotation.logicFlow(), applicationContext);
+            DagWrapper dagWrapper1 = DagAnalysisLogicFlow.analysisLogicFlow(logicFlow, applicationContext);
             abstractApplication = new DagDefaultExecutor();
             abstractApplication.setTreeWrapperI(dagWrapper1);
 

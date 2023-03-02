@@ -1,5 +1,6 @@
 package com.gl.dof.core.excute.framework.annotation;
 
+import com.gl.dof.core.excute.framework.common.DofConstant;
 import com.gl.dof.core.excute.framework.entry.AbstractApplication;
 import com.gl.dof.core.excute.framework.exception.DofResCode;
 import com.gl.dof.core.excute.framework.exception.DofServiceException;
@@ -81,7 +82,7 @@ public class DofReferenceBean implements ApplicationListener, ApplicationContext
                 String funcKey = annotation.funcKey();
                 String logicFlow = annotation.logicFlow();
                 if(StringUtils.isBlank(logicFlow)){
-                    logicFlow = environment.getProperty(funcKey);
+                    logicFlow = environment.getProperty(DofConstant.getPropertieLogxiflowKey(funcKey));
                 }
                 if(StringUtils.isBlank(logicFlow)){
                     logger.error("DofReferenceBean 无法找到对应的编排流程 请检查 funcKey={}", funcKey);
@@ -95,7 +96,7 @@ public class DofReferenceBean implements ApplicationListener, ApplicationContext
                         throw DofServiceException.build(DofResCode.REPEAT_FUNCKEY_BUT_LOGIC_FLOW_IS_DIFFERENT);
                     }
                 } else {
-                    executor = ExecutorFactory.getInstance(applicationContext).getExecutor(annotation);
+                    executor = ExecutorFactory.getInstance(applicationContext).getExecutor(annotation, logicFlow);
                     funcMap.put(funcKey, executor);
                     funcLoogicFlowMap.put(funcKey, annotation.logicFlow());
                 }

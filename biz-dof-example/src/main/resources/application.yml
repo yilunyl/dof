@@ -33,3 +33,8 @@ spring:
 utils:
   http:
     sendfalcon: false
+
+dof:
+  logicflow:
+    test3: "[addressDoSvr,channelDoSvr],grayDoSvr,libraDoSvr,[nameDoSvr,persionSelectDoSvr],responseDoSvr, spaceDoSvr,strategyResponseDataDoSvr, tripDoSvr"
+    test4: "[addressDoSvr,channelDoSvr],grayDoSvr,libraDoSvr,[nameDoSvr,persionSelectDoSvr],responseDoSvr, spaceDoSvr,strategyResponseDataDoSvr, tripDoSvr"

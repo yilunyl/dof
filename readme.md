@@ -30,9 +30,36 @@
     <artifactId>biz-dof-spring-boot-starter</artifactId>
     <version>最新版本</version>
 #### 二、自定义业务逻辑的处理-编排组件
-    实现父接口 com.gl.dof.core.excute.framework.logic.DomainService 其核心接口如下
+    实现父接口 
+    1、com.gl.dof.core.excute.framework.logic.DomainService
+    2、com.gl.dof.core.excute.framework.logic.AggregateService
+    其核心方法如下
 ```java
+/**
+ * 领域服务
+ * 使用建议 具体业务应用(即application层)编排则应该基于该接口进行编排 
+ */
 public interface DomainService{
+    /**
+    * 执行操作，判断当前领域服务是否应该执行
+    */
+    boolean  isMatch(HandleContext context);
+    /**
+    * 业务逻辑实现处，实际写业务逻辑的地方，建议是对聚合根进行编排
+    */
+    LogicResult doLogic(HandleContext context);
+    /**
+    * 回滚操作，当doLogic执行失败，或者主链路失败时的回滚操作
+    */
+    void reverse(HandleContext context, LogicResult logicResult);
+}
+```
+```java
+/**
+ * 聚合服务 领域服务的子接口
+ * 使用建议 如果在【领域服务】内需要处理子编排，则应该继承该接口
+ */
+public interface AggregateService{
     /**
     * 执行操作，判断当前领域服务是否应该执行
     */
@@ -128,7 +155,19 @@ public class EntryTest {
                 【建议】提取出该key和编排流程(logicFlow)到配置文件或者单独bean对象里面
     logicFlow： 编排流程 目前仅支持英文 , 和 []。其中 ,表示前后是串行执行，[]内部的表示并行执行，[]内部也可以用,分隔
                 【注】如果想编排子逻辑，只需要再次使用该注解即可
-                当【logicFlow = ""】时，会根据funcKey从默认的配置文件中找到value,eg.「funcKey=logicFlow」也就是针对funcKey中的【建议】用法
+                当【logicFlow = ""】时，会根据funcKey从默认的配置文件中找到value,eg.「dof.logicflow.funcKey=logicFlow」也就是针对funcKey中的【建议】用法
+```yaml
+dof:
+  logicflow:
+    test3: "[addressDoSvr,channelDoSvr],grayDoSvr,libraDoSvr,[nameDoSvr,persionSelectDoSvr],responseDoSvr, spaceDoSvr,strategyResponseDataDoSvr, tripDoSvr"
+    test4: "[addressDoSvr,channelDoSvr],grayDoSvr,libraDoSvr,[nameDoSvr,persionSelectDoSvr],responseDoSvr, spaceDoSvr,strategyResponseDataDoSvr, tripDoSvr"
+```
+```java
+public class Test{
+	@DofReference(funcKey="test3",logicFlow ="")
+	private DofExecutor<TestRequest, TestResponse> test3;
+}
+```
     execTypeSel：编排引擎 当前只支持类树结构
     corePoolSize：编排引擎的线程池的核心线程池数量，当有多个编排配置了corePoolSize，则会取[Max(corePoolSize)]
     useCommonPool：是否使用通用线程池，如果不使用，会以funcKey作为新线程池的唯一标识，核心线程数则使用corePoolSize

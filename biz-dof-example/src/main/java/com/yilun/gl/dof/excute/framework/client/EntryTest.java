@@ -38,6 +38,9 @@ public class EntryTest {
 			"responseDoSvr, spaceDoSvr,strategyResponseDataDoSvr, tripDoSvr")
 	private DofExecutor<TestRequest, TestResponse> test2;
 
+	@DofReference(funcKey="test3",logicFlow ="")
+	private DofExecutor<TestRequest, TestResponse> test3;
+
 	@GetMapping(path = "/get/test")
 	public void entryTest(){
 		TestRequest testRequest = new TestRequest();
