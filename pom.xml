@@ -42,7 +42,6 @@
         <module>biz-dof-other</module>
         <module>biz-dof-spring-boot-starter</module>
         <module>biz-dof-example</module>
-        <module>biz-dof-start</module>
     </modules>
 
     <properties>
@@ -132,43 +131,18 @@
             <version>1.9.4</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.curator</groupId>
-            <artifactId>curator-framework</artifactId>
-            <version>5.2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.curator</groupId>
-            <artifactId>curator-recipes</artifactId>
-            <version>4.0.1</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>curator-framework</artifactId>
-                    <groupId>org.apache.curator</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo</artifactId>
-            <version>2.7.3</version>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-redis</artifactId>
+            <artifactId>spring-data-commons</artifactId>
         </dependency>
         <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.protostuff</groupId>
-            <artifactId>protostuff-core</artifactId>
-            <version>1.7.4</version>
-        </dependency>
-        <dependency>
-            <groupId>io.protostuff</groupId>
-            <artifactId>protostuff-runtime</artifactId>
-            <version>1.7.4</version>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-common</artifactId>
+            <version>4.1.39.Final</version>
         </dependency>
         <dependency>
             <groupId>org.apache.lucene</groupId>
@@ -265,7 +239,7 @@
                     </plugin>
                     <plugin>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>${maven-javadoc-plugin.version}</version>
+                        <version>2.10.4</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -276,7 +250,7 @@
                         </executions>
                         <configuration>
                             <source>8</source>
-                            <doclint>none</doclint>
+<!--                            <doclint>none</doclint>-->
                         </configuration>
                     </plugin>
                     <plugin>
@@ -296,7 +270,7 @@
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>${nexus-staging-maven-plugin.version}</version>
+                        <version>1.6.13</version>
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>ossrh</serverId>
@@ -308,5 +282,14 @@
             </build>
         </profile>
     </profiles>
-
+    <distributionManagement>
+        <snapshotRepository>
+            <id>gl-dof-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>gl-dof-release</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/release/</url>
+        </repository>
+    </distributionManagement>
 </project>

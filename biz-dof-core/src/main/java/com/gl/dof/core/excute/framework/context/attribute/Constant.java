@@ -15,8 +15,6 @@
  */
 package com.gl.dof.core.excute.framework.context.attribute;
 
-import io.netty.util.ConstantPool;
-
 /**
  * A singleton which is safe to compare via the {@code ==} operator. Created and managed by {@link ConstantPool}.
  */
