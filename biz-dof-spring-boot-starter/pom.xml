@@ -7,13 +7,13 @@
     <parent>
         <groupId>org.gl.dof</groupId>
         <artifactId>biz-dof</artifactId>
-        <version>1.0.0</version>
+        <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>org.gl.dof</groupId>
     <artifactId>biz-dof-spring-boot-starter</artifactId>
-    <version>1.0.0</version>
+    <version>${revision}</version>
 
     <!--避免属性文件的一个提示-->
     <dependencies>
@@ -29,7 +29,7 @@
         <dependency>
             <groupId>org.gl.dof</groupId>
             <artifactId>biz-dof-core</artifactId>
-            <version>1.0.0</version>
+            <version>${revision}</version>
         </dependency>
     </dependencies>
 
