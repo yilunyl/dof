@@ -29,7 +29,8 @@
         <dependency>
             <groupId>org.gl.dof</groupId>
             <artifactId>biz-dof-spring-boot-starter</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.1</version>
+            <!-- 参考Releases包 dof-1.0.1 -->
         </dependency>
 #### 二、自定义业务逻辑的处理-编排组件
     实现父接口 
@@ -182,13 +183,38 @@ public class Test{
     继承自 AttributeMap，有如下关键方法
 ```java
 public interface HandleContext extends AttributeMap{
-	<T> Attribute<T> attr(Class<T> c);
-	<T> Attribute<T> attr(Class<T> c, String alias);
-	<T> boolean hasAttr(Class<T> c);
-	<T> boolean hasAttr(Class<T> c, String alias);
+	public <T> Attribute<T> attr(Class<T> c);
+	public <T> Attribute<T> attr(String beanId);
+	public <T> Attribute<T> attr(Class<T> c, String alias);
+	public <T> boolean hasAttr(Class<T> c);
+	public <T> boolean hasAttr(String beanId);
+	public <T> boolean hasAttr(Class<T> c, String alias);
 }
 ```
-    用来获取HandleContext上下中的一些对象，线程安全
+    用来获取HandleContext上下中的一些对象，线程安全，使用实例如下
+```java
+public class Example {
+	public void case_setCtx(HandleContext ctx, LogicResult logicResult) {
+		//将一个新对象放入到上下中
+		TestRequest testRequest = new TestRequest();
+		ctx.attr(TestRequest.class).set(testRequest);
+		//放入一个String,由于HandleContext使用map的形式，且用类的全路径作为key，
+        // 当上下文中需要同一个类的两个对象时，这个时候需要使用别名来定义
+        String key1 = "test";
+		String key2 = "test2";
+		ctx.attr(String.class, key1).set(key1);
+		ctx.attr(String.class, key2).set(key2);
+	}
+	public void case_getCtx(HandleContext ctx, LogicResult logicResult) {
+		//从上下文中getTestRequest对象
+		TestRequest testRequest = ctx.attr(TestRequest.class).get();
+		TestRequest testRequest2 = ctx.attr(TestRequest.class, testRequest2).get();
+		//get一个String
+		String key1 = ctx.attr(String.class, key1).get();
+		String key2 = ctx.attr(String.class, key2).get();
+	}
+}
+```
 #### 五、补充-TreeApplicationExecutor
     编排执行器，是父接口 LogicExecutor 的树结构的一种实现，有如下关键方法
 ```
@@ -210,6 +236,6 @@ public interface HandleContext extends AttributeMap{
 ###### 最新master:采用AttributeMap的形式去构建，参考netty
 >目前基本开发完成
 #### 3、目前框架实现的编排领域服务，是否有必要对聚合根进行编排？？
-### 七 版本说明
-    dof-0.0.1 非注解版本
-    dof-0.0.2-SNAPSHOT 注解版本
+### 七 Releases版本说明
+    dof-0.0.1 非注解版本-第一版源代码码
+    dof-1.0.1 最新注解版本，支持@DofReference和HandleContext使用
