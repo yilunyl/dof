@@ -1,7 +1,7 @@
 package com.gl.dof.core.excute.framework.common;
 
 import com.gl.dof.core.excute.framework.exception.DofResCode;
-import com.gl.dof.core.excute.framework.logic.DomainServiceUnit;
+import com.gl.dof.core.excute.framework.logic.LogicUnit;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -92,19 +92,19 @@ public class LogicResult {
         /**
          * 执行成功列表
          */
-        private List<DomainServiceUnit> successList = new ArrayList<>();
+        private List<LogicUnit> successList = new ArrayList<>();
 
         /**
          * 执行失败列表
          */
-        private List<DomainServiceUnit> failList = new ArrayList<>();
+        private List<LogicUnit> failList = new ArrayList<>();
 
         /**
          * 添加执行现场
          * @param logicResultThread 执行结果
          * @param parrentLogicUnitTmp 执行单位
          */
-        public synchronized void addInvocationInfo(LogicResult logicResultThread, DomainServiceUnit parrentLogicUnitTmp){
+        public synchronized void addInvocationInfo(LogicResult logicResultThread, LogicUnit parrentLogicUnitTmp){
             if(logicResultThread.isSuccess()){
                 this.getSuccessList().add(parrentLogicUnitTmp);
             }else{
@@ -112,19 +112,19 @@ public class LogicResult {
             }
         }
 
-        public List<DomainServiceUnit> getSuccessList() {
+        public List<LogicUnit> getSuccessList() {
             return successList;
         }
 
-        public void setSuccessList(List<DomainServiceUnit> successList) {
+        public void setSuccessList(List<LogicUnit> successList) {
             this.successList = successList;
         }
 
-        public List<DomainServiceUnit> getFailList() {
+        public List<LogicUnit> getFailList() {
             return failList;
         }
 
-        public void setFailList(List<DomainServiceUnit> failList) {
+        public void setFailList(List<LogicUnit> failList) {
             this.failList = failList;
         }
     }

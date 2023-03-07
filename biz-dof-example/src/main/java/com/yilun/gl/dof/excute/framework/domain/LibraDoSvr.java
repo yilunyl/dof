@@ -3,7 +3,7 @@ package com.yilun.gl.dof.excute.framework.domain;
 import com.gl.dof.core.excute.framework.common.LogicResult;
 import com.gl.dof.core.excute.framework.context.HandleContext;
 import com.gl.dof.core.excute.framework.context.attribute.AttributeKey;
-import com.gl.dof.core.excute.framework.logic.DomainService;
+import com.gl.dof.core.excute.framework.logic.DomainLogic;
 import com.yilun.gl.dof.excute.framework.model.request.TestRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
  * @Version: 1.0
  */
 @Component
-public class LibraDoSvr implements DomainService {
+public class LibraDoSvr implements DomainLogic {
 	@Override
 	public LogicResult doLogic(HandleContext context) {
 		AttributeKey<TestRequest> oriKey = AttributeKey.valueOf(TestRequest.class);

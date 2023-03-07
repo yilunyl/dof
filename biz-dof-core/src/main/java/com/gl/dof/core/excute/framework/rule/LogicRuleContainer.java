@@ -1,7 +1,7 @@
 package com.gl.dof.core.excute.framework.rule;
 
 import com.gl.dof.core.excute.framework.context.HandleContext;
-import com.gl.dof.core.excute.framework.logic.DomainServiceUnit;
+import com.gl.dof.core.excute.framework.logic.LogicUnit;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,7 +19,7 @@ public final class LogicRuleContainer<T extends HandleContext> {
     /**
      * 缓存执行单元->执行规则
      */
-    private ConcurrentHashMap<DomainServiceUnit, LogicRule> logicUnitToRuleMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<LogicUnit, LogicRule> logicUnitToRuleMap = new ConcurrentHashMap<>();
 
 
     private LogicRuleContainer() {
@@ -48,7 +48,7 @@ public final class LogicRuleContainer<T extends HandleContext> {
      * @param logicUnit
      * @param logicRule
      */
-    public void registerRule(DomainServiceUnit logicUnit, LogicRule logicRule) {
+    public void registerRule(LogicUnit logicUnit, LogicRule logicRule) {
         logicUnitToRuleMap.put(logicUnit, logicRule);
     }
 
@@ -59,7 +59,7 @@ public final class LogicRuleContainer<T extends HandleContext> {
      * @param logicUnit
      * @return
      */
-    public LogicRule getLogicRule(DomainServiceUnit logicUnit) {
+    public LogicRule getLogicRule(LogicUnit logicUnit) {
         LogicRule logicRuleCache = logicUnitToRuleMap.get(logicUnit);
         return logicRuleCache == null ? LogicRule.NO_RULE : logicRuleCache;
 

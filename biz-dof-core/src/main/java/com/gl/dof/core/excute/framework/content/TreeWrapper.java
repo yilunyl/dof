@@ -1,7 +1,7 @@
 package com.gl.dof.core.excute.framework.content;
 
 import com.google.common.collect.Lists;
-import com.gl.dof.core.excute.framework.logic.DomainServiceUnit;
+import com.gl.dof.core.excute.framework.logic.LogicUnit;
 
 import java.util.*;
 
@@ -12,22 +12,22 @@ import java.util.*;
  * @version: 1.0
  */
 public class TreeWrapper extends ListWrapper{
-    private LinkedHashMap<String, List<DomainServiceUnit>> allLogic = new LinkedHashMap<>();
+    private LinkedHashMap<String, List<LogicUnit>> allLogic = new LinkedHashMap<>();
 
-    public void add(DomainServiceUnit unit){
+    public void add(LogicUnit unit){
         allLogic.put(UUID.randomUUID().toString(), Lists.newArrayList(unit));
     }
 
 
-    public final void parallelAdd(List<DomainServiceUnit> unitList){
+    public final void parallelAdd(List<LogicUnit> unitList){
         allLogic.put(UUID.randomUUID().toString(), unitList);
     }
 
-    public LinkedHashMap<String, List<DomainServiceUnit>> getAllLogic() {
+    public LinkedHashMap<String, List<LogicUnit>> getAllLogic() {
         return allLogic;
     }
 
-    public void setAllLogic(LinkedHashMap<String, List<DomainServiceUnit>> allLogic) {
+    public void setAllLogic(LinkedHashMap<String, List<LogicUnit>> allLogic) {
         this.allLogic = allLogic;
     }
 }

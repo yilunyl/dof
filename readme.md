@@ -34,8 +34,8 @@
         </dependency>
 #### 二、自定义业务逻辑的处理-编排组件
     实现父接口 
-    1、com.gl.dof.core.excute.framework.logic.DomainService
-    2、com.gl.dof.core.excute.framework.logic.AggregateService
+    1、com.gl.dof.core.excute.framework.logic.DomainLogic
+    2、com.gl.dof.core.excute.framework.logic.AggregateLogic
     其核心方法如下
 ```java
 /**

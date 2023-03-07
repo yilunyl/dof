@@ -1,6 +1,6 @@
 package com.gl.dof.core.excute.framework.rule;
 
-import com.gl.dof.core.excute.framework.logic.DomainServiceUnit;
+import com.gl.dof.core.excute.framework.logic.LogicUnit;
 
 import javax.annotation.PostConstruct;
 import java.util.Map;
@@ -30,22 +30,22 @@ public abstract class BasicLogicRule{
         convertAndRegister(addDataEventRule());
     }
 
-    private void convertAndRegister(Map<LogicRule, DomainServiceUnit> addDataEventRule){
-        for(Map.Entry<LogicRule, DomainServiceUnit> entry:addDataEventRule.entrySet()) {
+    private void convertAndRegister(Map<LogicRule, LogicUnit> addDataEventRule){
+        for(Map.Entry<LogicRule, LogicUnit> entry:addDataEventRule.entrySet()) {
             logicRuleContainer.registerRule(entry.getValue(), entry.getKey());
         }
 
     }
 
 
-    protected abstract Map<LogicRule, DomainServiceUnit> addDataPrepareRule();
+    protected abstract Map<LogicRule, LogicUnit> addDataPrepareRule();
 
-    protected abstract Map<LogicRule, DomainServiceUnit> addDataCheckRule();
+    protected abstract Map<LogicRule, LogicUnit> addDataCheckRule();
 
-    protected abstract Map<LogicRule, DomainServiceUnit> addDataProcessorRule();
+    protected abstract Map<LogicRule, LogicUnit> addDataProcessorRule();
 
-    protected abstract Map<LogicRule, DomainServiceUnit>  addDataAfterProcessorRule();
+    protected abstract Map<LogicRule, LogicUnit>  addDataAfterProcessorRule();
 
-    protected abstract Map<LogicRule, DomainServiceUnit> addDataEventRule();
+    protected abstract Map<LogicRule, LogicUnit> addDataEventRule();
 
 }
