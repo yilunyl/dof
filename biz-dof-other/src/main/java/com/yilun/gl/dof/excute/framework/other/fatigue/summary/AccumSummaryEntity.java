@@ -37,6 +37,8 @@ public class AccumSummaryEntity implements Serializable {
         AccumTs accumTs1 = this.getAccumTs();
         AccumDef accumDef1 = this.getAccumDef();
 
+        clearFromTo(updateTime, accumTs1.getTime(), accumWithTime, accumDef1);
+
         //处理时间
         accumTs1.setTime(updateTime);
 
@@ -143,4 +145,56 @@ public class AccumSummaryEntity implements Serializable {
         return array;
     }
 
+    /**
+     * 根据updateTime和oldUpdateTime计算出中间有哪些数据需要清空，并将该数据清空
+     * @param updateTime 当前需要更新的时间
+     * @param oldUpdateTime 上一次记录的时间
+     * @param accumWithTime 统计数据
+     * @param accumDef 统计窗口定义
+     */
+    private void clearFromTo(Long updateTime, Long oldUpdateTime, AccumWithTime accumWithTime, AccumDef accumDef) {
+
+        long days = updateTime / (24 * 3600);
+        long oldDays = oldUpdateTime / (24 * 3600);
+        clearIfNecessary(accumWithTime.getDayAccum(), days, oldDays, accumDef.getDayWindowSize());
+
+        long hours = updateTime / (3600);
+        long oldHours = oldUpdateTime / (3600);
+        clearIfNecessary(accumWithTime.getDayAccum(), hours, oldHours, accumDef.getHourWindowSize());
+
+
+        long minutes = updateTime / (60 * 5);
+        long oldMinutes = oldUpdateTime / (60 * 5);
+        clearIfNecessary(accumWithTime.getDayAccum(), minutes, oldMinutes, accumDef.getMinuteWindowSize());
+
+
+        long months = updateTime / (24 * 3600 * 30);
+        long oldMonths = oldUpdateTime / (24 * 3600 * 30);
+        clearIfNecessary(accumWithTime.getDayAccum(), months, oldMonths, accumDef.getMonthWindowSize());
+
+
+        long weeks = updateTime / (24 * 3600 * 7);
+        long olweeks = oldUpdateTime / (24 * 3600 * 7);
+        clearIfNecessary(accumWithTime.getDayAccum(), weeks, olweeks, accumDef.getWeekWindowSize());
+
+
+        long years = updateTime / (24 * 3600 * 30 * 12);
+        long oldYears = oldUpdateTime / (24 * 3600 * 30 * 12);
+        clearIfNecessary(accumWithTime.getDayAccum(), years, oldYears, accumDef.getYearWindowSize());
+    }
+
+    /**
+     *
+     * @param array 窗口
+     * @param newTimeUnitCount 最新时间单位对应的窗口格子数量
+     * @param oldTimeUnitCount 上次时间单位对应的窗口格子数量
+     * @param winSize 窗口大小
+     */
+    private void clearIfNecessary(List<Long> array, long newTimeUnitCount, long oldTimeUnitCount, Integer winSize) {
+        if(newTimeUnitCount - oldTimeUnitCount < winSize){
+        }
+        else {
+            array.replaceAll(ignored -> 0L);
+        }
+    }
 }
