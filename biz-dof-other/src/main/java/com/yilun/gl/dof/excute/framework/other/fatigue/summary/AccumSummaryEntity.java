@@ -191,7 +191,17 @@ public class AccumSummaryEntity implements Serializable {
      * @param winSize 窗口大小
      */
     private void clearIfNecessary(List<Long> array, long newTimeUnitCount, long oldTimeUnitCount, Integer winSize) {
-        if(newTimeUnitCount - oldTimeUnitCount < winSize){
+        long cycle = newTimeUnitCount - oldTimeUnitCount;
+        //时间在一轮之内
+        if(cycle < winSize){
+            return;
+        }
+        //时间在大于一轮小于两轮以内,将左侧数据全部清除
+        else if(cycle < (winSize * 2)){
+            long needClearIndex = cycle - winSize;
+            for (int i = 0; i < needClearIndex; i++) {
+                array.set(i, 0L);
+            }
         }
         else {
             array.replaceAll(ignored -> 0L);
