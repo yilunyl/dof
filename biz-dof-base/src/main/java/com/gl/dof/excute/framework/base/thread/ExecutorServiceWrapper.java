@@ -2,6 +2,7 @@ package com.gl.dof.excute.framework.base.thread;
 
 import com.gl.dof.excute.framework.base.thread.threadPool.JdkThreadPoolExecutorMdcWrapper;
 import com.gl.dof.excute.framework.base.util.MathUtil;
+import io.netty.util.concurrent.FastThreadLocalThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -118,7 +119,8 @@ public class ExecutorServiceWrapper extends JdkThreadPoolExecutorMdcWrapper {
                     @Override
                     public Thread newThread(Runnable r) {
                         DofRunnable dofRunnable = new DofRunnable(r, executorName);
-                        Thread thread = new Thread(dofRunnable);
+                        //使用netty中的FastThreadLocalThread 提高ThreadLocalThread的访问效率 避免内存泄漏
+                        FastThreadLocalThread thread = new FastThreadLocalThread(dofRunnable);
                         thread.setName(executorName + "-" + atomicInteger.incrementAndGet());
                         return thread;
                     }
