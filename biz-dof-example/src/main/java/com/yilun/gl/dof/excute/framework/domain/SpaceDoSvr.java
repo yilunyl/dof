@@ -2,7 +2,7 @@ package com.yilun.gl.dof.excute.framework.domain;
 
 import com.gl.dof.core.excute.framework.common.LogicResult;
 import com.gl.dof.core.excute.framework.context.HandleContext;
-import com.gl.dof.core.excute.framework.logic.DomainService;
+import com.gl.dof.core.excute.framework.logic.DomainLogic;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @Version: 1.0
  */
 @Component
-public class SpaceDoSvr implements DomainService {
+public class SpaceDoSvr implements DomainLogic {
 	@Override
 	public boolean isMatch(HandleContext context) {
 		return false;
@@ -26,6 +26,6 @@ public class SpaceDoSvr implements DomainService {
 
 	@Override
 	public void reverse(HandleContext context, LogicResult logicResult) {
-		DomainService.super.reverse(context, logicResult);
+		DomainLogic.super.reverse(context, logicResult);
 	}
 }

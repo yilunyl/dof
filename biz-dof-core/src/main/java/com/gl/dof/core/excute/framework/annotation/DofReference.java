@@ -31,7 +31,7 @@ public @interface DofReference {
 	 * 具体得编排流程,如果为空，即 logicFlow="" 则会从默认生效的配置文件中读取
 	 * @return 流程
 	 */
-	String logicFlow();
+	String logicFlow() default "";
 
 	/**
 	 * 执行器选择

@@ -2,7 +2,7 @@ package com.yilun.gl.dof.excute.framework.domain;
 
 import com.gl.dof.core.excute.framework.common.LogicResult;
 import com.gl.dof.core.excute.framework.context.HandleContext;
-import com.gl.dof.core.excute.framework.logic.DomainService;
+import com.gl.dof.core.excute.framework.logic.DomainLogic;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @Version: 1.0
  */
 @Component
-public class TripDoSvr implements DomainService {
+public class TripDoSvr implements DomainLogic {
 
 
 	@Override

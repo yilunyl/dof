@@ -8,7 +8,7 @@ import com.gl.dof.core.excute.framework.common.LogicResult;
  * @author: gule
  * @create: 2019-08-17 09:09
  **/
-public interface DomainServiceUnit {
+public interface LogicUnit {
 
 
     /**

@@ -10,7 +10,7 @@ import com.gl.dof.core.excute.framework.context.HandleContext;
  * @Description DataExecuteUnit
  * @Version 1.0
  */
-public interface AggregateService extends DomainServiceUnit {
+public interface AggregateLogic extends LogicUnit {
 
 	/**
 	 * 回退方法，节点的正向整个流程失败后，需要的逆向操作，适用于资源回退，通知类节点

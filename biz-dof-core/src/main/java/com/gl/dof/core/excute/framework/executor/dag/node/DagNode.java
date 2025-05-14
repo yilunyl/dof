@@ -1,6 +1,6 @@
 package com.gl.dof.core.excute.framework.executor.dag.node;
 
-import com.gl.dof.core.excute.framework.logic.DomainServiceUnit;
+import com.gl.dof.core.excute.framework.logic.LogicUnit;
 
 /**
  * @ClassName: biz-dof Test
@@ -9,7 +9,7 @@ import com.gl.dof.core.excute.framework.logic.DomainServiceUnit;
  * @Date: 2022/6/18 22:01
  * @Version: 1.0
  */
-public class DagNode<T extends DomainServiceUnit> {
+public class DagNode<T extends LogicUnit> {
 
 	private final T logicUnit;
 

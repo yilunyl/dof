@@ -2,8 +2,7 @@ package com.yilun.gl.dof.excute.framework.domain;
 
 import com.gl.dof.core.excute.framework.common.LogicResult;
 import com.gl.dof.core.excute.framework.context.HandleContext;
-import com.gl.dof.core.excute.framework.context.attribute.Attribute;
-import com.gl.dof.core.excute.framework.logic.DomainService;
+import com.gl.dof.core.excute.framework.logic.DomainLogic;
 import com.yilun.gl.dof.excute.framework.model.request.TestRequest;
 import com.yilun.gl.dof.excute.framework.model.response.TestResponse;
 import org.springframework.stereotype.Component;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @Version: 1.0
  */
 @Component
-public class ResponseDoSvr implements DomainService {
+public class ResponseDoSvr implements DomainLogic {
 
 	@Override
 	public LogicResult doLogic(HandleContext context) {

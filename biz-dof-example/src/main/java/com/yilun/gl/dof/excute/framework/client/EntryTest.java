@@ -45,19 +45,12 @@ public class EntryTest {
 	public void entryTest(){
 		TestRequest testRequest = new TestRequest();
 		testRequest.setName("汤姆");
-		TestResponse testResponse = test1.doLogicSchedule(new Input<TestRequest>() {
-			@Override
-			public void doIn(HandleContext ctx) {
-				ctx.attr(TestRequest.class).set(testRequest);
+		TestResponse testResponse = test1.doLogicSchedule(ctx -> ctx.attr(TestRequest.class).set(testRequest),
+				(ctx, logicResult) -> {
+			if(ctx.hasAttr(TestResponse.class)){
+				return ctx.attr(TestResponse.class).get();
 			}
-		}, new Output<TestResponse>() {
-			@Override
-			public TestResponse doOut(HandleContext ctx, LogicResult logicResult) {
-				if(ctx.hasAttr(TestResponse.class)){
-					return ctx.attr(TestResponse.class).get();
-				}
-				return null;
-			}
+			return null;
 		});
 		log.info("EntryTest_someThing2Application_TestResponse2={} ", testResponse);
 		Assert.assertNotNull(testResponse);

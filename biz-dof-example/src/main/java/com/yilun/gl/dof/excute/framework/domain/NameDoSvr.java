@@ -2,7 +2,7 @@ package com.yilun.gl.dof.excute.framework.domain;
 
 import com.gl.dof.core.excute.framework.common.LogicResult;
 import com.gl.dof.core.excute.framework.context.HandleContext;
-import com.gl.dof.core.excute.framework.logic.DomainService;
+import com.gl.dof.core.excute.framework.logic.DomainLogic;
 import com.yilun.gl.dof.excute.framework.model.request.TestRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @Version: 1.0
  */
 @Component
-public class NameDoSvr implements DomainService {
+public class NameDoSvr implements DomainLogic {
 
 	@Override
 	public boolean isMatch(HandleContext context) {

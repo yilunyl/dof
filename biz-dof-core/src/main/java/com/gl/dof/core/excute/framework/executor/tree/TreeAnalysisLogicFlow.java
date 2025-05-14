@@ -2,7 +2,7 @@ package com.gl.dof.core.excute.framework.executor.tree;
 
 import com.alibaba.fastjson.JSON;
 import com.gl.dof.core.excute.framework.content.TreeWrapper;
-import com.gl.dof.core.excute.framework.logic.DomainServiceUnit;
+import com.gl.dof.core.excute.framework.logic.LogicUnit;
 import com.google.common.collect.Lists;
 import com.gl.dof.excute.framework.base.util.FuncRetWrapper;
 import org.apache.commons.lang3.CharUtils;
@@ -55,9 +55,9 @@ public class TreeAnalysisLogicFlow {
         TreeWrapper treeWrapper = new TreeWrapper();
         for(Map.Entry<String, List<String>> entry : serialBeanNameMap.getData().entrySet()){
             List<String> value = entry.getValue();
-            List<DomainServiceUnit> units = new ArrayList<>();
+            List<LogicUnit> units = new ArrayList<>();
             for(String name : value){
-                DomainServiceUnit bean = getBean(name, applicationContext);
+                LogicUnit bean = getBean(name, applicationContext);
                 if(Objects.isNull(bean)){
                     return null;
                 }
@@ -147,15 +147,15 @@ public class TreeAnalysisLogicFlow {
         return logicFlow.substring(recordPoint == 0 ? recordPoint : recordPoint + 1, currentPoint );
     }
 
-    private DomainServiceUnit getBean(String name, ApplicationContext applicationContext){
+    private LogicUnit getBean(String name, ApplicationContext applicationContext){
         if(StringUtils.isBlank(name)){
             return null;
         }
-        boolean match = applicationContext.isTypeMatch(name.trim(), DomainServiceUnit.class);
+        boolean match = applicationContext.isTypeMatch(name.trim(), LogicUnit.class);
         if(!match){
             return null;
         }
-        return applicationContext.getBean(name.trim(), DomainServiceUnit.class);
+        return applicationContext.getBean(name.trim(), LogicUnit.class);
     }
 
     private static class Counter extends LongAdder {

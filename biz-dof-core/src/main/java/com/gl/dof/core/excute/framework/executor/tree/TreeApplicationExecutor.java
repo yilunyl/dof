@@ -7,7 +7,7 @@ import com.google.common.collect.Lists;
 import com.gl.dof.core.excute.framework.executor.LogicExecutor;
 import com.gl.dof.core.excute.framework.common.LogicResult;
 import com.gl.dof.core.excute.framework.context.HandleContext;
-import com.gl.dof.core.excute.framework.logic.DomainServiceUnit;
+import com.gl.dof.core.excute.framework.logic.LogicUnit;
 import com.gl.dof.core.excute.framework.rule.LogicRule;
 import com.gl.dof.core.excute.framework.rule.LogicRuleContainer;
 import com.gl.dof.excute.framework.base.util.StopWatchWrapper;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  **/
 public class TreeApplicationExecutor implements LogicExecutor {
 
-    private LinkedHashMap<String, List<DomainServiceUnit>> allLogic = new LinkedHashMap<>();
+    private LinkedHashMap<String, List<LogicUnit>> allLogic = new LinkedHashMap<>();
 
     private final static Logger logger = LoggerFactory.getLogger(TreeApplicationExecutor.class);
 
@@ -39,13 +39,13 @@ public class TreeApplicationExecutor implements LogicExecutor {
      * 自定义线程池
      */
     private ThreadPoolExecutor threadPoolExecutor;
-    public TreeApplicationExecutor(ListWrapper<LinkedHashMap<String, List<DomainServiceUnit>>> listWrapper){
+    public TreeApplicationExecutor(ListWrapper<LinkedHashMap<String, List<LogicUnit>>> listWrapper){
 //        group.init();
         allLogic = listWrapper.getAllLogic();
         threadPoolExecutor = ExecutorServiceWrapper.getThreadPoolExecutor(10, this.getClass().getSimpleName());
     }
 
-    public TreeApplicationExecutor(ListWrapper<LinkedHashMap<String, List<DomainServiceUnit>>> listWrapper, int corePoolSize, final String executorName){
+    public TreeApplicationExecutor(ListWrapper<LinkedHashMap<String, List<LogicUnit>>> listWrapper, int corePoolSize, final String executorName){
 //        group.init();
         allLogic = listWrapper.getAllLogic();
         threadPoolExecutor = ExecutorServiceWrapper.getThreadPoolExecutor(corePoolSize, executorName);
@@ -63,19 +63,19 @@ public class TreeApplicationExecutor implements LogicExecutor {
     @Override
     public LogicResult doLogicSchedule(HandleContext context) {
         StopWatchWrapper stopWatch = StopWatchWrapper.getInstance(this.getClass().getSimpleName());
-        LinkedHashMap<String, List<DomainServiceUnit>> logicUnitTreeMap = allLogic;
+        LinkedHashMap<String, List<LogicUnit>> logicUnitTreeMap = allLogic;
         LogicResult.InvocationInfo invocationInfo = buildInvocationInfo();
         LogicResult logicResult = null;
         StringBuilder logTitle = new StringBuilder();
         StringBuilder logDetail = new StringBuilder(Thread.currentThread().getName() + "执行流程如下:");
-        for (Map.Entry<String, List<DomainServiceUnit>> entry : logicUnitTreeMap.entrySet()) {
+        for (Map.Entry<String, List<LogicUnit>> entry : logicUnitTreeMap.entrySet()) {
             stopWatch.start(entry.getKey());
-            List<DomainServiceUnit> availableentryLogics =  filterAvailableEntryLogic(entry.getValue(), logDetail, context);
+            List<LogicUnit> availableentryLogics =  filterAvailableEntryLogic(entry.getValue(), logDetail, context);
             String  simpleName = "";
             if (CollectionUtils.isEmpty(availableentryLogics)) {
                 continue;
             }else if(availableentryLogics.size() == 1){
-                DomainServiceUnit logicUnit = availableentryLogics.get(0);
+                LogicUnit logicUnit = availableentryLogics.get(0);
                 logicResult = doHandleSerialLogic(logicUnit, context, invocationInfo);
                 simpleName = logicUnit.getClass().getSimpleName();
             }else{
@@ -106,11 +106,11 @@ public class TreeApplicationExecutor implements LogicExecutor {
         return logicResult;
     }
 
-    private List<DomainServiceUnit> filterAvailableEntryLogic(List<DomainServiceUnit> value, StringBuilder logDetail, HandleContext context) {
+    private List<LogicUnit> filterAvailableEntryLogic(List<LogicUnit> value, StringBuilder logDetail, HandleContext context) {
         if(CollectionUtils.isEmpty(value)){
             return Lists.newArrayList();
         }
-        List<DomainServiceUnit> collect = value.stream().filter(logicUnit -> {
+        List<LogicUnit> collect = value.stream().filter(logicUnit -> {
             if (!isMatching(context, logicUnit)) {
                 logDetail.append("\nLogicUnit:").append(logicUnit.getClass().getSimpleName()).append("\t被规则过滤,不执行规则");
                 return Boolean.FALSE;
@@ -123,13 +123,13 @@ public class TreeApplicationExecutor implements LogicExecutor {
     }
 
 
-    private Pair<LogicResult, String> doHandleParallelLogic(List<DomainServiceUnit> availableentryLogics, HandleContext context , LogicResult.InvocationInfo invocationInfo){
+    private Pair<LogicResult, String> doHandleParallelLogic(List<LogicUnit> availableentryLogics, HandleContext context , LogicResult.InvocationInfo invocationInfo){
         //需要并行处理
         List<CompletableFuture<LogicResult>> futureList = new ArrayList<>();
         StringBuffer logThreadDetail = new StringBuffer("并行执行过程如下:");
-        for(DomainServiceUnit parrentLogicUnit : availableentryLogics){
+        for(LogicUnit parrentLogicUnit : availableentryLogics){
             futureList.add(CompletableFuture.supplyAsync(() -> {
-                DomainServiceUnit parrentLogicUnitTmp = parrentLogicUnit;
+                LogicUnit parrentLogicUnitTmp = parrentLogicUnit;
                 LogicResult logicResultThread;
                 StopWatch stopWatch = new StopWatch();
                 try {
@@ -172,11 +172,11 @@ public class TreeApplicationExecutor implements LogicExecutor {
         return Pair.of(logicResult, logThreadDetail.toString());
     }
 
-    private LogicResult doHandleSerialLogic(DomainServiceUnit logicUnit, HandleContext context, LogicResult.InvocationInfo invocationInfo){
+    private LogicResult doHandleSerialLogic(LogicUnit logicUnit, HandleContext context, LogicResult.InvocationInfo invocationInfo){
         StopWatch stopWatch = new StopWatch();
         LogicResult logicResult;
         try {
-            DomainServiceUnit parrentLogicUnitTmp = logicUnit;
+            LogicUnit parrentLogicUnitTmp = logicUnit;
             stopWatch.start(parrentLogicUnitTmp.getClass().getSimpleName());
             boolean matching = isMatching(context, logicUnit);
             if (matching) {
@@ -201,7 +201,7 @@ public class TreeApplicationExecutor implements LogicExecutor {
         }
     }
 
-    private  boolean isMatching(HandleContext context, DomainServiceUnit unit) {
+    private  boolean isMatching(HandleContext context, LogicUnit unit) {
         LogicRuleContainer logicRuleContainer = LogicRuleContainer.getInstance();
         LogicRule logicRule = logicRuleContainer.getLogicRule(unit);
         boolean mapping = logicRule.matching(context);
@@ -236,11 +236,11 @@ public class TreeApplicationExecutor implements LogicExecutor {
 
     private void rollBackIfNeed(LogicResult logicResult, HandleContext context) {
         if (!logicResult.isSuccess()) {
-            List<DomainServiceUnit> reverseLogicUnits = logicResult.getInvocationInfo().getSuccessList();
+            List<LogicUnit> reverseLogicUnits = logicResult.getInvocationInfo().getSuccessList();
             if (CollectionUtils.isEmpty(reverseLogicUnits)) {
                 return;
             }
-            for (DomainServiceUnit logicUnit : reverseLogicUnits) {
+            for (LogicUnit logicUnit : reverseLogicUnits) {
                 try {
                     logger.warn("流程异常，逻辑reverse:{}", logicUnit.getClass().getSimpleName());
                     logicUnit.reverse(context, logicResult);
