@@ -13,6 +13,7 @@
 #### 目标
     业务：领域编排 可插拔(易拓展) 稳定 易用 复用
     技术：ddd spring netty pool thread engine zk redis lock tree dag  
+    支持能力：注解服务编排能力 通用疲劳度解决方案 注解动态加载配置能力(zk/etcd) 全局上下文参数通用解决方案 锁 线程池  
 ### 二 DDD的基本结构
  DDD的整体架构如下
 
